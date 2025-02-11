@@ -1,17 +1,18 @@
 @import "tailwindcss";
 @import "./css/tailwindcss-animate-v4.css";
+@import "./css/loader.css";
 
 * {
   font-family: "Hanken Grotesk";
 }
 
 @theme {
-  --color-base: #1b1e28;
+  --color-base: #181818;
   --color-primary: #e0e4f1;
   --color-secondary: #737b97;
-  --color-border: #3b425a;
-  --color-foreground: #212431;
-  --color-highlight: #2f3754;
+  --color-border: #2a2c36;
+  --color-foreground: #171717;
+  --color-highlight: #202024;
   --color-highlight-green: #78ffa5;
   --color-accent: #2d3abf;
 }

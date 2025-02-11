@@ -17,7 +17,10 @@ export default function App() {
                 <FileExplorer />
               </aside>
 
-              <section className="overflow-auto absolute inset-0 left-[20rem] flex flex-col">
+              <section
+                data-workspace-container
+                className="overflow-auto absolute inset-0 left-[20rem] flex flex-col"
+              >
                 <Workspace />
               </section>
             </main>

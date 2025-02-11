@@ -20,7 +20,7 @@ export default function HTTPMethodPopover() {
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
-      <PopoverTrigger className="py-1 px-1 pr-3 min-w-[8rem] border border-border rounded-l-md flex  items-center cursor-pointer transition duration-100 hover:bg-highlight/30 justify-between">
+      <PopoverTrigger className="py-1 px-1 pr-3 min-w-[8rem] border bg-base border-border rounded-l-md flex  items-center cursor-pointer transition duration-100 hover:bg-highlight/30 justify-between">
         <HTTPMethodBadge
           method={state.method}
           className="px-4 py-2 text-md bg-transparent border-transparent"
