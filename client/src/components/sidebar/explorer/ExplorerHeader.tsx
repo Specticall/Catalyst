@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { useExplorer } from "./Explorer";
+import { useExplorer } from "@/components/context/explorer/ExplorerProvider";
 
 export default function ExplorerHeader() {
   const { dispatch } = useExplorer();

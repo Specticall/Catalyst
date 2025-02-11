@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { useExplorer } from "./Explorer";
+import { useExplorer } from "@/components/context/explorer/ExplorerProvider";
 import { useState } from "react";
 import {
   Popover,
@@ -13,15 +13,21 @@ type Props = {
 
 export default function NewNodePopover({ currentNodeId }: Props) {
   const [isOpen, setIsOpen] = useState(false);
-  const { dispatch } = useExplorer();
+  const explorer = useExplorer();
 
   const handleAddRequest = () => {
-    dispatch({ type: "insert/request", payload: { targetId: currentNodeId } });
+    explorer.dispatch({
+      type: "insert/request",
+      payload: { targetId: currentNodeId },
+    });
     setIsOpen(false);
   };
 
   const handleAddGroup = () => {
-    dispatch({ type: "insert/group", payload: { targetId: currentNodeId } });
+    explorer.dispatch({
+      type: "insert/group",
+      payload: { targetId: currentNodeId },
+    });
     setIsOpen(false);
   };
 

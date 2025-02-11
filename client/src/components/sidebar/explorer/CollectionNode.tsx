@@ -1,9 +1,9 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import React from "react";
-import { useExplorer } from "./Explorer";
 import { ExplorerTreeNodeCollection } from "./explorerTree";
 import { cn } from "@/utils/lib";
 import NewNodePopover from "./NewNodePopover";
+import { useExplorer } from "@/components/context/explorer/ExplorerProvider";
 
 type Props = {
   node: ExplorerTreeNodeCollection;

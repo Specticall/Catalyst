@@ -1,5 +1,5 @@
 import { cn } from "@/utils/lib";
-import { useExplorer } from "./Explorer";
+import { useExplorer } from "@/components/context/explorer/ExplorerProvider";
 import { ExplorerTreeNodeRequest } from "./explorerTree";
 import HTTPMethodBadge from "@/components/ui/HTTPMethodBadge";
 

@@ -1,9 +1,11 @@
 import { cn } from "@/utils/lib";
-import { ExplorerActions, INDENT_PX } from "./Explorer";
-import RequestNode from "./RequestNode";
 import { ExplorerTreeNode } from "./explorerTree";
 import GroupNode from "./GroupNode";
 import CollectionNode from "./CollectionNode";
+import { ExplorerActions } from "@/components/context/explorer/explorerTypes";
+import RequestNode from "./RequestNode";
+
+const INDENT_PX = 16;
 
 export function RecursiveExplorerTree({
   depth = 0,

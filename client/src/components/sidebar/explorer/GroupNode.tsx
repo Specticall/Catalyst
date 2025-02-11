@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import React from "react";
-import { useExplorer } from "./Explorer";
+import { useExplorer } from "@/components/context/explorer/ExplorerProvider";
 import { ExplorerTreeNodeGroup } from "./explorerTree";
 import { cn } from "@/utils/lib";
 import NewNodePopover from "./NewNodePopover";
@@ -15,6 +15,7 @@ export default function GroupNode({ node, indentStyle }: Props) {
     dispatch,
     state: { selectedId },
   } = useExplorer();
+
   return (
     <div
       onClick={(e) => {
