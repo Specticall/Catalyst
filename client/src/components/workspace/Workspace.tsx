@@ -1,5 +1,6 @@
 import WorkspaceBreadcrumbs from "./WorkspaceBreadcrumbs";
 import WorkspaceHistory from "./WorkspaceHistory";
+import WorkspaceOptions from "./WorkspaceOptions";
 import WorkspaceResponse from "./WorkspaceResponse";
 import WorkspaceURLInput from "./WorkspaceURLInput";
 
@@ -9,6 +10,7 @@ export default function Workspace() {
       <WorkspaceHistory />
       <WorkspaceBreadcrumbs />
       <WorkspaceURLInput />
+      <WorkspaceOptions />
       <WorkspaceResponse />
     </div>
   );
