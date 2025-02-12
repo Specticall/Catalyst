@@ -1,13 +1,12 @@
 import { useState } from "react";
-import { useWorkspace } from "../context/workspace/WorkspaceProvider";
-import WorkspaceResponseBody from "./WorkspaceResponseBody";
 import WorkspaceResponseStats from "./WorkspaceResponseStats";
 import { cn } from "@/utils/lib";
+import WorkspaceResponseContent from "./WorkspaceResponseContent";
+import { useWorkspace } from "@/components/context/workspace/WorkspaceProvider";
 
-const responseDisplayOpts = ["JSON", "Raw", "Headers"] as const;
+const responseDisplayOpts = ["JSON", "Raw" /*"Headers"*/] as const;
 export default function WorkspaceResponse() {
   const { state } = useWorkspace();
-  const fetchData = state.data || state.error?.response?.data;
   const [displayOpts, setDisplayOpts] =
     useState<(typeof responseDisplayOpts)[number]>("JSON");
 
@@ -39,14 +38,8 @@ export default function WorkspaceResponse() {
       <div className="px-4 border-t border-b border-border py-3 text-secondary">
         <p>Response Body</p>
       </div>
-      {displayOpts === "JSON" && (
-        <WorkspaceResponseBody data={fetchData} isFetching={state.isFetching} />
-      )}
-      {displayOpts === "Raw" && (
-        <div className="px-4 py-4 leading-[200%] text-primary whitespace-normal">
-          {JSON.stringify(fetchData)}
-        </div>
-      )}
+      {state.isFetching && <div className="loader-bar w-full"></div>}
+      <WorkspaceResponseContent opts={displayOpts} />
     </div>
   );
 }

@@ -19,12 +19,13 @@ type WorkspaceContextValues = {
 const WorkspaceContext = createContext<WorkspaceContextValues | null>(null);
 
 const initalState: WorkspaceState = {
-  body: undefined,
+  bodyJSON: "",
   data: undefined,
   error: undefined,
   method: "GET",
   url: "",
   isFetching: false,
+  activeOption: "Body",
 };
 
 type RequestData = {
@@ -50,6 +51,15 @@ async function fetchRequest(data: RequestData) {
   }
 }
 
+/* eslint-disable react-refresh/only-export-components */
+export const requestOptionsData = [
+  // "Headers",
+  "Body",
+  // "Params",
+  // "Cookies",
+] as const;
+export type RequestOptionsData = (typeof requestOptionsData)[number];
+
 export function WorkspaceProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initalState);
 
@@ -61,7 +71,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
     const data = await fetchRequest({
       method: state.method,
       url: state.url,
-      body: state.body,
+      body: state.bodyJSON ? JSON.parse(state.bodyJSON) : {},
     });
 
     // Set the data

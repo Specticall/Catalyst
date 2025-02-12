@@ -1,7 +1,7 @@
+import WorkspaceResponse from "./response/WorkspaceResponse";
 import WorkspaceBreadcrumbs from "./WorkspaceBreadcrumbs";
 import WorkspaceHistory from "./WorkspaceHistory";
-import WorkspaceOptions from "./WorkspaceOptions";
-import WorkspaceResponse from "./WorkspaceResponse";
+import WorkspaceOptions from "./options/WorkspaceOptions";
 import WorkspaceURLInput from "./WorkspaceURLInput";
 
 export default function Workspace() {

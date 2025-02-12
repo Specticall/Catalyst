@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "./css/tailwindcss-animate-v4.css";
 @import "./css/loader.css";
+@import "./css/loader-bar.css";
 
 * {
   font-family: "Hanken Grotesk";

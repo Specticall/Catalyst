@@ -1,5 +1,5 @@
 import { httpStatus } from "@/utils/httpStatus";
-import { useWorkspace } from "../context/workspace/WorkspaceProvider";
+import { useWorkspace } from "../../context/workspace/WorkspaceProvider";
 
 export default function WorkspaceResponseStats() {
   const { state } = useWorkspace();

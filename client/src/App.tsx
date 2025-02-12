@@ -1,3 +1,4 @@
+import { Icon } from "@iconify/react/dist/iconify.js";
 import ExplorerProvider from "./components/context/explorer/ExplorerProvider";
 import { WorkspaceProvider } from "./components/context/workspace/WorkspaceProvider";
 import FileExplorer from "./components/sidebar/explorer/Explorer";
@@ -9,8 +10,13 @@ export default function App() {
       <WorkspaceProvider>
         <div className="min-h-screen w-full bg-base">
           <div className="min-h-screen flex flex-col">
-            <header className="py-3 bg-foreground px-4 border-b border-border">
-              Content
+            <header className="py-3 bg-foreground px-4 border-b border-border text-white">
+              <div className="flex items-center gap-2">
+                <div className="border-2 border-border rounded-sm p-1 flex items-center justify-center">
+                  <Icon icon={"mingcute:science-line"} className="text-2xl" />
+                </div>
+                <p className="">Catalyst</p>
+              </div>
             </header>
             <main className=" flex-1 relative grid grid-cols-[20rem_1fr]">
               <aside className="bg-foreground border-r border-border p-4">

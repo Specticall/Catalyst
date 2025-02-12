@@ -2057,11 +2057,11 @@ div.jsoneditor-statusbar > .jsoneditor-size-info {
 }
 
 .ace-jsoneditor .ace_gutter {
-  background: #181818 !important;
+  background: #171717 !important;
 }
 
 .ace-jsoneditor .ace_scroller {
-  background: #181818 !important;
+  background: #171717 !important;
 }
 
 .jsoneditor {
@@ -2100,9 +2100,13 @@ div.jsoneditor-statusbar > .jsoneditor-size-info {
 }
 
 .ace-jsoneditor .ace_gutter-active-line {
-  background: #202024 !important;
+  background-color: #202024;
 }
 
 .ace-jsoneditor .ace_indent-guide {
   opacity: 0;
+}
+
+.ace-jsoneditor .ace_marker-layer .ace_selection {
+  background-color: #202024;
 }

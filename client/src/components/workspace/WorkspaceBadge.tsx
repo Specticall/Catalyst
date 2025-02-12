@@ -1,8 +1,8 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { HistoryNode } from "../context/WorkspaceContext";
 import HTTPMethodBadge from "../ui/HTTPMethodBadge";
 import { HTMLAttributes } from "react";
 import { cn } from "@/utils/lib";
+import { HistoryNode } from "../context/explorer/explorerTypes";
 
 const getBadge = (item: HistoryNode) => {
   switch (item.type) {

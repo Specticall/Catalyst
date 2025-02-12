@@ -1,17 +1,11 @@
 import JSONEditor from "jsoneditor";
 import { useEffect, useRef } from "react";
-import "@/css/jsoneditor.css";
 
-const initialJson = {
-  Array: [1, 2, 3],
-  Boolean: true,
-  Null: null,
-  Number: 123,
-  Object: { a: "b", c: "d" },
-  String: "Hello World",
-};
-
-export default function WorkspaceOptions() {
+export default function useCodeEditor({
+  onChangeText,
+}: {
+  onChangeText: (value: string) => void;
+}) {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -28,14 +22,15 @@ export default function WorkspaceOptions() {
           value: true, // Allow editing of values
         };
       },
+      onChangeText,
     });
-    editor.aceEditor.container.style.lineHeight = "1.5";
-    editor.set(initialJson);
+    editor.aceEditor.container.style.lineHeight = "1.75";
+    editor.aceEditor.setOptions({ fontSize: "16px" });
+    editor.set(undefined);
 
     return () => {
       editor.destroy();
     };
   }, []);
-
-  return <div ref={containerRef} className="min-h-[20rem] mt-4 px-4"></div>;
+  return containerRef;
 }

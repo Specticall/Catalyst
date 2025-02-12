@@ -38,6 +38,18 @@ export function reducer(
         isFetching: true,
       };
     }
+    case "change/body": {
+      return {
+        ...state,
+        bodyJSON: action.payload,
+      };
+    }
+    case "change/options": {
+      return {
+        ...state,
+        activeOption: action.payload,
+      };
+    }
     default:
       throw new Error("App not found");
   }

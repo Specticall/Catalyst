@@ -1,8 +1,9 @@
 import { useWorkspace } from "../context/workspace/WorkspaceProvider";
+import Button from "../ui/Button";
 import HTTPMethodPopover from "./HTTPMethodPopover";
 
 export default function WorkspaceURLInput() {
-  const { dispatch, sendRequest } = useWorkspace();
+  const { dispatch, sendRequest, state } = useWorkspace();
   return (
     <div className="px-4 flex">
       <HTTPMethodPopover />
@@ -13,12 +14,14 @@ export default function WorkspaceURLInput() {
           dispatch({ type: "change/url", payload: e.target.value })
         }
       />
-      <button
+      <Button
         onClick={sendRequest}
-        className="ml-4 bg-accent cursor-pointer text-white px-10 rounded-md"
+        variant={"primary"}
+        className="ml-4 px-10 text-md"
+        isLoading={state.isFetching}
       >
         Send
-      </button>
+      </Button>
     </div>
   );
 }

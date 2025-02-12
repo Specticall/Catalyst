@@ -9,7 +9,7 @@ export default function WorkspaceBreadcrumbs() {
     dispatch,
   } = useExplorer();
   return (
-    <ul className="flex px-4 py-6 gap-4">
+    <ul className="flex px-4 py-6 gap-4 mt-11">
       {currentWorkingDirectory.map((dir, i) => {
         const isLastElement = i === currentWorkingDirectory.length - 1;
         return (

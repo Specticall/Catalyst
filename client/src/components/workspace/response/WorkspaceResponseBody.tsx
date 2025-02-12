@@ -1,17 +1,16 @@
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { useEffect, useRef, useState } from "react";
 import WorkspaceResponseLoadMore from "./WorkspaceResponseLoadMore";
-import workspaceStyle from "./workspaceStyle";
+import workspaceStyle from "../workspaceStyle";
 
 type Props = {
-  isFetching: boolean;
   data: unknown;
 };
 
 // The amount of characters partially rendered at a time
 const PARTIAL_INTERVAL = 3000;
 
-export default function WorkspaceResponseBody({ isFetching, data }: Props) {
+export default function WorkspaceResponseBody({ data }: Props) {
   const [highlighted, setHighlighted] = useState("");
   const [renderedLineCount, setRenderedLineCount] = useState(PARTIAL_INTERVAL);
   const prevScrollPos = useRef(0);
@@ -34,14 +33,6 @@ export default function WorkspaceResponseBody({ isFetching, data }: Props) {
       document.querySelector("[data-workspace-container]")?.scrollTop || 0;
     setRenderedLineCount((cur) => cur + 3000);
   };
-
-  if (isFetching) {
-    return (
-      <div className="flex-1 w-full flex items-center justify-center">
-        <div className="loader"></div>
-      </div>
-    );
-  }
 
   return (
     <div className="relative">
