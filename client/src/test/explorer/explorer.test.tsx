@@ -1,18 +1,12 @@
 import { fireEvent, waitFor, within } from "@testing-library/react";
 import App from "@/App";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import ExplorerProvider from "@/context/explorer/ExplorerProvider";
-import { WorkspaceProvider } from "@/context/workspace/WorkspaceProvider";
 import { render } from "../setup";
 
 function renderApp() {
   return render(
     <QueryClientProvider client={new QueryClient()}>
-      <ExplorerProvider>
-        <WorkspaceProvider>
-          <App />
-        </WorkspaceProvider>
-      </ExplorerProvider>
+      <App />
     </QueryClientProvider>
   );
 }
@@ -36,112 +30,139 @@ function insertGroup() {
   return screen;
 }
 
-function insertRequest() {
+async function insertRequest() {
   const screen = renderApp();
   const addButton = screen.getByLabelText("add-collection");
   fireEvent.click(addButton);
 
-  const optionsPopover = screen.getByLabelText("node-options-popover");
-  fireEvent.click(optionsPopover);
+  return await waitFor(() => {
+    window.HTMLElement.prototype.scrollTo = function () {};
+    const optionsPopover = screen.getByLabelText("node-options-popover");
+    fireEvent.click(optionsPopover);
 
-  const optionsPopoverContent = screen.getByLabelText(
-    "node-options-popover-content"
-  );
-  const newInsertOpt = within(optionsPopoverContent).getByText("Add Request");
-  fireEvent.click(newInsertOpt);
-  return screen;
+    const optionsPopoverContent = screen.getByLabelText(
+      "node-options-popover-content"
+    );
+    const newInsertOpt = within(optionsPopoverContent).getByText("Add Request");
+    fireEvent.click(newInsertOpt);
+    return screen;
+  });
 }
 
 describe("Collection insertion", () => {
-  it("should insert when pressing the top add button", () => {
+  it("should insert when pressing the top add button", async () => {
     const screen = renderApp();
     const addButton = screen.getByLabelText("add-collection");
     fireEvent.click(addButton);
 
-    const newCollectionExplorerNode = screen.getByLabelText("collection-node");
-    expect(newCollectionExplorerNode).toBeInTheDocument();
+    await waitFor(() => {
+      window.HTMLElement.prototype.scrollTo = function () {};
+      const newCollectionExplorerNode =
+        screen.getByLabelText("collection-node");
+      expect(newCollectionExplorerNode).toBeInTheDocument();
+    });
   });
 
-  it("should display the newly added collection on the workspace", () => {
+  it("should display the newly added collection on the workspace", async () => {
     const screen = renderApp();
     const addButton = screen.getByLabelText("add-collection");
     fireEvent.click(addButton);
 
-    const collectionWorkspaceContainer = screen.getByLabelText(
-      "collection-workspace-container"
-    );
+    await waitFor(() => {
+      window.HTMLElement.prototype.scrollTo = function () {};
+      const collectionWorkspaceContainer = screen.getByLabelText(
+        "collection-workspace-container"
+      );
 
-    expect(collectionWorkspaceContainer).toBeInTheDocument();
+      expect(collectionWorkspaceContainer).toBeInTheDocument();
+    });
   });
 
-  it("should add the selected collection on the history", () => {
+  it("should add the selected collection on the history", async () => {
     const screen = renderApp();
     const addButton = screen.getByLabelText("add-collection");
     fireEvent.click(addButton);
 
-    const nodeHistory = screen.getByLabelText("explorer-history-container");
-    const newNodeHistory = within(nodeHistory).getByText("New Collection");
-    expect(newNodeHistory).toBeInTheDocument();
+    await waitFor(() => {
+      window.HTMLElement.prototype.scrollTo = function () {};
+      const nodeHistory = screen.getByLabelText("explorer-history-container");
+      const newNodeHistory = within(nodeHistory).getByText("New Collection");
+      expect(newNodeHistory).toBeInTheDocument();
+    });
   });
 
-  it("should show the correct breadcrumb", () => {
+  it("should show the correct breadcrumb", async () => {
     const screen = renderApp();
     const addButton = screen.getByLabelText("add-collection");
     fireEvent.click(addButton);
 
-    const breadcrumbContainer = screen.getByLabelText(
-      "workspace-breadcrumbs-container"
-    );
-    const newNodeBreadcrum =
-      within(breadcrumbContainer).getByText("New Collection");
+    await waitFor(() => {
+      window.HTMLElement.prototype.scrollTo = function () {};
+      const breadcrumbContainer = screen.getByLabelText(
+        "workspace-breadcrumbs-container"
+      );
+      const newNodeBreadcrum =
+        within(breadcrumbContainer).getByText("New Collection");
 
-    expect(newNodeBreadcrum).toBeInTheDocument();
+      expect(newNodeBreadcrum).toBeInTheDocument();
+    });
   });
 });
 
 describe("Group insertion under collection", () => {
-  it("should display the new group node on insert", () => {
+  it("should display the new group node on insert", async () => {
     const domWithInsertedGroup = insertGroup();
-    const sidebar = domWithInsertedGroup.getByLabelText("explorer-sidebar");
-    const groupNode = within(sidebar).getByText("New Group");
-    expect(groupNode).toBeInTheDocument();
+    await waitFor(() => {
+      window.HTMLElement.prototype.scrollTo = function () {};
+      const sidebar = domWithInsertedGroup.getByLabelText("explorer-sidebar");
+      const groupNode = within(sidebar).getByText("New Group");
+      expect(groupNode).toBeInTheDocument();
+    });
   });
 
-  it("should display the newly added group on the workspace", () => {
+  it("should display the newly added group on the workspace", async () => {
     const domWithInsertedGroup = insertGroup();
-    const groupWorkspaceContainer = domWithInsertedGroup.getByLabelText(
-      "group-workspace-container"
-    );
+    await waitFor(() => {
+      window.HTMLElement.prototype.scrollTo = function () {};
+      const groupWorkspaceContainer = domWithInsertedGroup.getByLabelText(
+        "group-workspace-container"
+      );
 
-    expect(groupWorkspaceContainer).toBeInTheDocument();
+      expect(groupWorkspaceContainer).toBeInTheDocument();
+    });
   });
 
-  it("should add the selected collection on the history", () => {
+  it("should add the selected collection on the history", async () => {
     const domWithInsertedGroup = insertGroup();
+    await waitFor(() => {
+      window.HTMLElement.prototype.scrollTo = function () {};
+      const nodeHistory = domWithInsertedGroup.getByLabelText(
+        "explorer-history-container"
+      );
+      const newNodeHistory = within(nodeHistory).getByText("New Group");
 
-    const nodeHistory = domWithInsertedGroup.getByLabelText(
-      "explorer-history-container"
-    );
-    const newNodeHistory = within(nodeHistory).getByText("New Group");
-
-    expect(newNodeHistory).toBeInTheDocument();
+      expect(newNodeHistory).toBeInTheDocument();
+    });
   });
 
-  it("should show the correct breadcrumb", () => {
+  it("should show the correct breadcrumb", async () => {
     const domWithInsertedGroup = insertGroup();
+    await waitFor(() => {
+      window.HTMLElement.prototype.scrollTo = function () {};
+      const breadcrumbContainer = domWithInsertedGroup.getByLabelText(
+        "workspace-breadcrumbs-container"
+      );
+      const newNodeBreadcrum =
+        within(breadcrumbContainer).getByText("New Group");
 
-    const breadcrumbContainer = domWithInsertedGroup.getByLabelText(
-      "workspace-breadcrumbs-container"
-    );
-    const newNodeBreadcrum = within(breadcrumbContainer).getByText("New Group");
-
-    expect(newNodeBreadcrum).toBeInTheDocument();
+      expect(newNodeBreadcrum).toBeInTheDocument();
+    });
   });
 });
 
 describe("Request insertion under collection", () => {
   it("should display the new request node on insert", async () => {
-    const domWithInsertedRequest = insertRequest();
+    const domWithInsertedRequest = await insertRequest();
     await waitFor(() => {
       window.HTMLElement.prototype.scrollTo = function () {};
       const sidebar = domWithInsertedRequest.getByLabelText("explorer-sidebar");
@@ -151,7 +172,7 @@ describe("Request insertion under collection", () => {
   });
 
   it("should display the newly added request on the workspace", async () => {
-    const domWithInsertedRequest = insertRequest();
+    const domWithInsertedRequest = await insertRequest();
     await waitFor(() => {
       window.HTMLElement.prototype.scrollTo = function () {};
       const requestWorkspaceContainer = domWithInsertedRequest.getByLabelText(
@@ -163,7 +184,7 @@ describe("Request insertion under collection", () => {
   });
 
   it("should add the selected collection on the history", async () => {
-    const domWithInsertedRequest = insertRequest();
+    const domWithInsertedRequest = await insertRequest();
     await waitFor(() => {
       window.HTMLElement.prototype.scrollTo = function () {};
       const nodeHistory = domWithInsertedRequest.getByLabelText(
@@ -175,7 +196,7 @@ describe("Request insertion under collection", () => {
   });
 
   it("should show the correct breadcrumb", async () => {
-    const domWithInsertedRequest = insertRequest();
+    const domWithInsertedRequest = await insertRequest();
 
     await waitFor(() => {
       window.HTMLElement.prototype.scrollTo = function () {};

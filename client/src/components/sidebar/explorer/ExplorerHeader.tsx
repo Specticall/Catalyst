@@ -1,12 +1,8 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { useExplorer } from "@/context/explorer/ExplorerProvider";
+import useExplorerManager from "@/hooks/useExplorerManager";
 
 export default function ExplorerHeader() {
-  const { explorer } = useExplorer();
-
-  const handleAddCollection = () => {
-    explorer.insert.collection();
-  };
+  const { insertCollection } = useExplorerManager();
   return (
     <>
       <input
@@ -18,7 +14,7 @@ export default function ExplorerHeader() {
         <p className="text-primary">My Collections</p>
         <button
           className="bg-base/50 border-border rounded-sm border p-1.5 hover:opacity-60 transition cursor-pointer"
-          onClick={handleAddCollection}
+          onClick={insertCollection}
           aria-label="add-collection"
         >
           <Icon

@@ -7,7 +7,7 @@ type Props = {
 };
 
 export default function WorkspaceGroup({ activeCollectionNode }: Props) {
-  const { explorer } = useExplorer();
+  const { updateNodeName } = useExplorerManager();
   return (
     <div aria-label="group-workspace-container" className="">
       <div className="pb-6 px-8 border-b  border-border">
@@ -15,9 +15,9 @@ export default function WorkspaceGroup({ activeCollectionNode }: Props) {
         <EditableText
           className="text-3xl mt-1 font-semibold w-fit"
           value={activeCollectionNode.title}
-          onBlur={(value) =>
-            explorer.update.name(activeCollectionNode.id, value)
-          }
+          onBlur={(value) => {
+            updateNodeName(activeCollectionNode.id, value);
+          }}
         />
       </div>
     </div>

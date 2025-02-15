@@ -2,21 +2,21 @@ import { cn } from "@/utils/lib";
 import { ExplorerTreeNode } from "./explorerTree";
 import GroupNode from "./GroupNode";
 import CollectionNode from "./CollectionNode";
-import { ExplorerActions } from "@/context/explorer/explorerTypes";
 import RequestNode from "./RequestNode";
 import React from "react";
+import useExplorerManager from "@/hooks/useExplorerManager";
 
 const INDENT_PX = 16;
 
 export function RecursiveExplorerTree({
   depth = 0,
   content,
-  dispatch,
+  explorerManager,
   selectedId,
 }: {
   depth: number;
   content: ExplorerTreeNode[];
-  dispatch: React.ActionDispatch<[action: ExplorerActions]>;
+  explorerManager: ReturnType<typeof useExplorerManager>;
   selectedId?: string;
 }) {
   // Sets the element indent based on the traversal depth
@@ -39,14 +39,14 @@ export function RecursiveExplorerTree({
         {/* Recursive node */}
         <div
           className={cn(
-            "grid transition-all duration-300"
-            // node.isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+            "grid transition-all duration-300",
+            node.isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
           )}
           aria-label="explorer-children-container"
         >
           <div className="overflow-hidden">
             <RecursiveExplorerTree
-              dispatch={dispatch}
+              explorerManager={explorerManager}
               content={node.children}
               selectedId={selectedId}
               depth={depth + 1}

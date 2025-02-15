@@ -3,8 +3,9 @@ import React from "react";
 import { ExplorerTreeNodeCollection } from "./explorerTree";
 import { cn } from "@/utils/lib";
 import NodeOptionsPopover from "./NodeOptionsPopover";
-import { useExplorer } from "@/context/explorer/ExplorerProvider";
 import NodeOpenStateToggler from "./NodeOpenStateToggler";
+import useExplorerManager from "@/hooks/useExplorerManager";
+import useExplorerHistoryStore from "@/stores/explorerHistoryStore";
 
 type Props = {
   node: ExplorerTreeNodeCollection;
@@ -12,36 +13,26 @@ type Props = {
 };
 
 export default function CollectionNode({ node, indentStyle }: Props) {
-  const {
-    dispatch,
-    state: { selectedId },
-  } = useExplorer();
+  const { selectedNode } = useExplorerHistoryStore();
+  const { toggleOpenState, selectNode } = useExplorerManager();
+
   return (
     <div
       aria-label="collection-node"
       onClick={(e) => {
         const element = e.target as HTMLElement;
         if (element.closest(".ignore-click")) return;
-
-        dispatch({
-          type: "select/node",
-          payload: { selectedId: node.id },
-        });
+        selectNode(node);
       }}
       style={indentStyle}
       className={cn(
         "group text-primary mb-2 cursor-pointer flex items-center w-full transition-all duration-100 rounded-md pr-2",
-        selectedId === node.id ? "bg-highlight" : "hover:bg-highlight/30"
+        selectedNode?.id === node.id ? "bg-highlight" : "hover:bg-highlight/30"
       )}
     >
       <NodeOpenStateToggler
         node={node}
-        onClick={() => {
-          dispatch({
-            type: "toggle/open",
-            payload: { selectedId: node.id },
-          });
-        }}
+        onClick={() => toggleOpenState(node.id)}
       />
 
       <div className="border border-border rounded-sm p-2 mr-3">

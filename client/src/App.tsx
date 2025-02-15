@@ -3,6 +3,7 @@ import ExplorerProvider from "./context/explorer/ExplorerProvider";
 import { WorkspaceProvider } from "./context/workspace/WorkspaceProvider";
 import FileExplorer from "./components/sidebar/explorer/Explorer";
 import WorkspaceLayout from "./components/workspace/WorkspaceLayout";
+import ExplorerHeader from "./components/sidebar/explorer/ExplorerHeader";
 
 export default function App() {
   return (
@@ -23,6 +24,7 @@ export default function App() {
                 aria-label="explorer-sidebar"
                 className="bg-foreground border-r flex flex-col border-border p-4 pb-0"
               >
+                <ExplorerHeader />
                 <FileExplorer />
               </aside>
               <WorkspaceLayout />

@@ -1,16 +1,14 @@
-import {
-  useContext,
-  useReducer,
-  createContext,
-  ReactNode,
-  useEffect,
-} from "react";
+import { useContext, useReducer, createContext, ReactNode } from "react";
 import { ExplorerActions, ExplorerState } from "./explorerTypes";
 import { reducers } from "./explorerReducer";
 import useWorkspaceQuery from "@/hooks/queries/useWorkspaceQuery";
-import useExplorerUpdater, {
-  ExplorerUpdater,
-} from "@/hooks/updaters/useExplorerUpdater";
+import { ExplorerUpdater } from "@/hooks/updaters/useExplorerUpdater";
+import { ExplorerTreeNode } from "@/components/sidebar/explorer/explorerTree";
+import { QUERY_KEYS } from "@/utils/queryKeys";
+import { useQueryClient } from "@tanstack/react-query";
+import { v4 as getUUID } from "uuid";
+import { Explorer } from "@/utils/Explorer";
+import { Workspace } from "@/utils/types";
 
 const initialState: ExplorerState = {
   // tree: contentTree,
@@ -44,22 +42,44 @@ export default function ExplorerProvider({
   children: ReactNode;
 }) {
   const [state, dispatch] = useReducer(reducers, initialState);
-  const {
-    data,
-    workspaceQuery: { isLoading },
-  } = useWorkspaceQuery();
+  const { data, isLoading } = useWorkspaceQuery();
 
-  const explorer = useExplorerUpdater({ dispatch, state });
+  // const explorer = useExplorerUpdater({ dispatch, state });
 
   // Mounts the initial data from the server onto the client side state
-  useEffect(() => {
-    if (!data) return;
-    dispatch({ type: "load/tree", payload: data.explorer });
-  }, [data]);
+  // useEffect(() => {
+  //   if (!data) return;
+  //   dispatch({ type: "load/tree", payload: data.explorer });
+  // }, [data]);
+
+  const queryClient = useQueryClient();
+
+  const insertCollection = async (targetId: string) => {
+    const newNode: ExplorerTreeNode = {
+      type: "request",
+      httpMethod: "GET",
+      id: getUUID(),
+      title: "New Request",
+    };
+    const newTree = Explorer.insertNode(state.tree, targetId, newNode);
+    queryClient.setQueriesData<Workspace>(
+      { queryKey: [QUERY_KEYS.WORKSPACE] },
+      (current) => {
+        if (!current) return undefined;
+        return { ...current, explorer: newTree };
+      }
+    );
+  };
 
   return (
     <ExplorerContext.Provider
-      value={{ state, dispatch, explorer, isLoadingTree: isLoading }}
+      value={{
+        // TEMP
+        state,
+        dispatch,
+        // explorer,
+        isLoadingTree: isLoading,
+      }}
     >
       {children}
     </ExplorerContext.Provider>

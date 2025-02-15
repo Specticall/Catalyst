@@ -4,7 +4,7 @@ import {
   ExplorerTreeNode,
   HTTPMethods,
 } from "@/components/sidebar/explorer/explorerTree";
-import { AxiosError } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 import { v4 as getUUID } from "uuid";
 import { Explorer } from "@/utils/Explorer";
 import {
@@ -15,6 +15,8 @@ import {
 import useRequestMutation from "../mutation/useRequestMutation";
 import { useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/utils/queryKeys";
+import { simulateAxiosResponse } from "@/utils/lib";
+import { SuccessReponse, Workspace } from "@/utils/types";
 
 export type ExplorerUpdater = ReturnType<typeof useExplorerUpdater>;
 

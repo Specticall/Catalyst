@@ -1,18 +1,15 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { useExplorer } from "@/context/explorer/ExplorerProvider";
 import WorkspaceBadge from "./WorkspaceBadge";
 import { cn } from "@/utils/lib";
 import EditableText from "../../ui/EditableText";
+import useExplorerManager from "@/hooks/useExplorerManager";
+import useExplorerHistoryStore from "@/stores/explorerHistoryStore";
 
 export default function WorkspaceBreadcrumbs() {
-  const {
-    state: { currentWorkingDirectory },
-    dispatch,
-    explorer,
-  } = useExplorer();
-  const activeNode = currentWorkingDirectory.at(-1);
+  const { selectNode, updateNodeName } = useExplorerManager();
+  const { cwd, selectedNode } = useExplorerHistoryStore();
 
-  if (!activeNode) {
+  if (!selectedNode) {
     return <div>Something went wrong: Breadcrumb active node not found</div>;
   }
 
@@ -21,8 +18,8 @@ export default function WorkspaceBreadcrumbs() {
       aria-label="workspace-breadcrumbs-container"
       className="flex px-4 py-4 gap-4 mt-13 mb-4 border-b border-border"
     >
-      {currentWorkingDirectory.slice(0, -1).map((dir, i) => {
-        const isLastElement = i === currentWorkingDirectory.length - 1;
+      {cwd.slice(0, -1).map((dir, i) => {
+        const isLastElement = i === cwd.length - 1;
         return (
           <div className="flex gap-2 items-center" key={i}>
             <WorkspaceBadge
@@ -33,10 +30,7 @@ export default function WorkspaceBreadcrumbs() {
                 !isLastElement ? "opacity-60 hover:opacity-100" : "opacity-100"
               )}
               onClick={() => {
-                dispatch({
-                  type: "select/node",
-                  payload: { selectedId: dir.id },
-                });
+                selectNode(dir);
               }}
             >
               {dir.title}
@@ -49,12 +43,12 @@ export default function WorkspaceBreadcrumbs() {
           </div>
         );
       })}
-      <WorkspaceBadge item={activeNode}>
+      <WorkspaceBadge item={selectedNode}>
         <EditableText
-          onBlur={(newName) =>
-            explorer.update.name(activeNode.id, newName || "New Request")
-          }
-          value={activeNode.title}
+          onBlur={(newName) => {
+            updateNodeName(selectedNode, newName || "New Request");
+          }}
+          value={selectedNode.title}
         />
       </WorkspaceBadge>
     </ul>

@@ -12,21 +12,6 @@ export type HistoryNode =
 
 export type ExplorerActions =
   | {
-      type: "insert/request";
-      payload: {
-        updatedTree: ExplorerTreeNode[];
-        newNode: ExplorerTreeNodeRequest;
-      };
-    }
-  | {
-      type: "insert/collection";
-      payload: ExplorerTreeNode[];
-    }
-  | {
-      type: "insert/group";
-      payload: ExplorerTreeNode[];
-    }
-  | {
       type: "toggle/open";
       payload: {
         selectedId: string;

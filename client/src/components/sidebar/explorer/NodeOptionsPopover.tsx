@@ -1,11 +1,11 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { useExplorer } from "@/context/explorer/ExplorerProvider";
 import { useState } from "react";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/Popover";
+import useExplorerManager from "@/hooks/useExplorerManager";
 
 type Props = {
   currentNodeId: string;
@@ -13,15 +13,15 @@ type Props = {
 
 export default function NodeOptionsPopover({ currentNodeId }: Props) {
   const [isOpen, setIsOpen] = useState(false);
-  const { explorer } = useExplorer();
+  const { insertGroup, insertRequest } = useExplorerManager();
 
   const handleAddRequest = () => {
-    explorer.insert.request(currentNodeId);
+    insertRequest(currentNodeId);
     setIsOpen(false);
   };
 
   const handleAddGroup = () => {
-    explorer.insert.group(currentNodeId);
+    insertGroup(currentNodeId);
     setIsOpen(false);
   };
 

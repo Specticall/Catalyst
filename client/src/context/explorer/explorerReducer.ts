@@ -1,6 +1,5 @@
 import { Explorer } from "@/utils/Explorer";
 import { ExplorerActions, ExplorerState } from "./explorerTypes";
-import { v4 as getUUID } from "uuid";
 
 /**
  * Note: explorer update logic have been extracted into `useExplorerUpdater` read the comment for more details.

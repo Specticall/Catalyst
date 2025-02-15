@@ -26,11 +26,11 @@ export const render = (ui: ReactElement) => {
   return originalRender(ui);
 };
 
-// configure({
-//   getElementError: (message: string | null) => {
-//     const error = new Error(message || "");
-//     error.name = "TestingLibraryElementError";
-//     error.stack = undefined;
-//     return error;
-//   },
-// });
+configure({
+  getElementError: (message: string | null) => {
+    const error = new Error(message || "");
+    error.name = "TestingLibraryElementError";
+    error.stack = undefined;
+    return error;
+  },
+});
