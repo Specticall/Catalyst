@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "lib": ["ES2023"],
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "moduleResolution": "bundler",
+    "target": "ESNext",
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "outDir": "dist",
+
+    /* Linting */
+    "strict": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src/**/*"]
+}

@@ -2,7 +2,7 @@ import { useState } from "react";
 import WorkspaceResponseStats from "./WorkspaceResponseStats";
 import { cn } from "@/utils/lib";
 import WorkspaceResponseContent from "./WorkspaceResponseContent";
-import { useWorkspace } from "@/components/context/workspace/WorkspaceProvider";
+import { useWorkspace } from "@/context/workspace/WorkspaceProvider";
 
 const responseDisplayOpts = ["JSON", "Raw" /*"Headers"*/] as const;
 export default function WorkspaceResponse() {
@@ -39,7 +39,9 @@ export default function WorkspaceResponse() {
         <p>Response Body</p>
       </div>
       {state.isFetching && <div className="loader-bar w-full"></div>}
-      <WorkspaceResponseContent opts={displayOpts} />
+      <div className="min-h-[20rem] flex items-center justify-center">
+        <WorkspaceResponseContent opts={displayOpts} />
+      </div>
     </div>
   );
 }

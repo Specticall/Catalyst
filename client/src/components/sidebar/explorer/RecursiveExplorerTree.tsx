@@ -2,8 +2,9 @@ import { cn } from "@/utils/lib";
 import { ExplorerTreeNode } from "./explorerTree";
 import GroupNode from "./GroupNode";
 import CollectionNode from "./CollectionNode";
-import { ExplorerActions } from "@/components/context/explorer/explorerTypes";
+import { ExplorerActions } from "@/context/explorer/explorerTypes";
 import RequestNode from "./RequestNode";
+import React from "react";
 
 const INDENT_PX = 16;
 
@@ -21,14 +22,14 @@ export function RecursiveExplorerTree({
   // Sets the element indent based on the traversal depth
   const indentStyle = { paddingLeft: `${INDENT_PX * depth}px` };
 
-  return content?.map((node) => {
+  return content?.map((node, i) => {
     // Renders request files (which are bottom nodes)
     if (node.type === "request") {
-      return <RequestNode indentStyle={indentStyle} node={node} />;
+      return <RequestNode indentStyle={indentStyle} node={node} key={i} />;
     }
 
     return (
-      <>
+      <React.Fragment key={i}>
         {/* Current node */}
         {node.type === "group" ? (
           <GroupNode node={node} indentStyle={indentStyle} />
@@ -51,7 +52,7 @@ export function RecursiveExplorerTree({
             />
           </div>
         </div>
-      </>
+      </React.Fragment>
     );
   });
 }

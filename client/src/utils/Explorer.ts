@@ -1,4 +1,7 @@
-import { ExplorerTreeNode } from "@/components/sidebar/explorer/explorerTree";
+import {
+  ExplorerTreeNode,
+  HTTPMethods,
+} from "@/components/sidebar/explorer/explorerTree";
 
 export class Explorer {
   /**
@@ -101,5 +104,53 @@ export class Explorer {
     }
 
     return false;
+  }
+
+  static changeNodeMethod(
+    nodes: ExplorerTreeNode[],
+    targetId: string,
+    method: HTTPMethods
+  ): ExplorerTreeNode[] {
+    return nodes.map((node) => {
+      if (node.type === "request" && node.id === targetId) {
+        return {
+          ...node,
+          httpMethod: method,
+        };
+      }
+
+      if (node.type !== "request") {
+        return {
+          ...node,
+          children: this.changeNodeMethod(node.children, targetId, method),
+        };
+      }
+
+      return node;
+    });
+  }
+
+  static changeNodeName(
+    nodes: ExplorerTreeNode[],
+    targetId: string,
+    newName: string
+  ): ExplorerTreeNode[] {
+    return nodes.map((node) => {
+      if (node.id === targetId) {
+        return {
+          ...node,
+          title: newName,
+        };
+      }
+
+      if (node.type === "request") {
+        return node;
+      }
+
+      return {
+        ...node,
+        children: this.changeNodeName(node.children, targetId, newName),
+      };
+    });
   }
 }

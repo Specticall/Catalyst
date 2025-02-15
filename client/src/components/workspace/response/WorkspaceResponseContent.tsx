@@ -1,5 +1,6 @@
-import { useWorkspace } from "@/components/context/workspace/WorkspaceProvider";
+import { useWorkspace } from "@/context/workspace/WorkspaceProvider";
 import WorkspaceResponseBody from "./WorkspaceResponseBody";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 type Props = {
   opts: string;
@@ -18,6 +19,21 @@ export default function WorkspaceResponseContent({ opts }: Props) {
         <p className="text-secondary">
           Please hold on while we process your request
         </p>
+      </div>
+    );
+  }
+
+  if (!state.data) {
+    return (
+      <div className="text-center py-8 flex items-center justify-center flex-col">
+        <div className="bg-base border border-border rounded-sm w-20 h-20 flex items-center justify-center mb-4">
+          <Icon
+            icon={"radix-icons:rocket"}
+            className="text-[3rem] text-white"
+          />
+        </div>
+        <h2 className="text-primary text-2xl">No Response Yet</h2>
+        <p className="text-secondary mt-1">Click send to get a response</p>
       </div>
     );
   }

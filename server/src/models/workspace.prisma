@@ -1,0 +1,24 @@
+model Workspace {
+  id             Int             @id @default(autoincrement())
+  name           String
+  userWorkspaces UserWorkspace[]
+  explorer       Json[]          @default([])
+}
+
+model UserWorkspace {
+  id          Int @id @default(autoincrement())
+  workspaceId Int
+  userId      Int
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id])
+  user      User      @relation(fields: [userId], references: [id])
+}
+
+model Request {
+  id      String     @id
+  name    String
+  method  HttpMethod
+  body    Json
+  headers Json
+  url     String
+}

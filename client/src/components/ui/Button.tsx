@@ -14,7 +14,9 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          "bg-black text-white bg-accent hover:opacity-80 disabled:bg-highlight/70",
+          "text-white bg-accent hover:opacity-80 disabled:bg-highlight/70",
+        secondary:
+          "bg-base border border-border text-white hover:bg-secondary/10 disabled:bg-highlight/70",
       },
     },
     defaultVariants: {

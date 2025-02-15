@@ -27,6 +27,7 @@ export type ExplorerTreeNode =
   | ExplorerTreeNodeCollection
   | ExplorerTreeNodeGroup
   | ExplorerTreeNodeRequest;
+
 export const contentTree: ExplorerTreeNode[] = [
   {
     type: "collection",

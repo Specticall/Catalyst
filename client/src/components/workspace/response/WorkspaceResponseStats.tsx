@@ -1,11 +1,12 @@
 import { httpStatus } from "@/utils/httpStatus";
-import { useWorkspace } from "../../context/workspace/WorkspaceProvider";
+import { useWorkspace } from "@/context/workspace/WorkspaceProvider";
 
 export default function WorkspaceResponseStats() {
   const { state } = useWorkspace();
-  const contentSizeKB = (
-    Number(state.data?.headers["content-length"]) * 0.001
-  ).toFixed(2);
+  const contentLength = state.data?.headers["content-length"];
+  const contentSizeKB = contentLength
+    ? (Number(contentLength) * 0.001).toFixed(2)
+    : 0;
 
   return (
     <ul className="px-4 flex gap-4 py-3">
@@ -21,7 +22,11 @@ export default function WorkspaceResponseStats() {
       {state.data && (
         <li className="text-primary">
           Size <span className="text-secondary">:</span>{" "}
-          <span className="text-highlight-green">{contentSizeKB}KB</span>
+          {contentLength ? (
+            <span className="text-highlight-green">{contentSizeKB}KB</span>
+          ) : (
+            <span className="text-highlight-green"> - </span>
+          )}
         </li>
       )}
     </ul>

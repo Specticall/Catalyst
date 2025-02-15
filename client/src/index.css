@@ -7,6 +7,12 @@
   font-family: "Hanken Grotesk";
 }
 
+@layer base {
+  * {
+    font-size: 14px;
+  }
+}
+
 @theme {
   --color-base: #181818;
   --color-primary: #e0e4f1;

@@ -1,7 +1,7 @@
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { useEffect, useRef, useState } from "react";
 import WorkspaceResponseLoadMore from "./WorkspaceResponseLoadMore";
-import workspaceStyle from "../workspaceStyle";
+import workspaceStyle from "../request/workspaceStyle";
 
 type Props = {
   data: unknown;

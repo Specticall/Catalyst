@@ -1,13 +1,11 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { useExplorer } from "@/components/context/explorer/ExplorerProvider";
+import { useExplorer } from "@/context/explorer/ExplorerProvider";
 
 export default function ExplorerHeader() {
-  const { dispatch } = useExplorer();
+  const { explorer } = useExplorer();
 
   const handleAddCollection = () => {
-    dispatch({
-      type: "insert/collection",
-    });
+    explorer.insert.collection();
   };
   return (
     <>
