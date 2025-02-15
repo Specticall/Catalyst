@@ -10,30 +10,6 @@ export function reducers(
   action: ExplorerActions
 ): ExplorerState {
   switch (action.type) {
-    case "insert/group": {
-      const newNodeId = getUUID();
-      return {
-        ...state,
-        selectedId: newNodeId,
-        tree: action.payload,
-      };
-    }
-    case "insert/collection":
-      return {
-        ...state,
-        tree: action.payload,
-      };
-    case "insert/request": {
-      const newNode = action.payload.newNode;
-      const updatedTree = action.payload.updatedTree;
-      return {
-        ...state,
-        selectedId: newNode.id,
-        currentWorkingDirectory: Explorer.getNodePath(updatedTree, newNode.id),
-        history: [...state.history, newNode],
-        tree: updatedTree,
-      };
-    }
     case "select/node": {
       const recentNode = Explorer.findNode(
         state.tree,

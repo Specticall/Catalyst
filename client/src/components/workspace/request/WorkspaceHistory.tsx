@@ -10,7 +10,10 @@ export default function WorkspaceHistory() {
   } = useExplorer();
 
   return (
-    <div className="absolute top-0 left-0 right-0 overflow-x-auto pb-2">
+    <div
+      aria-label="explorer-history-container"
+      className="absolute top-0 left-0 right-0 overflow-x-auto pb-2"
+    >
       <ul className="flex px-4 gap-4 min-h-12 items-center border-b border-border">
         {history.map((item, i) => {
           return (

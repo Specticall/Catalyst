@@ -19,7 +19,10 @@ export default function App() {
               </div>
             </header>
             <main className=" flex-1 relative grid grid-cols-[20rem_1fr]">
-              <aside className="bg-foreground border-r flex flex-col border-border p-4 pb-0">
+              <aside
+                aria-label="explorer-sidebar"
+                className="bg-foreground border-r flex flex-col border-border p-4 pb-0"
+              >
                 <FileExplorer />
               </aside>
               <WorkspaceLayout />

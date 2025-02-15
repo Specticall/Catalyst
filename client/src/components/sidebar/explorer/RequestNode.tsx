@@ -15,6 +15,7 @@ export default function RequestNode({ node, indentStyle }: Props) {
   } = useExplorer();
   return (
     <div
+      aria-label="request-node"
       onClick={() => {
         dispatch({
           type: "select/node",

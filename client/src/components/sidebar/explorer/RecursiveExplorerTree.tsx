@@ -39,9 +39,10 @@ export function RecursiveExplorerTree({
         {/* Recursive node */}
         <div
           className={cn(
-            "grid transition-all duration-300",
-            node.isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+            "grid transition-all duration-300"
+            // node.isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
           )}
+          aria-label="explorer-children-container"
         >
           <div className="overflow-hidden">
             <RecursiveExplorerTree

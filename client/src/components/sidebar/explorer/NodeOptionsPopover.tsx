@@ -27,7 +27,10 @@ export default function NodeOptionsPopover({ currentNodeId }: Props) {
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
-      <PopoverTrigger className="flex items-center cursor-pointer">
+      <PopoverTrigger
+        aria-label="node-options-popover"
+        className="flex items-center cursor-pointer"
+      >
         <div className="ignore-click px-2 h-full group">
           <Icon
             icon={"qlementine-icons:menu-dots-16"}
@@ -35,7 +38,10 @@ export default function NodeOptionsPopover({ currentNodeId }: Props) {
           />
         </div>
       </PopoverTrigger>
-      <PopoverContent className="ignore-click bg-base border border-border rounded-md shadow-lg p-2 flex flex-col w-48">
+      <PopoverContent
+        aria-label="node-options-popover-content"
+        className="ignore-click bg-base border border-border rounded-md shadow-lg p-2 flex flex-col w-48"
+      >
         <li
           className="text-secondary hover:text-white transition-all duration-100 cursor-pointer hover:bg-highlight/20 px-4 py-1 rounded-sm flex gap-2 items-center"
           onClick={handleAddRequest}

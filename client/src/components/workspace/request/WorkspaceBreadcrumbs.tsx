@@ -17,7 +17,10 @@ export default function WorkspaceBreadcrumbs() {
   }
 
   return (
-    <ul className="flex px-4 py-4 gap-4 mt-13 mb-4 border-b border-border">
+    <ul
+      aria-label="workspace-breadcrumbs-container"
+      className="flex px-4 py-4 gap-4 mt-13 mb-4 border-b border-border"
+    >
       {currentWorkingDirectory.slice(0, -1).map((dir, i) => {
         const isLastElement = i === currentWorkingDirectory.length - 1;
         return (

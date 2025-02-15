@@ -22,10 +22,10 @@ export default function Workspace() {
   }
 
   return (
-    <>
+    <div aria-label="request-workspace-container">
       <WorkspaceURLInput />
       <WorkspaceOptions />
       <WorkspaceResponse />
-    </>
+    </div>
   );
 }

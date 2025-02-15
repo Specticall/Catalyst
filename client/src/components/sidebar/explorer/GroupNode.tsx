@@ -19,6 +19,7 @@ export default function GroupNode({ node, indentStyle }: Props) {
 
   return (
     <div
+      aria-label="group-node"
       onClick={(e) => {
         const element = e.target as HTMLElement;
         if (element.closest(".ignore-click")) return;

@@ -18,6 +18,7 @@ export default function CollectionNode({ node, indentStyle }: Props) {
   } = useExplorer();
   return (
     <div
+      aria-label="collection-node"
       onClick={(e) => {
         const element = e.target as HTMLElement;
         if (element.closest(".ignore-click")) return;

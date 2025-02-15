@@ -16,17 +16,12 @@ export default function NodeOpenStateToggler({
 }: Props & HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      // onClick={() => {
-      //   dispatch({
-      //     type: "toggle/open",
-      //     payload: { selectedId: node.id },
-      //   });
-      // }}
       {...props}
       className={cn(
-        "px-2 cursor-pionter ignore-click hover:[&>*]:bg-secondary/20",
+        "px-2 cursor-pointer ignore-click hover:[&>*]:bg-secondary/20",
         props.className
       )}
+      aria-label="node-open-state-toggler"
     >
       <div className="rounded-sm transition duration-50">
         <Icon

@@ -1,10 +1,4 @@
-import {
-  ReactNode,
-  createContext,
-  useContext,
-  useEffect,
-  useReducer,
-} from "react";
+import { ReactNode, createContext, useContext, useReducer } from "react";
 import { WorkspaceAction, WorkspaceState } from "./workspaceTypes";
 import { reducer } from "./workspaceReducer";
 import { HTTPMethods } from "@/components/sidebar/explorer/explorerTree";
@@ -56,25 +50,16 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
     state: { selectedId, currentWorkingDirectory: cwd },
   } = useExplorer();
 
-  const {
-    data,
-    requestQuery: { isPending },
-  } = useRequestQuery({
+  const { requestQuery } = useRequestQuery({
     requestId: selectedId,
     isRequest: cwd.at(-1)?.type === "request",
+    onSettled: (data) => dispatch({ type: "load/data", payload: data }),
   });
 
   const { changeMethod, save, sendRequest } = useWorkspaceUpdater({
     dispatch,
     state,
   });
-
-  useEffect(() => {
-    if (data) {
-      console.log(data);
-      dispatch({ type: "load/data", payload: data });
-    }
-  }, [data]);
 
   return (
     <WorkspaceContext.Provider
@@ -84,7 +69,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
         dispatch,
         sendRequest,
         changeMethod,
-        isLoadingWorkspace: isPending,
+        isLoadingWorkspace: requestQuery.isPending,
       }}
     >
       {children}

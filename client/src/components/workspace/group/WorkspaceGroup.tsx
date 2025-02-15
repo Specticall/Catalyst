@@ -9,7 +9,7 @@ type Props = {
 export default function WorkspaceGroup({ activeCollectionNode }: Props) {
   const { explorer } = useExplorer();
   return (
-    <div className="">
+    <div aria-label="group-workspace-container" className="">
       <div className="pb-6 px-8 border-b  border-border">
         <p className="text-secondary">Group</p>
         <EditableText

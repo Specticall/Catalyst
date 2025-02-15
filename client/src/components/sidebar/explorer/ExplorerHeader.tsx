@@ -19,6 +19,7 @@ export default function ExplorerHeader() {
         <button
           className="bg-base/50 border-border rounded-sm border p-1.5 hover:opacity-60 transition cursor-pointer"
           onClick={handleAddCollection}
+          aria-label="add-collection"
         >
           <Icon
             icon={"material-symbols:add"}

@@ -10,7 +10,7 @@ type Props = {
 export default function WorkspaceCollection({ activeCollectionNode }: Props) {
   const { explorer } = useExplorer();
   return (
-    <div className="">
+    <div className="" aria-label="collection-workspace-container">
       <div className="pb-6 px-8 border-b  border-border">
         <p className="text-secondary">Collection</p>
         <EditableText
