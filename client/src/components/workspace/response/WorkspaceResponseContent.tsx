@@ -8,6 +8,11 @@ type Props = {
 export default function WorkspaceResponseContent({ opts }: Props) {
   const { responseData, responseError, isLoadingResponse } =
     useRequestManager();
+  const data =
+    responseData?.data ||
+    responseError?.response?.data ||
+    responseError?.response ||
+    {};
 
   if (isLoadingResponse) {
     return (
@@ -39,13 +44,13 @@ export default function WorkspaceResponseContent({ opts }: Props) {
   }
 
   if (opts === "JSON") {
-    return <WorkspaceResponseBody data={responseData || responseError} />;
+    return <WorkspaceResponseBody data={data} />;
   }
 
   if (opts === "Raw") {
     return (
       <div className="px-4 py-4 leading-[200%] text-primary whitespace-normal">
-        {JSON.stringify(responseData || responseError || {})}
+        {JSON.stringify(data)}
       </div>
     );
   }

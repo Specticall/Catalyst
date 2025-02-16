@@ -23,14 +23,14 @@ export default function WorkspaceResponseBody({ data }: Props) {
   // Preserves the scroll position
   useEffect(() => {
     document
-      .querySelector("[data-workspace-container]")
+      .querySelector("[data-response-container]")
       ?.scrollTo({ top: prevScrollPos.current });
   }, [renderedLineCount]);
 
   const handleLoadMore = () => {
     // Capture previous scroll position
     prevScrollPos.current =
-      document.querySelector("[data-workspace-container]")?.scrollTop || 0;
+      document.querySelector("[data-response-container]")?.scrollTop || 0;
     setRenderedLineCount((cur) => cur + 3000);
   };
 

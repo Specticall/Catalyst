@@ -1,12 +1,13 @@
-import { HTMLAttributes, useState } from "react";
+import { forwardRef, HTMLAttributes, Ref, useState } from "react";
 import WorkspaceResponseStats from "./WorkspaceResponseStats";
 import { cn } from "@/utils/lib";
 import WorkspaceResponseContent from "./WorkspaceResponseContent";
 import useRequestManager from "@/hooks/managers/useRequestManager";
 
 const responseDisplayOpts = ["JSON", "Raw" /*"Headers"*/] as const;
-export default function WorkspaceResponse(
-  props: HTMLAttributes<HTMLDivElement>
+function WorkspaceResponse(
+  props: HTMLAttributes<HTMLDivElement>,
+  ref: Ref<HTMLDivElement>
 ) {
   const { isLoadingResponse } = useRequestManager();
   const [displayOpts, setDisplayOpts] =
@@ -14,6 +15,7 @@ export default function WorkspaceResponse(
 
   return (
     <div
+      ref={ref}
       {...props}
       className={cn(
         "border-t-2 border-secondary/50 whitespace-pre flex-1 flex flex-col h-full",
@@ -48,10 +50,12 @@ export default function WorkspaceResponse(
       </div>
       {isLoadingResponse && <div className="loader-bar w-full"></div>}
       <div className="flex items-center justify-center relative flex-1">
-        <div className="absolute inset-0 overflow-auto">
+        <div className="absolute inset-0 overflow-auto" data-response-container>
           <WorkspaceResponseContent opts={displayOpts} />
         </div>
       </div>
     </div>
   );
 }
+
+export default forwardRef(WorkspaceResponse);

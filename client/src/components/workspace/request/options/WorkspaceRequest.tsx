@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import WorkspaceResponse from "../../response/WorkspaceResponse";
 import WorkspaceURLInput from "../WorkspaceURLInput";
 import { requestOptionsData } from "@/stores/requestStore";
@@ -6,45 +6,13 @@ import WorkspaceBodyEditor from "./body/WorkspaceBodyEditor";
 import WorkspaceHeaders from "./header/WorkspaceHeaders";
 import WorkspaceOptionsSelector from "./WorkspaceOptionsSelector";
 import { cn } from "@/utils/lib";
+import useResizableWorkspace from "@/hooks/useResizableWorkspace";
 
 export default function WorkspaceRequest() {
-  const [isDragging, setIsDragging] = useState(false);
-  const [progress, setProgress] = useState(0.5);
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const barRef = useRef<HTMLDivElement | null>(null);
   const [active, setActive] =
     useState<(typeof requestOptionsData)[number]>("Body");
-
-  useEffect(() => {
-    const handleMouseUp = () => {
-      setIsDragging(false);
-      document.body.style.userSelect = "auto";
-      document.body.style.cursor = "auto";
-      if (barRef.current) barRef.current.style.opacity = "0%";
-    };
-
-    const handleMouseMove = (e: MouseEvent) => {
-      const barElement = containerRef.current;
-      if (!barElement) return;
-      const rect = barElement.getBoundingClientRect();
-      const max = rect.bottom;
-      const min = rect.top;
-      const current = e.clientY - min;
-      const progress = Math.max(current / (max - min), 0);
-      const progressLimited = Math.min(progress, 0.9);
-      setProgress(progressLimited);
-    };
-
-    if (isDragging) {
-      window.addEventListener("mouseup", handleMouseUp);
-      window.addEventListener("mousemove", handleMouseMove);
-    }
-
-    return () => {
-      window.removeEventListener("mouseup", handleMouseUp);
-      window.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, [isDragging]);
+  const { barRef, containerRef, progress, handleMouseDown } =
+    useResizableWorkspace();
 
   return (
     <>
@@ -67,17 +35,14 @@ export default function WorkspaceRequest() {
           <div className="relative overflow-hidden flex-1">
             <div
               className={cn(
-                "w-full h-1 bg-secondary opacity-0 absolute top-0 cursor-n-resize hover:!opacity-100"
+                "group w-full h-6 bg-secondary opacity-0 fixed -translate-y-2 cursor-n-resize z-20 peer"
               )}
-              ref={barRef}
-              onMouseDown={() => {
-                document.body.style.userSelect = "none";
-                document.body.style.cursor = "n-resize";
-                if (barRef.current) barRef.current.style.opacity = "100%";
-                setIsDragging(true);
-              }}
+              onMouseDown={handleMouseDown}
             ></div>
-            <WorkspaceResponse />
+            <WorkspaceResponse
+              ref={barRef}
+              className="peer-hover:border-primary"
+            />
           </div>{" "}
         </div>
       </div>

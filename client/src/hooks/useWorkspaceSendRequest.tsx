@@ -53,11 +53,11 @@ export default function useWorkspaceSendRequest() {
         method: data.method,
         headers: serializeHeaders(data.headers),
       });
-      setResponseData(response.data);
+      setResponseData(response);
       setResponseError(undefined);
     } catch (err) {
       if (isAxiosError(err)) {
-        setResponseError(err.response?.data || err.response);
+        setResponseError(err);
       }
       setResponseData(undefined);
     } finally {
