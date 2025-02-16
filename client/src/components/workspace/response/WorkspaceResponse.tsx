@@ -16,7 +16,7 @@ export default function WorkspaceResponse(
     <div
       {...props}
       className={cn(
-        "border-t border-border whitespace-pre flex-1 flex flex-col",
+        "border-t-2 border-secondary/50 whitespace-pre flex-1 flex flex-col h-full",
         props.className
       )}
     >
@@ -47,8 +47,10 @@ export default function WorkspaceResponse(
         <p>Response Body</p>
       </div>
       {isLoadingResponse && <div className="loader-bar w-full"></div>}
-      <div className="flex items-center justify-center">
-        <WorkspaceResponseContent opts={displayOpts} />
+      <div className="flex items-center justify-center relative flex-1">
+        <div className="absolute inset-0 overflow-auto">
+          <WorkspaceResponseContent opts={displayOpts} />
+        </div>
       </div>
     </div>
   );
