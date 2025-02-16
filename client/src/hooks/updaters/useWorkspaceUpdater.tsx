@@ -12,7 +12,7 @@ import axios, {
 } from "axios";
 import { useCallback } from "react";
 import useRequestMutation from "../mutation/useRequestMutation";
-import useExplorerMutation from "../mutation/useExplorerMutation";
+import useExplorerMutation from "../mutation/useExplorerCreateMutation";
 import { isValidJSON, safelyParseJSON } from "@/utils/lib";
 import { useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/utils/queryKeys";

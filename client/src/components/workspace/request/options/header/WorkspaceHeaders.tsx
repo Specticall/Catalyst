@@ -1,11 +1,9 @@
-import Checkbox from "@/components/ui/Checkbox";
-import EditableText from "@/components/ui/EditableText";
-import { useWorkspace } from "@/context/workspace/WorkspaceProvider";
+import useRequestHeaderManager from "@/hooks/managers/useRequestHeaderManager";
+import WorkspaceHeadersRow from "./WorkspaceHeadersRow";
+import WorkspaceNewHeaderRow from "./WorkspaceNewHeaderRow";
 
 export default function WorkspaceHeaders() {
-  const { state, dispatch } = useWorkspace();
-  console.log("HEADERS => ", state.headers);
-
+  const { headers, changeHeader, deleteHeaderRow } = useRequestHeaderManager();
   return (
     <table className="w-full [&_th]:text-start">
       <thead>
@@ -16,93 +14,18 @@ export default function WorkspaceHeaders() {
         </tr>
       </thead>
       <tbody>
-        {state.headers?.map((header) => {
+        {headers?.map((header) => {
           return (
-            <tr
+            <WorkspaceHeadersRow
               key={header.id}
-              className="text-primary [&>td]:px-4 [&>td]:py-2 [&>td]:border [&>td]:bg-highlight/50 [&>td]:border-border"
-            >
-              <td>
-                <Checkbox
-                  onCheck={(value) => {
-                    dispatch({
-                      type: "update/headers",
-                      payload: {
-                        target: "enabled",
-                        id: header.id,
-                        newValue: !value,
-                      },
-                    });
-                  }}
-                  value={header.enabled}
-                />
-              </td>
-              <td className="w-[30%] min-w-[15rem]">
-                <EditableText
-                  placeholder="Key"
-                  value={header.key}
-                  onBlur={(value) => {
-                    dispatch({
-                      type: "update/headers",
-                      payload: {
-                        target: "key",
-                        id: header.id,
-                        newValue: value,
-                      },
-                    });
-                  }}
-                />
-              </td>
-              <td className="">
-                <EditableText
-                  placeholder="Value"
-                  className="w-0 min-w-full truncate"
-                  value={header.value}
-                  onBlur={(value) => {
-                    dispatch({
-                      type: "update/headers",
-                      payload: {
-                        target: "value",
-                        id: header.id,
-                        newValue: value,
-                      },
-                    });
-                  }}
-                />
-              </td>
-            </tr>
+              onChange={changeHeader}
+              onDelete={deleteHeaderRow}
+              header={header}
+            />
           );
         })}
-        <tr className="text-primary [&>td]:px-4 [&>td]:py-2 [&>td]:border [&>td]:bg-base [&>td]:border-border">
-          <td></td>
-          <td className="w-[30%]">
-            <EditableText
-              placeholder="Key"
-              key={state.headers?.length}
-              value={""}
-              onBlur={(value) => {
-                if (value) {
-                  dispatch({ type: "insert/headers", payload: { key: value } });
-                }
-              }}
-            />
-          </td>
-          <td>
-            <EditableText
-              placeholder="Value"
-              key={state.headers?.length}
-              value={""}
-              onBlur={(value) => {
-                if (value) {
-                  dispatch({
-                    type: "insert/headers",
-                    payload: { value: value },
-                  });
-                }
-              }}
-            />
-          </td>
-        </tr>
+
+        <WorkspaceNewHeaderRow />
       </tbody>
     </table>
   );

@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import useExplorerManager from "@/hooks/useExplorerManager";
+import useExplorerManager from "@/hooks/managers/useExplorerManager";
 
 export default function ExplorerHeader() {
   const { insertCollection } = useExplorerManager();

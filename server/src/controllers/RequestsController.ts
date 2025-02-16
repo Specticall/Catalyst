@@ -26,9 +26,14 @@ const getRequests: RequestHandler = async (request, response, next) => {
 };
 
 const defaultHeaders = [
-  { key: "Content-Type", value: "application/json", id: "1", enabled: true },
-  { key: "Accept", value: "*/*", id: "2", enabled: true },
-  { key: "Authorization", value: "", id: "3", enabled: true },
+  {
+    key: "Content-Type",
+    value: "application/json",
+    id: "default-1",
+    enabled: true,
+  },
+  { key: "Accept", value: "*/*", id: "default-2", enabled: true },
+  { key: "Authorization", value: "", id: "default-3", enabled: true },
 ];
 
 const createRequests: RequestHandler = async (request, response, next) => {
@@ -75,6 +80,7 @@ const requestDataSchema = z.object({
       key: z.string(),
       value: z.string(),
       enabled: z.boolean(),
+      id: z.string(),
     })
   ),
   id: z.string(),

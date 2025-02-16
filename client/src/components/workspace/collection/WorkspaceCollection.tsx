@@ -1,8 +1,6 @@
 import EditableText from "@/components/ui/EditableText";
-import { useExplorer } from "@/context/explorer/ExplorerProvider";
 import { HistoryNode } from "@/context/explorer/explorerTypes";
-import { useWorkspace } from "@/context/workspace/WorkspaceProvider";
-import useExplorerManager from "@/hooks/useExplorerManager";
+import useExplorerManager from "@/hooks/managers/useExplorerManager";
 
 type Props = {
   activeCollectionNode: HistoryNode;

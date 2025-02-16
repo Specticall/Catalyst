@@ -1,17 +1,25 @@
-import { useState } from "react";
+import { HTMLAttributes, useState } from "react";
 import WorkspaceResponseStats from "./WorkspaceResponseStats";
 import { cn } from "@/utils/lib";
 import WorkspaceResponseContent from "./WorkspaceResponseContent";
-import { useWorkspace } from "@/context/workspace/WorkspaceProvider";
+import useRequestManager from "@/hooks/managers/useRequestManager";
 
 const responseDisplayOpts = ["JSON", "Raw" /*"Headers"*/] as const;
-export default function WorkspaceResponse() {
-  const { state } = useWorkspace();
+export default function WorkspaceResponse(
+  props: HTMLAttributes<HTMLDivElement>
+) {
+  const { isLoadingResponse } = useRequestManager();
   const [displayOpts, setDisplayOpts] =
     useState<(typeof responseDisplayOpts)[number]>("JSON");
 
   return (
-    <div className="border-t border-border mt-8 whitespace-pre flex-1 flex flex-col">
+    <div
+      {...props}
+      className={cn(
+        "border-t border-border whitespace-pre flex-1 flex flex-col",
+        props.className
+      )}
+    >
       <WorkspaceResponseStats />
       <ul className="flex px-4 gap-8 mt-1 text-secondary">
         {responseDisplayOpts.map((opt, i) => {
@@ -38,8 +46,8 @@ export default function WorkspaceResponse() {
       <div className="px-4 border-t border-b border-border py-3 text-secondary">
         <p>Response Body</p>
       </div>
-      {state.isFetching && <div className="loader-bar w-full"></div>}
-      <div className="min-h-[20rem] flex items-center justify-center">
+      {isLoadingResponse && <div className="loader-bar w-full"></div>}
+      <div className="flex items-center justify-center">
         <WorkspaceResponseContent opts={displayOpts} />
       </div>
     </div>

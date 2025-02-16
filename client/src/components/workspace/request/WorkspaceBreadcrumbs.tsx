@@ -2,12 +2,11 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import WorkspaceBadge from "./WorkspaceBadge";
 import { cn } from "@/utils/lib";
 import EditableText from "../../ui/EditableText";
-import useExplorerManager from "@/hooks/useExplorerManager";
-import useExplorerHistoryStore from "@/stores/explorerHistoryStore";
+import useExplorerManager from "@/hooks/managers/useExplorerManager";
 
 export default function WorkspaceBreadcrumbs() {
-  const { selectNode, updateNodeName } = useExplorerManager();
-  const { cwd, selectedNode } = useExplorerHistoryStore();
+  const { selectNode, updateNodeName, cwd, selectedNode } =
+    useExplorerManager();
 
   if (!selectedNode) {
     return <div>Something went wrong: Breadcrumb active node not found</div>;
@@ -16,7 +15,7 @@ export default function WorkspaceBreadcrumbs() {
   return (
     <ul
       aria-label="workspace-breadcrumbs-container"
-      className="flex px-4 py-4 gap-4 mt-13 mb-4 border-b border-border"
+      className="flex px-4 py-3 gap-4 mt-13 mb-4 border-b border-border"
     >
       {cwd.slice(0, -1).map((dir, i) => {
         const isLastElement = i === cwd.length - 1;

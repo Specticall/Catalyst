@@ -1,13 +1,13 @@
 import { Popover, PopoverContent } from "@/components/ui/Popover";
-import { useWorkspace } from "@/context/workspace/WorkspaceProvider";
+import useRequestManager from "@/hooks/managers/useRequestManager";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { PopoverTrigger } from "@radix-ui/react-popover";
 import Skeleton from "react-loading-skeleton";
 
 export default function WorkspaceBodyOptsPopover() {
-  const { isLoadingWorkspace } = useWorkspace();
+  const { requestQuery } = useRequestManager();
 
-  if (isLoadingWorkspace) {
+  if (requestQuery.isLoading) {
     return <Skeleton width={"6rem"} height={"2.5rem"} />;
   }
 

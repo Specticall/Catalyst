@@ -1,14 +1,12 @@
 import { cn } from "@/utils/lib";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import WorkspaceBadge from "./WorkspaceBadge";
-import useExplorerHistoryStore from "@/stores/explorerHistoryStore";
-import useHistoryManager from "@/hooks/useHistoryManager";
-import useExplorerManager from "@/hooks/useExplorerManager";
+import useHistoryManager from "@/hooks/managers/useHistoryManager";
+import useExplorerManager from "@/hooks/managers/useExplorerManager";
 
 export default function WorkspaceHistory() {
-  const { history, selectedNode } = useExplorerHistoryStore();
-  const { popHistory } = useHistoryManager();
-  const { selectNode } = useExplorerManager();
+  const { popHistory, history } = useHistoryManager();
+  const { selectNode, selectedNode } = useExplorerManager();
 
   return (
     <div

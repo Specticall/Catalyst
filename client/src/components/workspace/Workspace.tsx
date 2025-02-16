@@ -1,12 +1,10 @@
-import WorkspaceOptions from "./request/options/WorkspaceOptions";
-import WorkspaceURLInput from "./request/WorkspaceURLInput";
 import WorkspaceGroup from "./group/WorkspaceGroup";
 import WorkspaceCollection from "./collection/WorkspaceCollection";
-import WorkspaceResponse from "./response/WorkspaceResponse";
-import useExplorerHistoryStore from "@/stores/explorerHistoryStore";
+import useExplorerManager from "@/hooks/managers/useExplorerManager";
+import WorkspaceRequest from "./request/options/WorkspaceRequest";
 
 export default function Workspace() {
-  const { selectedNode } = useExplorerHistoryStore();
+  const { selectedNode } = useExplorerManager();
 
   if (!selectedNode) {
     return <div></div>;
@@ -20,11 +18,5 @@ export default function Workspace() {
     return <WorkspaceCollection activeCollectionNode={selectedNode} />;
   }
 
-  return (
-    <div aria-label="request-workspace-container">
-      <WorkspaceURLInput />
-      <WorkspaceOptions />
-      <WorkspaceResponse />
-    </div>
-  );
+  return <WorkspaceRequest />;
 }

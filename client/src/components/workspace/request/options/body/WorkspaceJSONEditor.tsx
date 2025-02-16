@@ -1,14 +1,22 @@
 import "@/css/jsoneditor.css";
-import { useWorkspace } from "@/context/workspace/WorkspaceProvider";
 import useCodeEditor from "@/hooks/useCodeEditor";
+import useRequestManager from "@/hooks/managers/useRequestManager";
+import useControlledAsyncInputState from "@/hooks/useControlledAsyncInputState";
 
 export default function WorkspaceJSONEditor() {
-  const { dispatch, state } = useWorkspace();
-  const containerRef = useCodeEditor({
-    onChangeText: (val) => {
-      dispatch({ type: "change/body", payload: val });
+  const { changeBody, body, requestQuery } = useRequestManager();
+
+  const [json, setJson] = useControlledAsyncInputState({
+    onChange: (value) => {
+      if (requestQuery.isRefetching) return;
+      changeBody(value);
     },
-    value: state.bodyJSON,
+    value: body,
+  });
+
+  const containerRef = useCodeEditor({
+    onChangeText: setJson,
+    value: json,
   });
 
   return <div ref={containerRef} className="h-full"></div>;

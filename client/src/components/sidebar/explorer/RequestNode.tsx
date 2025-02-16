@@ -1,8 +1,7 @@
 import { cn } from "@/utils/lib";
 import { ExplorerTreeNodeRequest } from "./explorerTree";
 import HTTPMethodBadge from "@/components/ui/HTTPMethodBadge";
-import useExplorerHistoryStore from "@/stores/explorerHistoryStore";
-import useExplorerManager from "@/hooks/useExplorerManager";
+import useExplorerManager from "@/hooks/managers/useExplorerManager";
 
 type Props = {
   node: ExplorerTreeNodeRequest;
@@ -10,8 +9,7 @@ type Props = {
 };
 
 export default function RequestNode({ node, indentStyle }: Props) {
-  const { selectedNode } = useExplorerHistoryStore();
-  const { selectNode } = useExplorerManager();
+  const { selectNode, selectedNode } = useExplorerManager();
   return (
     <div
       aria-label="request-node"

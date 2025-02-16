@@ -4,7 +4,7 @@ import GroupNode from "./GroupNode";
 import CollectionNode from "./CollectionNode";
 import RequestNode from "./RequestNode";
 import React from "react";
-import useExplorerManager from "@/hooks/useExplorerManager";
+import useExplorerManager from "@/hooks/managers/useExplorerManager";
 
 const INDENT_PX = 16;
 

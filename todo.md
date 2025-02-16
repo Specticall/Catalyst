@@ -1,3 +1,6 @@
+PRIO:
+[] Change multi endpoint to one
+
 BUG:
 [V] Incorrect JSON formatting causes the app to crash on request sent
 [] Able to send empty request

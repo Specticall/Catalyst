@@ -1,7 +1,8 @@
-import { AxiosResponse } from "axios";
+import { AxiosResponse, RawAxiosRequestHeaders } from "axios";
 import clsx, { ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { SuccessReponse } from "./types";
+import { Request } from "./types";
 
 export function cn(...classNames: ClassValue[]) {
   return twMerge(clsx(classNames));
@@ -9,6 +10,7 @@ export function cn(...classNames: ClassValue[]) {
 
 export function isValidJSON(json: string) {
   try {
+    if (json === "") return true;
     return Boolean(JSON.parse(json));
   } catch {
     return false;

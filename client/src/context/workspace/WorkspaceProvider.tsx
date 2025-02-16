@@ -50,10 +50,8 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
     state: { selectedId, currentWorkingDirectory: cwd },
   } = useExplorer();
 
-  const { requestQuery } = useRequestQuery({
+  const requestQuery = useRequestQuery({
     requestId: selectedId,
-    isRequest: cwd.at(-1)?.type === "request",
-    onSettled: (data) => dispatch({ type: "load/data", payload: data }),
   });
 
   const { changeMethod, save, sendRequest } = useWorkspaceUpdater({

@@ -25,7 +25,7 @@ export default function Checkbox({
       )}
       onClick={() => {
         setChecked((cur) => !cur);
-        if (onCheck) onCheck(!checked);
+        if (onCheck) onCheck(!val);
       }}
     >
       {

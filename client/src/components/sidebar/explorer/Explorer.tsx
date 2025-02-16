@@ -1,15 +1,13 @@
 import { RecursiveExplorerTree } from "./RecursiveExplorerTree";
 import ExplorerLoader from "./ExplorerLoader";
-import useExplorerManager from "@/hooks/useExplorerManager";
+import useExplorerManager from "@/hooks/managers/useExplorerManager";
 import useWorkspaceQuery from "@/hooks/queries/useWorkspaceQuery";
-import useExplorerHistoryStore from "@/stores/explorerHistoryStore";
 
 export const INDENT_PX = 16;
 
 export default function Explorer() {
   const explorerManager = useExplorerManager();
   const { data, isPending } = useWorkspaceQuery();
-  const { selectedId } = useExplorerHistoryStore();
 
   if (!data || isPending) {
     return <ExplorerLoader />;
@@ -20,7 +18,7 @@ export default function Explorer() {
       <div className="absolute inset-0 ">
         <RecursiveExplorerTree
           explorerManager={explorerManager}
-          selectedId={selectedId}
+          selectedId={explorerManager.selectedNode?.id}
           content={data.explorer}
           depth={0}
         />

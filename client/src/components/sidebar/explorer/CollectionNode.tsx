@@ -4,8 +4,7 @@ import { ExplorerTreeNodeCollection } from "./explorerTree";
 import { cn } from "@/utils/lib";
 import NodeOptionsPopover from "./NodeOptionsPopover";
 import NodeOpenStateToggler from "./NodeOpenStateToggler";
-import useExplorerManager from "@/hooks/useExplorerManager";
-import useExplorerHistoryStore from "@/stores/explorerHistoryStore";
+import useExplorerManager from "@/hooks/managers/useExplorerManager";
 
 type Props = {
   node: ExplorerTreeNodeCollection;
@@ -13,8 +12,7 @@ type Props = {
 };
 
 export default function CollectionNode({ node, indentStyle }: Props) {
-  const { selectedNode } = useExplorerHistoryStore();
-  const { toggleOpenState, selectNode } = useExplorerManager();
+  const { toggleOpenState, selectNode, selectedNode } = useExplorerManager();
 
   return (
     <div

@@ -2,7 +2,7 @@ import { useWorkspace } from "@/context/workspace/WorkspaceProvider";
 import WorkspaceBreadcrumbs from "./request/WorkspaceBreadcrumbs";
 import WorkspaceHistory from "./request/WorkspaceHistory";
 import Workspace from "./Workspace";
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 export default function WorkspaceLayout() {
   const {

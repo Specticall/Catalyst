@@ -1,17 +1,17 @@
-import { useWorkspace } from "@/context/workspace/WorkspaceProvider";
 import WorkspaceResponseBody from "./WorkspaceResponseBody";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import useRequestManager from "@/hooks/managers/useRequestManager";
 
 type Props = {
   opts: string;
 };
 export default function WorkspaceResponseContent({ opts }: Props) {
-  const { state } = useWorkspace();
-  const fetchData = state.data?.data || state.error?.response?.data;
+  const { responseData, responseError, isLoadingResponse } =
+    useRequestManager();
 
-  if (state.isFetching) {
+  if (isLoadingResponse) {
     return (
-      <div className="flex-1 w-full flex items-center flex-col justify-center min-h-[25rem]">
+      <div className="flex-1 w-full flex items-center flex-col justify-center">
         <div className="loader"></div>
         <p className="text-primary text-2xl mt-4 font-semibold">
           Fetching Data
@@ -23,7 +23,7 @@ export default function WorkspaceResponseContent({ opts }: Props) {
     );
   }
 
-  if (!state.data) {
+  if (!responseData && !responseError) {
     return (
       <div className="text-center py-8 flex items-center justify-center flex-col">
         <div className="bg-base border border-border rounded-sm w-20 h-20 flex items-center justify-center mb-4">
@@ -39,13 +39,13 @@ export default function WorkspaceResponseContent({ opts }: Props) {
   }
 
   if (opts === "JSON") {
-    return <WorkspaceResponseBody data={fetchData} />;
+    return <WorkspaceResponseBody data={responseData || responseError} />;
   }
 
   if (opts === "Raw") {
     return (
       <div className="px-4 py-4 leading-[200%] text-primary whitespace-normal">
-        {JSON.stringify(fetchData)}
+        {JSON.stringify(responseData || responseError || {})}
       </div>
     );
   }
