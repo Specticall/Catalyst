@@ -13,37 +13,50 @@ import { HistoryNode } from "@/context/explorer/explorerTypes";
 import useExplorerCreateMutation from "../mutation/useExplorerCreateMutation";
 import useExplorerUpdateMutation from "../mutation/useExplorerUpdateMutation";
 import useRequestMutation from "../mutation/useRequestMutation";
+import useExplorerDeleteMutation from "../mutation/useExplorerDeleteMutation";
 
 export default function useExplorerManager() {
   const queryClient = useQueryClient();
   const { pushHistory, history, setHistory } = useHistoryManager();
   const store = useExplorerStore();
   const { updateWorkspaceOptimistically } = useExplorerUpdateMutation();
+  const { deleteExplorerNodeOptimistically } = useExplorerDeleteMutation();
   const { updateRequestOptimistically } = useRequestMutation();
   const { createExplorerNodeOptimistically } = useExplorerCreateMutation();
 
   const data = queryClient.getQueryData<Workspace>([QUERY_KEYS.WORKSPACE]);
 
+  // Internal usage only : changes node focus
+  const _changeFocus = (
+    newExplorer: ExplorerTreeNode[],
+    targetNode: HistoryNode
+  ) => {
+    store.setSelectedNode(targetNode);
+    store.setCwd(Explorer.getNodePath(newExplorer, targetNode.id));
+    pushHistory(targetNode);
+  };
+
   const insertRequest = (targetId: string) => {
+    if (!data) return;
     const newNode: ExplorerTreeNode = {
       type: "request",
       httpMethod: "GET",
       id: v4(),
       title: "New Request",
     };
+    const newExplorer = Explorer.insertNode(data.explorer, targetId, newNode);
+    _changeFocus(newExplorer, newNode);
 
     createExplorerNodeOptimistically((current) => {
-      pushHistory(newNode);
-      store.setCwd(Explorer.getNodePath(current.explorer, newNode.id));
-      store.setSelectedNode(newNode);
       return {
         ...current,
-        explorer: Explorer.insertNode(current.explorer, targetId, newNode),
+        explorer: newExplorer,
       };
     }, newNode);
   };
 
   const insertCollection = () => {
+    if (!data) return;
     const newNode: ExplorerTreeNode = {
       type: "collection",
       id: v4(),
@@ -51,16 +64,20 @@ export default function useExplorerManager() {
       title: "New Collection",
       children: [],
     };
-    store.setSelectedNode(newNode);
-    updateWorkspaceOptimistically((current) => {
+
+    const newExplorer = [...data.explorer, newNode];
+    _changeFocus(newExplorer, newNode);
+
+    createExplorerNodeOptimistically((current) => {
       return {
         ...current,
-        explorer: [...current.explorer, newNode],
+        explorer: newExplorer,
       };
-    });
+    }, newNode);
   };
 
   const insertGroup = (targetId: string) => {
+    if (!data) return;
     const newNode: ExplorerTreeNode = {
       type: "group",
       id: v4(),
@@ -68,22 +85,64 @@ export default function useExplorerManager() {
       title: "New Group",
       children: [],
     };
-    updateWorkspaceOptimistically((current) => {
-      pushHistory(newNode);
-      store.setCwd(Explorer.getNodePath(current.explorer, newNode.id));
-      store.setSelectedNode(newNode);
+
+    const newExplorer = Explorer.insertNode(data.explorer, targetId, newNode);
+    _changeFocus(newExplorer, newNode);
+
+    createExplorerNodeOptimistically((current) => {
       return {
         ...current,
-        explorer: Explorer.insertNode(current.explorer, targetId, newNode),
+        explorer: newExplorer,
       };
-    });
+    }, newNode);
+  };
+
+  const deleteNode = (targetId: string) => {
+    if (!data) return;
+    const newExplorer = Explorer.popNode(data.explorer, targetId);
+    const nodeDeleteCandidate = Explorer.findNode(data.explorer, targetId);
+
+    let childrenIds: string[] | undefined;
+    if (
+      nodeDeleteCandidate?.type !== "request" &&
+      nodeDeleteCandidate?.children
+    ) {
+      childrenIds = Explorer.traverseAllNodes(
+        nodeDeleteCandidate?.children
+      ).map((node) => node.id);
+    }
+    // Cleans the history from the deleted nodes
+    const newHistory = Explorer.trimHistoryNodes(newExplorer, history);
+    setHistory(newHistory);
+
+    // console.log({ prev: history, new: newHistory });
+
+    // Updates the cwd
+    // Checks if the cwd's latest node still exist in the history
+    const cwdStillValid = newHistory.some(
+      (history) => history.id === store.cwd.at(-1)?.id
+    );
+    if (!cwdStillValid) {
+      const cwdCandidate = newHistory.at(-1);
+      store.setSelectedNode(cwdCandidate);
+      if (cwdCandidate) {
+        store.setCwd(Explorer.getNodePath(newExplorer, cwdCandidate.id));
+      }
+    }
+
+    deleteExplorerNodeOptimistically(
+      (current) => ({
+        ...current,
+        explorer: newExplorer,
+      }),
+      targetId,
+      childrenIds
+    );
   };
 
   const selectNode = (node: HistoryNode) => {
     if (!data) return;
-    store.setSelectedNode(node);
-    store.setCwd(Explorer.getNodePath(data.explorer, node.id));
-    pushHistory(node);
+    _changeFocus(data.explorer, node);
   };
 
   const toggleOpenState = (targetId: string) => {
@@ -101,13 +160,16 @@ export default function useExplorerManager() {
         : hist;
     });
 
+    const newExplorer = Explorer.changeNodeName(data.explorer, node.id, name);
     if (store.selectedNode) {
-      store.setCwd(Explorer.getNodePath(data?.explorer, store.selectedNode.id));
+      const newCwd = Explorer.getNodePath(newExplorer, store.selectedNode.id);
+      store.setCwd(newCwd);
+      store.setSelectedNode(newCwd.at(-1));
     }
     setHistory(newHistory);
     updateWorkspaceOptimistically((cur) => ({
       ...cur,
-      explorer: Explorer.changeNodeName(data.explorer, node.id, name),
+      explorer: newExplorer,
     }));
   };
 
@@ -157,5 +219,6 @@ export default function useExplorerManager() {
     selectNode,
     updateNodeName,
     updateMethod,
+    deleteNode,
   };
 }

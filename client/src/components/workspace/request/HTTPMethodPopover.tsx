@@ -2,7 +2,6 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import HTTPMethodBadge from "../../ui/HTTPMethodBadge";
 import { Popover, PopoverContent, PopoverTrigger } from "../../ui/Popover";
 import { HTTPMethods } from "../../sidebar/explorer/explorerTree";
-import { useWorkspace } from "@/context/workspace/WorkspaceProvider";
 import { cn } from "@/utils/lib";
 import { useState } from "react";
 import useExplorerManager from "@/hooks/managers/useExplorerManager";

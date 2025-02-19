@@ -1,4 +1,4 @@
-import { AppError } from "../utils/http/AppError";
+import { AppError } from "../utils/errors/AppError";
 import { ErrorRequestHandler } from "express";
 
 const IS_PRODUCTION = process.env.ENVIROMENT === "PROD";

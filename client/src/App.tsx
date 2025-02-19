@@ -1,14 +1,22 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import ExplorerProvider from "./context/explorer/ExplorerProvider";
-import { WorkspaceProvider } from "./context/workspace/WorkspaceProvider";
 import FileExplorer from "./components/sidebar/explorer/Explorer";
 import WorkspaceLayout from "./components/workspace/WorkspaceLayout";
 import ExplorerHeader from "./components/sidebar/explorer/ExplorerHeader";
+import { DialogComponents, DialogProvider } from "./components/ui/Dialog";
+import CookiesDialog from "./components/cookies/CookiesDialog";
+import ToastProvider from "./components/ui/Toast";
+
+export const dialogs = [
+  {
+    name: "cookie",
+    component: <CookiesDialog />,
+  },
+] as const satisfies DialogComponents;
 
 export default function App() {
   return (
-    <ExplorerProvider>
-      <WorkspaceProvider>
+    <ToastProvider>
+      <DialogProvider components={dialogs}>
         <div className="min-h-screen w-full bg-base">
           <div className="min-h-screen flex flex-col">
             <header className="py-2 bg-foreground px-4 border-b border-border text-white">
@@ -31,7 +39,7 @@ export default function App() {
             </main>
           </div>
         </div>
-      </WorkspaceProvider>
-    </ExplorerProvider>
+      </DialogProvider>
+    </ToastProvider>
   );
 }

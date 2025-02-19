@@ -1,3 +1,6 @@
+import cookieRouter from "./cookieRouter";
+import proxyRouter from "./proxyRouter";
+import explorerRouter from "./explorerRouter";
 import requestRouter from "./requestRouter";
 import workspaceRouter from "./workspaceRouter";
 import { Router } from "express";
@@ -18,5 +21,10 @@ router.get("/", (_, response) => {
 
 router.use("/workspaces", workspaceRouter);
 router.use("/requests", requestRouter);
+router.use("/explorers", explorerRouter);
+
+router.use("/proxy", proxyRouter);
+
+router.use("/cookies", cookieRouter);
 
 export default router;

@@ -1,34 +1,27 @@
 import useRequestStore from "@/stores/requestStore";
 import useRequestQuery from "./queries/useRequestQuery";
 import useExplorerManager from "./managers/useExplorerManager";
-import axios, { isAxiosError, RawAxiosRequestHeaders } from "axios";
 import { isValidJSON } from "@/utils/lib";
-import { Request } from "@/utils/types";
-
-function serializeHeaders(headers: Request["headers"]) {
-  return headers.reduce((res: Record<string, unknown>, cur) => {
-    if (!cur.key) return res;
-    if (cur.enabled) {
-      res[cur.key] = cur.value;
-    }
-    return res;
-  }, {}) as RawAxiosRequestHeaders;
-}
+import { ProxyServerResponse, SuccessReponse, Workspace } from "@/utils/types";
+import { API } from "@/utils/API";
+import { Explorer } from "@/utils/Explorer";
+import { QUERY_KEYS } from "@/utils/queryKeys";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function useWorkspaceSendRequest() {
   const { selectedNode } = useExplorerManager();
   const requestQuery = useRequestQuery({
     requestId: selectedNode?.id,
   });
-  const {
-    setResponseData,
-    setResponseError,
-    setIsLoadingResponse,
-    setIsInvalidJSON,
-  } = useRequestStore();
+  const { setResponseData, setIsLoadingResponse, setIsInvalidJSON } =
+    useRequestStore();
+  const queryClient = useQueryClient();
+
+  const workspace = queryClient.getQueryData<Workspace>([QUERY_KEYS.WORKSPACE]);
 
   const sendRequest = async () => {
     try {
+      if (!workspace) return;
       setIsLoadingResponse(true);
       setIsInvalidJSON(false);
       const data = requestQuery.data;
@@ -47,19 +40,21 @@ export default function useWorkspaceSendRequest() {
         return;
       }
 
-      const response = await axios({
-        url: data.url,
-        data: data.body ? JSON.parse(data.body) : undefined,
-        method: data.method,
-        headers: serializeHeaders(data.headers),
-      });
-      setResponseData(response);
-      setResponseError(undefined);
+      const response = await API.post<SuccessReponse<ProxyServerResponse>>(
+        "/proxy",
+        {
+          requestData: data,
+          collectionId: Explorer.findCollectionParent(
+            workspace.explorer,
+            data.id
+          )?.id,
+        }
+      );
+      const responseData = response.data.data;
+      setResponseData(responseData);
     } catch (err) {
-      if (isAxiosError(err)) {
-        setResponseError(err);
-      }
-      setResponseData(undefined);
+      // SOMETHING WENT WRONG WITH THE PROXY SERVER (TODO)
+      console.log("SOMETHING WENT WRONG WITH THE PROXY SERVER", err);
     } finally {
       setIsLoadingResponse(false);
     }

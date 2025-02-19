@@ -13,12 +13,3 @@ model UserWorkspace {
   workspace Workspace @relation(fields: [workspaceId], references: [id])
   user      User      @relation(fields: [userId], references: [id])
 }
-
-model Request {
-  id      String     @id
-  name    String
-  method  HttpMethod
-  body    Json
-  headers Json
-  url     String
-}

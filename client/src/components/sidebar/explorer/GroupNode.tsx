@@ -23,7 +23,7 @@ export default function GroupNode({ node, indentStyle }: Props) {
       }}
       style={indentStyle}
       className={cn(
-        "group text-primary mb-2 py-1.5 cursor-pointer flex items-center w-full transition-all duration-100 rounded-md pr-2",
+        " text-primary mb-2 py-1.5 cursor-pointer flex items-center w-full transition-all duration-100 rounded-md pr-2",
         selectedNode?.id === node.id ? "bg-highlight" : "hover:bg-highlight/30"
       )}
     >
@@ -35,7 +35,7 @@ export default function GroupNode({ node, indentStyle }: Props) {
       <Icon icon={"material-symbols:folder-outline"} className="text-xl mr-3" />
 
       {node.title}
-      <div className="flex justify-end items-center flex-1 opacity-0 group-hover:opacity-100 transition duration-200">
+      <div className="flex justify-end items-center flex-1">
         <NodeOptionsPopover currentNodeId={node.id} />
       </div>
     </div>

@@ -24,7 +24,7 @@ export default function CollectionNode({ node, indentStyle }: Props) {
       }}
       style={indentStyle}
       className={cn(
-        "group text-primary mb-2 cursor-pointer flex items-center w-full transition-all duration-100 rounded-md pr-2",
+        " text-primary mb-2 cursor-pointer flex items-center w-full transition-all duration-100 rounded-md pr-2",
         selectedNode?.id === node.id ? "bg-highlight" : "hover:bg-highlight/30"
       )}
     >
@@ -37,7 +37,7 @@ export default function CollectionNode({ node, indentStyle }: Props) {
         <Icon icon={"bx:collection"} className="text-xl" />
       </div>
       {node.title}
-      <div className="flex-1 flex justify-end opacity-0 group-hover:opacity-100 transition duration-200">
+      <div className="flex-1 flex justify-end">
         <NodeOptionsPopover currentNodeId={node.id} />
       </div>
     </div>

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { RequestsController } from "../controllers";
+import { getRequest, updateRequest } from "../controllers/RequestController";
 
 const requestRouter = Router();
 
@@ -7,8 +7,7 @@ const requestRouter = Router();
  * Insert your routes here
  * @example exampleRouter.get("/", getExample)
  */
-requestRouter.get("/:requestId", RequestsController.getRequests);
-requestRouter.post("/:requestId", RequestsController.createRequests);
-requestRouter.put("/", RequestsController.updateRequests);
+requestRouter.get("/:requestId", getRequest);
+requestRouter.put("/", updateRequest);
 
 export default requestRouter;

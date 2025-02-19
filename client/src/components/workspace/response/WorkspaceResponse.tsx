@@ -23,7 +23,7 @@ function WorkspaceResponse(
       )}
     >
       <WorkspaceResponseStats />
-      <ul className="flex px-4 gap-8 mt-1 text-secondary">
+      <ul className="flex px-4 gap-8 border-b border-border mt-1 text-secondary">
         {responseDisplayOpts.map((opt, i) => {
           return (
             <li
@@ -45,9 +45,6 @@ function WorkspaceResponse(
           );
         })}
       </ul>
-      <div className="px-4 border-t border-b border-border py-3 text-secondary">
-        <p>Response Body</p>
-      </div>
       {isLoadingResponse && <div className="loader-bar w-full"></div>}
       <div className="flex items-center justify-center relative flex-1">
         <div className="absolute inset-0 overflow-auto" data-response-container>

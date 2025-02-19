@@ -1,0 +1,36 @@
+model Request {
+  id      String     @id
+  name    String
+  method  HttpMethod
+  body    Json
+  headers Json
+  url     String
+}
+
+// model CollectionCookies {
+//   id           Int      @id @default(autoincrement())
+//   domain       String   @unique
+//   cookies      String[]
+//   collectionId String
+// }
+
+model CollectionCookie {
+  id           Int       @id @default(autoincrement())
+  domain       String
+  path         String    @default("/")
+  name         String
+  value        String
+  expiration   DateTime?
+  maxAge       Int?
+  secure       Boolean   @default(false)
+  httpOnly     Boolean   @default(false)
+  sameSite     SameSite?
+  createdAt    DateTime  @default(now())
+  collectionId String
+}
+
+enum SameSite {
+  Strict
+  Lax
+  None
+}

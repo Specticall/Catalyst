@@ -15,10 +15,11 @@ export default function useExplorerCreateMutation() {
       workspace: Workspace;
       newNode: ExplorerTreeNode;
     }) => {
-      return Promise.all([
-        API.put("/workspaces/1", workspace),
-        API.post(`/requests/${newNode.id}`),
-      ]);
+      const createRequestQuery =
+        newNode.type === "request" ? "?new-request=true" : "";
+      return API.put(`/explorers/create/${newNode.id}${createRequestQuery}`, {
+        workspace,
+      });
     },
     onMutate: async (data) => {
       await queryClient.cancelQueries({ queryKey: [QUERY_KEYS.WORKSPACE] });

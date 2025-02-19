@@ -26,4 +26,29 @@ export type Request = {
   method: HTTPMethods;
   name: string;
   url: string;
+  cookies: string[];
+};
+export type ProxyServerResponse =
+  | {
+      size: number;
+      statusCode: number | undefined;
+      statusMessage: string;
+      data: unknown;
+    }
+  | undefined;
+
+type SameSite = "Lax" | "None" | "Strict";
+
+export type Cookie = {
+  id: number;
+  domain: string;
+  path: string;
+  name: string;
+  value: string;
+  expiration?: Date;
+  maxAge?: number;
+  secure: boolean;
+  httpOnly: boolean;
+  sameSite?: SameSite;
+  collectionId: string;
 };

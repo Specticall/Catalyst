@@ -27,8 +27,9 @@ export default function useHistoryManager() {
         setCwd([]);
       }
       setSelectedNode(newSelectedNode);
-      setHistory(newHistory);
     }
+
+    setHistory(newHistory);
   };
 
   const pushHistory = (node: HistoryNode) => {

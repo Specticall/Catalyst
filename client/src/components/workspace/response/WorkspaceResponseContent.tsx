@@ -5,18 +5,13 @@ import useRequestManager from "@/hooks/managers/useRequestManager";
 type Props = {
   opts: string;
 };
+
 export default function WorkspaceResponseContent({ opts }: Props) {
-  const { responseData, responseError, isLoadingResponse } =
-    useRequestManager();
-  const data =
-    responseData?.data ||
-    responseError?.response?.data ||
-    responseError?.response ||
-    {};
+  const { responseData, isLoadingResponse } = useRequestManager();
 
   if (isLoadingResponse) {
     return (
-      <div className="flex-1 w-full flex items-center flex-col justify-center">
+      <div className="flex-1 w-full h-full flex items-center flex-col justify-center">
         <div className="loader"></div>
         <p className="text-primary text-2xl mt-4 font-semibold">
           Fetching Data
@@ -28,10 +23,10 @@ export default function WorkspaceResponseContent({ opts }: Props) {
     );
   }
 
-  if (!responseData && !responseError) {
+  if (!responseData) {
     return (
-      <div className="text-center py-8 flex items-center justify-center flex-col">
-        <div className="bg-base border border-border rounded-sm w-20 h-20 flex items-center justify-center mb-4">
+      <div className="h-full bg-gradient-to-t from-black/25 from-20% to-80% to-transparent text-center py-8 flex items-center justify-center flex-col">
+        <div className="bg-base border border-border rounded-sm w-20 min-h-20 flex items-center justify-center mb-4">
           <Icon
             icon={"radix-icons:rocket"}
             className="text-[3rem] text-white"
@@ -44,13 +39,13 @@ export default function WorkspaceResponseContent({ opts }: Props) {
   }
 
   if (opts === "JSON") {
-    return <WorkspaceResponseBody data={data} />;
+    return <WorkspaceResponseBody data={responseData.data} />;
   }
 
   if (opts === "Raw") {
     return (
       <div className="px-4 py-4 leading-[200%] text-primary whitespace-normal">
-        {JSON.stringify(data)}
+        {JSON.stringify(responseData.data)}
       </div>
     );
   }

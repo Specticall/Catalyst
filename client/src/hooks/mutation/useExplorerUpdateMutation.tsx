@@ -8,7 +8,7 @@ export default function useExplorerUpdateMutation() {
 
   const explorerUpdateMutation = useMutation({
     mutationFn: (data: Workspace) => {
-      return API.put("/workspaces/1", data);
+      return API.put("/explorers", { workspace: { ...data, workspaceId: 1 } });
     },
     onMutate: async (data) => {
       await queryClient.cancelQueries({ queryKey: [QUERY_KEYS.WORKSPACE] });

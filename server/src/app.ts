@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import router from "./routes";
-import { AppError } from "./utils/http/AppError";
+import { AppError } from "./utils/errors/AppError";
 import { STATUS } from "./utils/http/statusCodes";
 import { ErrorController } from "./controllers";
 

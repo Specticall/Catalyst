@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { WorkspaceController } from "../controllers";
+import { getWorkspace } from "../controllers/WorkspaceController";
 
 const workspaceRouter = Router();
 
@@ -7,7 +7,6 @@ const workspaceRouter = Router();
  * Insert your routes here
  * @example exampleRouter.get("/", getExample)
  */
-workspaceRouter.put("/:workspaceId", WorkspaceController.updateWorkspace);
-workspaceRouter.get("/:workspaceId", WorkspaceController.getWorkspace);
+workspaceRouter.get("/:workspaceId", getWorkspace);
 
 export default workspaceRouter;

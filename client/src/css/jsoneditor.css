@@ -2110,3 +2110,12 @@ div.jsoneditor-statusbar > .jsoneditor-size-info {
 .ace-jsoneditor .ace_marker-layer .ace_selection {
   background-color: #202024;
 }
+
+.ace_editor,
+.ace_editor * {
+  /* font-family: "Monaco", "Menlo", "Ubuntu Mono", "Droid Sans Mono", "Consolas",
+    monospace !important; */
+  font-size: 16px !important;
+  /* font-weight: 400 !important; */
+  /* letter-spacing: 0 !important; */
+}

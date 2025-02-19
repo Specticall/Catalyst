@@ -3,6 +3,18 @@
 @import "./css/loader.css";
 @import "./css/loader-bar.css";
 
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 * {
   font-family: "Hanken Grotesk";
   box-sizing: border-box;
@@ -23,4 +35,6 @@
   --color-highlight: #202024;
   --color-highlight-green: #78ffa5;
   --color-accent: #2d3abf;
+  --color-accent-foreground: #25266b;
+  --color-accent-highlight: #788aff;
 }
