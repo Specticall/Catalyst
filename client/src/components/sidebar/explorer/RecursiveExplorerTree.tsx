@@ -5,8 +5,7 @@ import CollectionNode from "./CollectionNode";
 import RequestNode from "./RequestNode";
 import React from "react";
 import useExplorerManager from "@/hooks/managers/useExplorerManager";
-
-const INDENT_PX = 24;
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 export function RecursiveExplorerTree({
   depth = 0,
@@ -43,12 +42,22 @@ export function RecursiveExplorerTree({
         >
           <div className="overflow-hidden pl-[15px]">
             <div className=" border-l grid gap-1 border-border w-full pl-2">
-              <RecursiveExplorerTree
-                explorerManager={explorerManager}
-                content={node.children}
-                selectedId={selectedId}
-                depth={depth + 1}
-              />
+              {node.children?.length > 0 ? (
+                <RecursiveExplorerTree
+                  explorerManager={explorerManager}
+                  content={node.children}
+                  selectedId={selectedId}
+                  depth={depth + 1}
+                />
+              ) : (
+                <div className="flex items-center justify-center py-4 min-h-16 flex-col">
+                  <Icon
+                    icon={"system-uicons:box-open"}
+                    className="text-[4rem] text-border"
+                  />
+                  <p className="text-secondary/80 mt-1">Group is empty</p>
+                </div>
+              )}
             </div>
           </div>
         </div>

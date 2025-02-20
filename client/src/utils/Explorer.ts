@@ -1,6 +1,4 @@
 import {
-  contentTree,
-  // contentTree,
   ExplorerTreeNode,
   HTTPMethods,
 } from "@/components/sidebar/explorer/explorerTree";

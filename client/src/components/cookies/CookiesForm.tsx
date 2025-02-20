@@ -5,13 +5,10 @@ import CookiesSameSiteDropdown from "./CookiesSameSiteDropdown";
 import { Controller } from "react-hook-form";
 import useCookieForm from "@/hooks/forms/useCookieForm";
 import useCookieEditor from "@/stores/cookieEditorStore";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
-type Props = {
-  collectionId: string;
-};
-
-export default function CookiesForm({ collectionId }: Props) {
-  const { selectedId, activeDomain } = useCookieEditor();
+export default function CookiesForm() {
+  const { selectedId, activeDomain, collectionId } = useCookieEditor();
   const { control, errors, handleSubmit, register, isLoading, isSubmitting } =
     useCookieForm({
       cookieId: selectedId,
@@ -20,7 +17,21 @@ export default function CookiesForm({ collectionId }: Props) {
     });
 
   return (
-    <form className="p-8" onSubmit={handleSubmit}>
+    <form className="p-8 relative" onSubmit={handleSubmit}>
+      {!selectedId && !activeDomain && (
+        <div className="absolute inset-0 z-[60] bg-base/75 backdrop-blur-[4px] flex items-center justify-center flex-col ">
+          <div className="bg-base border border-border rounded-sm mb-4 p-3 ">
+            <Icon
+              icon="material-symbols:cookie-outline"
+              className="text-4xl text-white "
+            />
+          </div>
+          <p className="text-white text-2xl text-center">No Cookie Selected</p>
+          <p className="text-secondary text-center">
+            Select a cookie to configure or <span>create a new domain</span>
+          </p>
+        </div>
+      )}
       <div className="flex items-center gap-3">
         <h3 className="text-white text-xl">Configure Cookie</h3>
         {typeof activeDomain !== "undefined" && (

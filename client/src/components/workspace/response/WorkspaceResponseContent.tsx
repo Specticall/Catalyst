@@ -1,13 +1,27 @@
 import WorkspaceResponseBody from "./WorkspaceResponseBody";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import useRequestManager from "@/hooks/managers/useRequestManager";
+import { useEffect } from "react";
+import useExplorerManager from "@/hooks/managers/useExplorerManager";
 
 type Props = {
   opts: string;
 };
 
 export default function WorkspaceResponseContent({ opts }: Props) {
-  const { responseData, isLoadingResponse } = useRequestManager();
+  const { responseData, isLoadingResponse, setResponseData } =
+    useRequestManager();
+  const { selectedNode } = useExplorerManager();
+
+  // Load previous value from session storage
+  useEffect(() => {
+    if (!selectedNode) {
+      setResponseData(undefined);
+      return;
+    }
+    const prevValue = sessionStorage.getItem(selectedNode.id);
+    setResponseData(prevValue ? JSON.parse(prevValue) : undefined);
+  }, [selectedNode?.id, selectedNode, setResponseData]);
 
   if (isLoadingResponse) {
     return (

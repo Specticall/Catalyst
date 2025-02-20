@@ -1,6 +1,10 @@
+import Button from "@/components/ui/Button";
 import { requestOptionsData } from "@/context/workspace/WorkspaceProvider";
-import { RequestOptions } from "@/hooks/managers/useRequestManager";
+import useRequestManager, {
+  RequestOptions,
+} from "@/hooks/managers/useRequestManager";
 import { cn } from "@/utils/lib";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 type Props = {
   setActive: (value: RequestOptions) => void;
@@ -8,6 +12,7 @@ type Props = {
 };
 
 export default function WorkspaceOptionsSelector({ setActive, active }: Props) {
+  const { openCookieConfiguration } = useRequestManager();
   return (
     <ul className="flex border-b border-border mt-3 mx-4">
       {requestOptionsData.map((opt, i) => {
@@ -27,6 +32,19 @@ export default function WorkspaceOptionsSelector({ setActive, active }: Props) {
           </li>
         );
       })}
+      <div className="flex flex-1 justify-end items-center">
+        <Button
+          variant={"hollow"}
+          className="flex gap-2 py-1.5 mb-2 px-4 rounded-full"
+          onClick={openCookieConfiguration}
+        >
+          <Icon
+            icon="material-symbols:cookie-outline"
+            className="text-xl text-secondary"
+          />
+          View Cookies
+        </Button>
+      </div>
     </ul>
   );
 }

@@ -1,16 +1,14 @@
 import { dialogs } from "@/App";
-import { ExplorerTreeNode } from "@/components/sidebar/explorer/explorerTree";
+import Button from "@/components/ui/Button";
 import { useDialog } from "@/components/ui/Dialog";
 import EditableText from "@/components/ui/EditableText";
 import { HistoryNode } from "@/context/explorer/explorerTypes";
 import useExplorerManager from "@/hooks/managers/useExplorerManager";
+import { CookieDialogContext } from "@/hooks/managers/useRequestManager";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 type Props = {
   activeCollectionNode: HistoryNode;
-};
-
-export type CookieDialogContext = {
-  collectionNode: HistoryNode;
 };
 
 export default function WorkspaceCollection({ activeCollectionNode }: Props) {
@@ -18,8 +16,8 @@ export default function WorkspaceCollection({ activeCollectionNode }: Props) {
   const dialog = useDialog<typeof dialogs>();
   return (
     <div className="" aria-label="collection-workspace-container">
-      <div className="pb-6 px-8 border-b  border-border">
-        <p className="text-secondary">Collection</p>
+      <div className="pb-6 px-8 border-b gap-x-5 grid grid-cols-[auto_1fr] items-center border-border">
+        <p className="text-secondary col-span-2">Collection</p>
         <EditableText
           className="text-3xl mt-1 font-semibold w-fit"
           value={activeCollectionNode.title}
@@ -27,17 +25,22 @@ export default function WorkspaceCollection({ activeCollectionNode }: Props) {
             updateNodeName(activeCollectionNode, value);
           }}
         />
+        <Button
+          variant={"hollow"}
+          className="flex gap-2 py-1.5 px-4 rounded-full w-fit"
+          onClick={() => {
+            dialog.open("cookie", {
+              collectionNode: activeCollectionNode,
+            } satisfies CookieDialogContext);
+          }}
+        >
+          <Icon
+            icon="material-symbols:cookie-outline"
+            className="text-xl text-secondary"
+          />
+          View Cookies
+        </Button>
       </div>
-      <button
-        className="text-white"
-        onClick={() => {
-          dialog.open("cookie", {
-            collectionNode: activeCollectionNode,
-          } satisfies CookieDialogContext);
-        }}
-      >
-        SEE COOKIE
-      </button>
     </div>
   );
 }

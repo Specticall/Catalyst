@@ -165,9 +165,7 @@ export default function useExplorerManager() {
 
       const newExplorer = Explorer.changeNodeName(cur.explorer, node.id, name);
       if (store.selectedNode) {
-        const newCwd = Explorer.getNodePath(newExplorer, store.selectedNode.id);
-        store.setCwd(newCwd);
-        store.setSelectedNode(newCwd.at(-1));
+        _changeFocus(newExplorer, store.selectedNode);
       }
       setHistory(newHistory);
       return {

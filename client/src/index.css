@@ -23,6 +23,7 @@ input[type="number"] {
 @layer base {
   * {
     font-size: 14px;
+    font-weight: 500;
   }
 }
 
@@ -32,6 +33,7 @@ input[type="number"] {
   --color-secondary: #737b97;
   --color-border: #2a2c36;
   --color-foreground: #171717;
+  --color-dark: #141414;
   --color-highlight: #202024;
   --color-highlight-green: #78ffa5;
   --color-accent: #2d3abf;

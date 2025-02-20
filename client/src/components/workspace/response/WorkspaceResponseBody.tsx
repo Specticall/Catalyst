@@ -40,7 +40,9 @@ export default function WorkspaceResponseBody({ data }: Props) {
         onClick={handleLoadMore}
         // Only renders the load more button when the data / error has been fetched
         shouldRenderWhen={
-          Boolean(data) && highlighted.length > PARTIAL_INTERVAL
+          Boolean(data) &&
+          highlighted.length > PARTIAL_INTERVAL &&
+          renderedLineCount < highlighted.length
         }
       />
       <div className="[&_*]:!font-[JetBrains_Mono] ">

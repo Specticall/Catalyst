@@ -7,22 +7,29 @@ import { API } from "@/utils/API";
 import { Explorer } from "@/utils/Explorer";
 import { QUERY_KEYS } from "@/utils/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
+import { useToast } from "@/components/ui/Toast";
+import { isAxiosError } from "axios";
 
 export default function useWorkspaceSendRequest() {
   const { selectedNode } = useExplorerManager();
   const requestQuery = useRequestQuery({
     requestId: selectedNode?.id,
   });
-  const { setResponseData, setIsLoadingResponse, setIsInvalidJSON } =
-    useRequestStore();
+  const {
+    setResponseData,
+    setIsLoadingResponse,
+    setAbortController,
+    setIsInvalidJSON,
+  } = useRequestStore();
   const queryClient = useQueryClient();
+  const toast = useToast();
 
   const sendRequest = async () => {
     try {
       const workspace = queryClient.getQueryData<Workspace>([
         QUERY_KEYS.WORKSPACE,
       ]);
-      if (!workspace) return;
+      if (!workspace || !requestQuery.data?.url) return;
       setIsLoadingResponse(true);
       setIsInvalidJSON(false);
       const data = requestQuery.data;
@@ -41,6 +48,9 @@ export default function useWorkspaceSendRequest() {
         return;
       }
 
+      const abortController = new AbortController();
+      setAbortController(abortController);
+
       const response = await API.post<SuccessReponse<ProxyServerResponse>>(
         "/proxy",
         {
@@ -49,13 +59,24 @@ export default function useWorkspaceSendRequest() {
             workspace.explorer,
             data.id
           )?.id,
+        },
+        {
+          signal: abortController.signal,
         }
       );
       const responseData = response.data.data;
+      if (selectedNode?.id) {
+        sessionStorage.setItem(selectedNode?.id, JSON.stringify(responseData));
+      }
       setResponseData(responseData);
     } catch (err) {
-      // SOMETHING WENT WRONG WITH THE PROXY SERVER (TODO)
-      console.log("SOMETHING WENT WRONG WITH THE PROXY SERVER", err);
+      if (!isAxiosError(err)) return;
+      if (err.code === "ERR_CANCELED") {
+        toast.success("Request cancelled");
+      } else {
+        toast.error("Something went wrong with the proxy server");
+        console.log(err);
+      }
     } finally {
       setIsLoadingResponse(false);
     }

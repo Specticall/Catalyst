@@ -9,7 +9,7 @@ export default function WorkspaceBreadcrumbs() {
     useExplorerManager();
 
   if (!selectedNode) {
-    return <div>Something went wrong: Breadcrumb active node not found</div>;
+    return;
   }
 
   return (

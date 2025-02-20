@@ -1,11 +1,24 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useDialogContext } from "../ui/Dialog";
-import { CookieDialogContext } from "../workspace/collection/WorkspaceCollection";
+import { CookieDialogContext } from "@/hooks/managers/useRequestManager";
 import CookieViewer from "./CookieViewer";
 import CookiesForm from "./CookiesForm";
+import { useEffect } from "react";
+import useCookieEditor from "@/stores/cookieEditorStore";
 
 export default function CookiesDialog() {
   const { collectionNode } = useDialogContext<CookieDialogContext>();
+  const store = useCookieEditor();
+
+  // Resets the store when the cooke changes
+  // Since we're persisting the selections when the dialog closes, to prevent stale data when opening a new window, we need to compare its collection id to the one inside the store
+  useEffect(() => {
+    if (collectionNode.id !== store.collectionId) {
+      // Collection has changed!
+      store.reset();
+      store.setCollectionId(collectionNode.id);
+    }
+  }, [collectionNode, store]);
 
   return (
     <div className="bg-base w-full max-w-[70rem] rounded-lg my-16 border border-white/15 ">
@@ -22,8 +35,8 @@ export default function CookiesDialog() {
         </p>
       </div>
       <div className="grid grid-cols-2">
-        <CookieViewer collectionId={collectionNode.id} />
-        <CookiesForm collectionId={collectionNode.id} />
+        <CookieViewer />
+        <CookiesForm />
       </div>
     </div>
   );

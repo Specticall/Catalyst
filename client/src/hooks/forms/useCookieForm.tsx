@@ -23,7 +23,7 @@ export default function useCookieForm({
 }: {
   cookieId?: number;
   domain?: string;
-  collectionId: string;
+  collectionId?: string;
 }) {
   const { data, isPending } = useCookieDetailQuery({ cookieId });
   const { updateMutation, createMutation } = useCookieMutation();
@@ -46,6 +46,7 @@ export default function useCookieForm({
     },
   });
   const onSubmit: SubmitHandler<CookieFormValues> = (value) => {
+    if (!collectionId) return;
     const newValue = {
       ...value,
       maxAge: Number(value.maxAge),

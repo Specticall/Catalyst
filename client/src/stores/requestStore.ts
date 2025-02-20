@@ -10,25 +10,31 @@ export const requestOptionsData = [
 
 type RequestState = {
   responseData?: ProxyServerResponse;
-  // responseError?: AxiosError;
   isLoadingResponse: boolean;
   isInvalidJSON: boolean;
+  abortController?: AbortController;
+  abortRequest: () => void;
   setResponseData: (data?: ProxyServerResponse) => void;
-  // setResponseError: (data?: AxiosError) => void;
   setIsLoadingResponse: (value?: boolean) => void;
   setIsInvalidJSON: (value?: boolean) => void;
+  setAbortController: (controller?: AbortController) => void;
 };
 
-const useRequestStore = create<RequestState>((set) => ({
+const useRequestStore = create<RequestState>((set, get) => ({
   responseData: undefined,
-  // responseError: undefined,
   isLoadingResponse: false,
   isInvalidJSON: false,
+  abortController: new AbortController(),
   setResponseData: (data) => set((cur) => ({ ...cur, responseData: data })),
-  // setResponseError: (error) => set((cur) => ({ ...cur, responseError: error })),
   setIsLoadingResponse: (value) =>
     set((cur) => ({ ...cur, isLoadingResponse: value })),
   setIsInvalidJSON: (value) => set((cur) => ({ ...cur, isInvalidJSON: value })),
+  abortRequest: () => {
+    get().abortController?.abort();
+    set((cur) => ({ ...cur, abortController: undefined }));
+  },
+  setAbortController: (controller) =>
+    set((cur) => ({ ...cur, abortController: controller })),
 }));
 
 export default useRequestStore;

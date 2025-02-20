@@ -11,7 +11,7 @@ export type CompactCookie = Record<
 export default function useCookiesQuery({
   collectionId,
 }: {
-  collectionId: string;
+  collectionId?: string;
 }) {
   const cookiesQuery = useQuery({
     queryFn: async () => {
@@ -21,6 +21,8 @@ export default function useCookiesQuery({
       return res.data.data;
     },
     queryKey: [QUERY_KEYS.COOKIES, collectionId],
+    enabled: Boolean(collectionId),
+    staleTime: Infinity,
   });
 
   return cookiesQuery;

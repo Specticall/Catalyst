@@ -1,5 +1,4 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import React from "react";
 import { ExplorerTreeNodeGroup } from "./explorerTree";
 import { cn } from "@/utils/lib";
 import NodeOptionsPopover from "./NodeOptionsPopover";
@@ -20,9 +19,8 @@ export default function GroupNode({ node }: Props) {
         if (element.closest(".ignore-click")) return;
         selectNode(node);
       }}
-      // style={indentStyle}
       className={cn(
-        " text-primary mb-2 py-1.5 cursor-pointer flex items-center w-full transition-all duration-100 rounded-md pr-2",
+        " text-primary py-1.5 cursor-pointer flex items-center w-full transition-all duration-100 rounded-md pr-2",
         selectedNode?.id === node.id ? "bg-highlight" : "hover:bg-highlight/30"
       )}
     >

@@ -7,7 +7,7 @@ import useCookieEditor from "@/stores/cookieEditorStore";
 type Props = {
   cookies?: { name: string; id: number }[];
   domain: string;
-  collectionId: string;
+  collectionId?: string;
 };
 
 export default function CookieDomainList({
@@ -38,12 +38,13 @@ export default function CookieDomainList({
               <Icon
                 icon={"material-symbols:close-rounded"}
                 className="opacity-0 group-hover:opacity-100 transition duration-50 cursor-pointer hover:text-red-400"
-                onClick={() =>
+                onClick={() => {
+                  if (!collectionId) return;
                   deleteMutation.mutate({
                     cookieId: cookie.id,
                     collectionId,
-                  })
-                }
+                  });
+                }}
               />
             )}
           </div>

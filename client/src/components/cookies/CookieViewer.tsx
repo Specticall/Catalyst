@@ -9,12 +9,9 @@ import CookieDomainList from "./CookieDomainList";
 import useCookieEditor from "@/stores/cookieEditorStore";
 import Skeleton from "react-loading-skeleton";
 
-type Props = {
-  collectionId: string;
-};
-
-export default function CookieViewer({ collectionId }: Props) {
-  const { addTemporaryDomainName, temporaryDomainName } = useCookieEditor();
+export default function CookieViewer() {
+  const { addTemporaryDomainName, temporaryDomainName, collectionId } =
+    useCookieEditor();
   const { data } = useCookiesQuery({ collectionId });
   const queryClient = useQueryClient();
 
@@ -36,8 +33,8 @@ export default function CookieViewer({ collectionId }: Props) {
     return (
       <div className="relative p-8 border-border h-fit border-r">
         <div className="absolute z-50 inset-0  bg-gradient-to-t from-base to-transparent"></div>
-        {new Array(7).fill("x").map(() => {
-          return <Skeleton className="w-full h-12 mt-4" />;
+        {new Array(7).fill("x").map((_, i) => {
+          return <Skeleton key={i} className="w-full h-12 mt-4" />;
         })}
       </div>
     );
