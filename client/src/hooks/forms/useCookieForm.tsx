@@ -2,7 +2,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import useCookieDetailQuery from "../queries/useCookieDetailQuery";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import useCookieMutation from "../queries/useCookieMutation";
+import useCookieMutation from "../mutation/useCookieMutation";
 
 const cookieSchema = z.object({
   name: z.string().nonempty("This field can't be empty"),
@@ -73,6 +73,6 @@ export default function useCookieForm({
     handleSubmit: handleSubmit(onSubmit),
     isSubmitting: updateMutation.isPending || createMutation.isPending,
     // Only display loading state if a cookie is selected
-    isLoading: isPending && cookieId,
+    isLoading: Boolean(isPending && cookieId),
   };
 }

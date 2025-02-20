@@ -52,7 +52,7 @@ function Input(
           ref={ref}
           onBlur={onBlur}
           className={cn(
-            "border border-border bg-highlight rounded-sm w-full px-5 py-3 text-white disabled:text-slate-500 outline-none focus:border-accent-highlight transition placeholder:text-secondary disabled:cursor-not-allowed",
+            "border border-border bg-highlight rounded-sm w-full px-5 py-3 text-white disabled:text-slate-500 outline-none focus:border-primary transition placeholder:text-secondary disabled:cursor-not-allowed",
             errorMessage && "border-red-400 ",
             inputClassName
           )}
@@ -61,7 +61,7 @@ function Input(
       ) : (
         <Skeleton
           containerClassName="block leading-0"
-          height={"2.5rem"}
+          height={"3.125rem"}
           className="mt-0 block"
         />
       )}

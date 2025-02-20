@@ -6,10 +6,9 @@ import NodeOptionsPopoverRequest from "./NodeOptionsPopoverRequest";
 
 type Props = {
   node: ExplorerTreeNodeRequest;
-  indentStyle: React.CSSProperties;
 };
 
-export default function RequestNode({ node, indentStyle }: Props) {
+export default function RequestNode({ node }: Props) {
   const { selectNode, selectedNode } = useExplorerManager();
   return (
     <div
@@ -19,11 +18,11 @@ export default function RequestNode({ node, indentStyle }: Props) {
         if (element.closest(".ignore-click")) return;
         selectNode(node);
       }}
-      style={{
-        paddingLeft: `${parseInt(indentStyle?.paddingLeft as string) + 14}px`,
-      }}
+      // style={{
+      //   paddingLeft: `${parseInt(indentStyle?.paddingLeft as string)}px`,
+      // }}
       className={cn(
-        "text-primary flex items-center gap-2 mb-1 py-1.5 rounded-md cursor-pointer transition-all duration-100 pr-2",
+        "text-primary flex items-center gap-2 py-2 px-3 cursor-pointer transition-all duration-100 pr-2 rounded-sm",
         selectedNode?.id === node.id ? "bg-highlight" : "hover:bg-highlight/30"
       )}
     >

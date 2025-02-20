@@ -37,17 +37,20 @@ export default function useExplorerManager() {
   };
 
   const insertRequest = (targetId: string) => {
-    if (!data) return;
     const newNode: ExplorerTreeNode = {
       type: "request",
       httpMethod: "GET",
       id: v4(),
       title: "New Request",
     };
-    const newExplorer = Explorer.insertNode(data.explorer, targetId, newNode);
-    _changeFocus(newExplorer, newNode);
-
     createExplorerNodeOptimistically((current) => {
+      const newExplorer = Explorer.insertNode(
+        current.explorer,
+        targetId,
+        newNode
+      );
+      _changeFocus(newExplorer, newNode);
+
       return {
         ...current,
         explorer: newExplorer,
@@ -56,7 +59,6 @@ export default function useExplorerManager() {
   };
 
   const insertCollection = () => {
-    if (!data) return;
     const newNode: ExplorerTreeNode = {
       type: "collection",
       id: v4(),
@@ -65,10 +67,9 @@ export default function useExplorerManager() {
       children: [],
     };
 
-    const newExplorer = [...data.explorer, newNode];
-    _changeFocus(newExplorer, newNode);
-
     createExplorerNodeOptimistically((current) => {
+      const newExplorer = [...structuredClone(current.explorer), newNode];
+      _changeFocus(newExplorer, newNode);
       return {
         ...current,
         explorer: newExplorer,
@@ -77,7 +78,6 @@ export default function useExplorerManager() {
   };
 
   const insertGroup = (targetId: string) => {
-    if (!data) return;
     const newNode: ExplorerTreeNode = {
       type: "group",
       id: v4(),
@@ -85,11 +85,14 @@ export default function useExplorerManager() {
       title: "New Group",
       children: [],
     };
-
-    const newExplorer = Explorer.insertNode(data.explorer, targetId, newNode);
-    _changeFocus(newExplorer, newNode);
-
     createExplorerNodeOptimistically((current) => {
+      const newExplorer = Explorer.insertNode(
+        current.explorer,
+        targetId,
+        newNode
+      );
+      _changeFocus(newExplorer, newNode);
+
       return {
         ...current,
         explorer: newExplorer,
@@ -153,24 +156,25 @@ export default function useExplorerManager() {
   };
 
   const updateNodeName = (node: HistoryNode, name: string) => {
-    if (!data) return;
-    const newHistory: HistoryNode[] = history.map((hist) => {
-      return hist.id === store.selectedNode?.id
-        ? { ...hist, title: name }
-        : hist;
-    });
+    updateWorkspaceOptimistically((cur) => {
+      const newHistory: HistoryNode[] = history.map((hist) => {
+        return hist.id === store.selectedNode?.id
+          ? { ...hist, title: name }
+          : hist;
+      });
 
-    const newExplorer = Explorer.changeNodeName(data.explorer, node.id, name);
-    if (store.selectedNode) {
-      const newCwd = Explorer.getNodePath(newExplorer, store.selectedNode.id);
-      store.setCwd(newCwd);
-      store.setSelectedNode(newCwd.at(-1));
-    }
-    setHistory(newHistory);
-    updateWorkspaceOptimistically((cur) => ({
-      ...cur,
-      explorer: newExplorer,
-    }));
+      const newExplorer = Explorer.changeNodeName(cur.explorer, node.id, name);
+      if (store.selectedNode) {
+        const newCwd = Explorer.getNodePath(newExplorer, store.selectedNode.id);
+        store.setCwd(newCwd);
+        store.setSelectedNode(newCwd.at(-1));
+      }
+      setHistory(newHistory);
+      return {
+        ...cur,
+        explorer: newExplorer,
+      };
+    });
   };
 
   const updateMethod = (method: HTTPMethods) => {

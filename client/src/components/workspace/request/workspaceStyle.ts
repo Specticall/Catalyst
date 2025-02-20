@@ -16,7 +16,7 @@ export default {
     MozHyphens: "none",
     msHyphens: "none",
     hyphens: "none",
-    lineHeight: "28px",
+    lineHeight: "24px",
     fontSize: "16px",
     margin: "5px 0",
   },

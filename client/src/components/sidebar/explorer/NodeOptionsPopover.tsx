@@ -27,6 +27,7 @@ export default function NodeOptionsPopover({ currentNodeId }: Props) {
 
   const handleDelete = () => {
     deleteNode(currentNodeId);
+    setIsOpen(false);
   };
 
   return (

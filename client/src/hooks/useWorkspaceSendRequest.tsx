@@ -17,10 +17,11 @@ export default function useWorkspaceSendRequest() {
     useRequestStore();
   const queryClient = useQueryClient();
 
-  const workspace = queryClient.getQueryData<Workspace>([QUERY_KEYS.WORKSPACE]);
-
   const sendRequest = async () => {
     try {
+      const workspace = queryClient.getQueryData<Workspace>([
+        QUERY_KEYS.WORKSPACE,
+      ]);
       if (!workspace) return;
       setIsLoadingResponse(true);
       setIsInvalidJSON(false);

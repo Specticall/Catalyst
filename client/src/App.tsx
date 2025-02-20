@@ -27,7 +27,7 @@ export default function App() {
                 <p className="text-md font-semibold">Catalyst</p>
               </div>
             </header>
-            <main className=" flex-1 relative grid grid-cols-[20rem_1fr]">
+            <main className=" flex-1 relative grid grid-cols-[22.5rem_1fr]">
               <aside
                 aria-label="explorer-sidebar"
                 className="bg-foreground border-r flex flex-col border-border p-4 pb-0"

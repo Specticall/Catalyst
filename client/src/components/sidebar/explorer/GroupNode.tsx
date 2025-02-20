@@ -8,10 +8,9 @@ import useExplorerManager from "@/hooks/managers/useExplorerManager";
 
 type Props = {
   node: ExplorerTreeNodeGroup;
-  indentStyle: React.CSSProperties;
 };
 
-export default function GroupNode({ node, indentStyle }: Props) {
+export default function GroupNode({ node }: Props) {
   const { toggleOpenState, selectNode, selectedNode } = useExplorerManager();
   return (
     <div
@@ -21,7 +20,7 @@ export default function GroupNode({ node, indentStyle }: Props) {
         if (element.closest(".ignore-click")) return;
         selectNode(node);
       }}
-      style={indentStyle}
+      // style={indentStyle}
       className={cn(
         " text-primary mb-2 py-1.5 cursor-pointer flex items-center w-full transition-all duration-100 rounded-md pr-2",
         selectedNode?.id === node.id ? "bg-highlight" : "hover:bg-highlight/30"

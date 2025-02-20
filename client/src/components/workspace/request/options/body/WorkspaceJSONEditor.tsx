@@ -6,13 +6,16 @@ import useControlledAsyncInputState from "@/hooks/useControlledAsyncInputState";
 export default function WorkspaceJSONEditor() {
   const { changeBody, body, requestQuery } = useRequestManager();
 
-  const [json, setJson] = useControlledAsyncInputState({
-    onChange: (value) => {
-      if (requestQuery.isRefetching) return;
-      changeBody(value);
+  const [json, setJson] = useControlledAsyncInputState(
+    {
+      onChange: (value) => {
+        if (requestQuery.isRefetching) return;
+        changeBody(value);
+      },
+      value: body,
     },
-    value: body,
-  });
+    200
+  );
 
   const containerRef = useCodeEditor({
     onChangeText: setJson,

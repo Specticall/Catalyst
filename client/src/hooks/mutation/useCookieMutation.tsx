@@ -30,5 +30,18 @@ export default function useCookieMutation() {
     },
   });
 
-  return { updateMutation, createMutation };
+  const deleteMutation = useMutation({
+    mutationFn: ({ cookieId }: { cookieId: number; collectionId: string }) =>
+      API.delete(`/cookies/${cookieId}`),
+    onSuccess: (_, { collectionId, cookieId }) => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.COOKIES_DETAIL, cookieId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.COOKIES, collectionId],
+      });
+    },
+  });
+
+  return { updateMutation, createMutation, deleteMutation };
 }

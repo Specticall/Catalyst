@@ -1,5 +1,4 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import React from "react";
 import { ExplorerTreeNodeCollection } from "./explorerTree";
 import { cn } from "@/utils/lib";
 import NodeOptionsPopover from "./NodeOptionsPopover";
@@ -8,10 +7,9 @@ import useExplorerManager from "@/hooks/managers/useExplorerManager";
 
 type Props = {
   node: ExplorerTreeNodeCollection;
-  indentStyle: React.CSSProperties;
 };
 
-export default function CollectionNode({ node, indentStyle }: Props) {
+export default function CollectionNode({ node }: Props) {
   const { toggleOpenState, selectNode, selectedNode } = useExplorerManager();
 
   return (
@@ -22,7 +20,7 @@ export default function CollectionNode({ node, indentStyle }: Props) {
         if (element.closest(".ignore-click")) return;
         selectNode(node);
       }}
-      style={indentStyle}
+      // style={indentStyle}
       className={cn(
         " text-primary mb-2 cursor-pointer flex items-center w-full transition-all duration-100 rounded-md pr-2",
         selectedNode?.id === node.id ? "bg-highlight" : "hover:bg-highlight/30"

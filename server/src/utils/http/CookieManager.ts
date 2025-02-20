@@ -47,17 +47,18 @@ export class CookieManager {
 
   static translateCookies(parsedCookies: ParsedCookie[], originDomain: string) {
     return parsedCookies.map((cookie) => {
+      const expiration = cookie.Expires
+        ? new Date(String(cookie.Expires))
+        : undefined;
       return {
         domain: originDomain,
         path: String(cookie.Path) || "",
         name: String(cookie.name),
         value: String(cookie.value),
-        expiration: String(cookie.Expires)
-          ? new Date(String(cookie.Expires))
-          : "",
+        expiration: expiration || null,
         secure: Boolean(cookie.Secure),
         httpOnly: Boolean(cookie.HttpOnly),
-        sameSite: (cookie.SameSite || null) as SameSite,
+        sameSite: (cookie.SameSite || null) as SameSite | null,
         maxAge:
           cookie["Max-Age"] && isNumeric(cookie["Max-Age"])
             ? Number(cookie["Max-Age"])

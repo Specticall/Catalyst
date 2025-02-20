@@ -4,18 +4,14 @@ import LongCheckbox from "../ui/LongCheckbox";
 import CookiesSameSiteDropdown from "./CookiesSameSiteDropdown";
 import { Controller } from "react-hook-form";
 import useCookieForm from "@/hooks/forms/useCookieForm";
+import useCookieEditor from "@/stores/cookieEditorStore";
 
 type Props = {
-  selectedId?: number;
-  activeDomain?: string;
   collectionId: string;
 };
 
-export default function CookiesForm({
-  selectedId,
-  activeDomain,
-  collectionId,
-}: Props) {
+export default function CookiesForm({ collectionId }: Props) {
+  const { selectedId, activeDomain } = useCookieEditor();
   const { control, errors, handleSubmit, register, isLoading, isSubmitting } =
     useCookieForm({
       cookieId: selectedId,
@@ -41,6 +37,7 @@ export default function CookiesForm({
         label="Name"
         data-cookie-name-input
         errorMessage={errors.name?.message}
+        isLoading={isLoading}
       />
       <Input
         {...register("value")}
@@ -48,6 +45,7 @@ export default function CookiesForm({
         placeholder="Cookie Value"
         label="Value"
         errorMessage={errors.value?.message}
+        isLoading={isLoading}
       />
       <div className="grid grid-cols-2 mt-6 gap-4">
         <Input
@@ -55,6 +53,7 @@ export default function CookiesForm({
           errorMessage={errors.path?.message}
           placeholder="/"
           label="Path"
+          isLoading={isLoading}
         />
         <Input
           errorMessage={errors.maxAge?.message}
@@ -62,6 +61,7 @@ export default function CookiesForm({
           type="number"
           placeholder="900"
           label="Max-Age"
+          isLoading={isLoading}
         />
       </div>
       <p className="text-secondary mt-6">Options</p>
@@ -74,13 +74,13 @@ export default function CookiesForm({
             onCheck={field.onChange}
             className="mt-2"
             label="Http Only"
+            isLoading={isLoading}
+            hint="Ensures the cookie is only sent over HTTPS, protecting it from being
+        intercepted over unencrypted connections."
           />
         )}
       />
-      <p className="text-secondary text-sm mt-3">
-        Prevents client-side scripts (JavaScript) from accessing the cookie,
-        enhancing security against XSS attacks.
-      </p>
+
       <Controller
         control={control}
         name="secure"
@@ -90,14 +90,13 @@ export default function CookiesForm({
             onCheck={field.onChange}
             className="mt-6"
             label="Secure"
+            isLoading={isLoading}
+            hint="Ensures the cookie is only sent over HTTPS, protecting it from being
+        intercepted over unencrypted connections."
           />
         )}
       />
 
-      <p className="text-secondary text-sm mt-3">
-        Ensures the cookie is only sent over HTTPS, protecting it from being
-        intercepted over unencrypted connections.
-      </p>
       <p className="text-secondary mb-2 mt-6">Same Site</p>
       <Controller
         control={control}
@@ -111,7 +110,12 @@ export default function CookiesForm({
       </p>
 
       <div className="flex justify-end mt-10 ">
-        <Button isLoading={isSubmitting} className="py-4 px-8" type="submit">
+        <Button
+          isLoading={isSubmitting}
+          className="py-4 px-8"
+          type="submit"
+          disabled={isLoading}
+        >
           Save
         </Button>
       </div>

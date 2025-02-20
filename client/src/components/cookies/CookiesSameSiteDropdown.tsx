@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/Popover";
 import { cn } from "@/utils/lib";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import Skeleton from "react-loading-skeleton";
 
 const opts = ["Strict", "Lax", "None"] as const;
 type OptionsValue = (typeof opts)[number];
@@ -9,13 +10,28 @@ type OptionsValue = (typeof opts)[number];
 type Props = {
   onChange?: (value: OptionsValue) => void;
   value?: OptionsValue;
+  isLoading?: boolean;
 };
 
-export default function CookiesSameSiteDropdown({ onChange, value }: Props) {
+export default function CookiesSameSiteDropdown({
+  onChange,
+  value,
+  isLoading,
+}: Props) {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<OptionsValue>("None");
 
   const usedValue = typeof value === "undefined" ? selected : value;
+
+  if (isLoading) {
+    return (
+      <Skeleton
+        containerClassName="block leading-0"
+        height={"3.125rem"}
+        className="mt-0 block"
+      />
+    );
+  }
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

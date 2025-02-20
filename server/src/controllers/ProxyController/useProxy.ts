@@ -16,15 +16,26 @@ import {
   ParsedCookie,
   TranslatedCookie,
 } from "../../utils/http/CookieManager";
+import { CollectionCookie } from "@prisma/client";
 
-function serializeHeaders(headers: RequestData["headers"]) {
-  return headers.reduce((res: Record<string, unknown>, cur) => {
+function serializeHeaders(
+  headers: RequestData["headers"],
+  cookies: CollectionCookie[]
+) {
+  const headersRes = headers.reduce((res: Record<string, unknown>, cur) => {
     if (!cur.key) return res;
     if (cur.enabled) {
       res[cur.key] = cur.value;
     }
     return res;
-  }, {}) as RawAxiosRequestHeaders;
+  }, {});
+
+  const serializedCookies = CookieManager.serializeCookies(cookies);
+  if (serializedCookies.length > 0) {
+    headersRes["Cookie"] = serializedCookies.join("; ");
+  }
+
+  return headersRes as RawAxiosRequestHeaders;
 }
 
 function getResponseDetails(data?: AxiosError | AxiosResponse) {
@@ -93,7 +104,7 @@ export const useProxy: RequestHandler = async (request, response, next) => {
       result = await axios({
         url: url,
         data: body ? JSON.parse(body) : undefined,
-        headers: serializeHeaders(headers),
+        headers: serializeHeaders(headers, cookies),
         method: method,
       });
     } catch (err) {
@@ -124,7 +135,11 @@ export const useProxy: RequestHandler = async (request, response, next) => {
           id: existingCookies.get(cookie.name)!,
         });
       } else {
-        cookieToBeCreated.push({ ...cookie, collectionId });
+        cookieToBeCreated.push({
+          ...cookie,
+          collectionId,
+          expiration: cookie.expiration || null,
+        });
       }
     });
 

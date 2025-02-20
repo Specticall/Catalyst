@@ -222,15 +222,18 @@ export class Explorer {
 
     function traverse(nodes: ExplorerTreeNode[]) {
       for (const node of nodes) {
-        if (node.id === targetId) {
-          return true;
-        }
-        if (node.type !== "request" && node.children) {
+        if (node.type === "collection" && node.children) {
           candidate = node;
           if (traverse(node.children)) {
             return true;
           }
           candidate = undefined;
+        } else if (node.id === targetId) {
+          return true;
+        } else if (node.type !== "request" && node.children) {
+          if (traverse(node.children)) {
+            return true;
+          }
         }
       }
       return false;

@@ -1,37 +1,22 @@
 import useCookiesQuery, {
   CompactCookie,
 } from "@/hooks/queries/useCookiesQuery";
-import { cn } from "@/utils/lib";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import EditableText from "../ui/EditableText";
 import { useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/utils/queryKeys";
-import { useState } from "react";
+import CookieDomainList from "./CookieDomainList";
+import useCookieEditor from "@/stores/cookieEditorStore";
+import Skeleton from "react-loading-skeleton";
 
 type Props = {
   collectionId: string;
-  selectedId?: number;
-  onSelect: (domain: string, id?: number) => void;
-  activeDomain?: string;
 };
 
-export default function CookieViewer({
-  collectionId,
-  selectedId,
-  onSelect,
-  activeDomain,
-}: Props) {
+export default function CookieViewer({ collectionId }: Props) {
+  const { addTemporaryDomainName, temporaryDomainName } = useCookieEditor();
   const { data } = useCookiesQuery({ collectionId });
-  const [temporaryDomainName, setTemporaryDomainName] = useState(false);
   const queryClient = useQueryClient();
-
-  const focusForm = () => {
-    const el = document.querySelector("[data-cookie-name-input]") as
-      | HTMLInputElement
-      | undefined;
-    if (!el) return;
-    el.focus();
-  };
 
   const addTemporaryDomain = (domainName: string) => {
     if (!domainName) return;
@@ -44,13 +29,18 @@ export default function CookieViewer({
         };
       }
     );
-    setTemporaryDomainName(true);
-    onSelect(domainName, undefined);
-    focusForm();
+    addTemporaryDomainName(domainName);
   };
 
   if (!data) {
-    return <div></div>;
+    return (
+      <div className="relative p-8 border-border h-fit border-r">
+        <div className="absolute z-50 inset-0  bg-gradient-to-t from-base to-transparent"></div>
+        {new Array(7).fill("x").map(() => {
+          return <Skeleton className="w-full h-12 mt-4" />;
+        })}
+      </div>
+    );
   }
 
   return (
@@ -64,34 +54,11 @@ export default function CookieViewer({
             />
             {domain}
           </div>
-          <div className="text-secondary grid gap-2 ml-4 border-l border-border pl-4 py-4">
-            {cookies.map((cookies, j) => (
-              <div
-                key={j}
-                className={cn(
-                  "py-2 px-5  rounded-sm hover:bg-highlight/50 cursor-pointer transition duration-50",
-                  selectedId === cookies.id && "bg-highlight text-white"
-                )}
-                onClick={() => onSelect(domain, cookies.id)}
-              >
-                {cookies.name}
-              </div>
-            ))}
-            <div
-              className={cn(
-                "py-2 px-5 bg-black/10 rounded-sm hover:bg-highlight trantition cursor-pointer duration-50",
-                domain === activeDomain &&
-                  !selectedId &&
-                  "bg-highlight text-white"
-              )}
-              onClick={() => {
-                onSelect(domain, undefined);
-                focusForm();
-              }}
-            >
-              + Add Cookies
-            </div>
-          </div>
+          <CookieDomainList
+            collectionId={collectionId}
+            cookies={cookies}
+            domain={domain}
+          />
         </li>
       ))}
       {!temporaryDomainName && (

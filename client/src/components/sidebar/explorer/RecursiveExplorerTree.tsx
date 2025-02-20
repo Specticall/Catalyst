@@ -6,7 +6,7 @@ import RequestNode from "./RequestNode";
 import React from "react";
 import useExplorerManager from "@/hooks/managers/useExplorerManager";
 
-const INDENT_PX = 16;
+const INDENT_PX = 24;
 
 export function RecursiveExplorerTree({
   depth = 0,
@@ -19,22 +19,19 @@ export function RecursiveExplorerTree({
   explorerManager: ReturnType<typeof useExplorerManager>;
   selectedId?: string;
 }) {
-  // Sets the element indent based on the traversal depth
-  const indentStyle = { paddingLeft: `${INDENT_PX * depth}px` };
-
   return content?.map((node, i) => {
     // Renders request files (which are bottom nodes)
     if (node.type === "request") {
-      return <RequestNode indentStyle={indentStyle} node={node} key={i} />;
+      return <RequestNode node={node} key={i} />;
     }
 
     return (
       <React.Fragment key={i}>
         {/* Current node */}
         {node.type === "group" ? (
-          <GroupNode node={node} indentStyle={indentStyle} />
+          <GroupNode node={node} />
         ) : (
-          <CollectionNode node={node} indentStyle={indentStyle} />
+          <CollectionNode node={node} />
         )}
         {/* Recursive node */}
         <div
@@ -44,13 +41,15 @@ export function RecursiveExplorerTree({
           )}
           aria-label="explorer-children-container"
         >
-          <div className="overflow-hidden">
-            <RecursiveExplorerTree
-              explorerManager={explorerManager}
-              content={node.children}
-              selectedId={selectedId}
-              depth={depth + 1}
-            />
+          <div className="overflow-hidden pl-[15px]">
+            <div className=" border-l grid gap-1 border-border w-full pl-2">
+              <RecursiveExplorerTree
+                explorerManager={explorerManager}
+                content={node.children}
+                selectedId={selectedId}
+                depth={depth + 1}
+              />
+            </div>
           </div>
         </div>
       </React.Fragment>

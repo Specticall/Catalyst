@@ -1,19 +1,11 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import CookiesForm from "./CookiesForm";
 import { useDialogContext } from "../ui/Dialog";
 import { CookieDialogContext } from "../workspace/collection/WorkspaceCollection";
-import { useState } from "react";
 import CookieViewer from "./CookieViewer";
+import CookiesForm from "./CookiesForm";
 
 export default function CookiesDialog() {
-  const [selectedId, setSelectedId] = useState<number | undefined>(undefined);
-  const [activeDomain, setActiveDomain] = useState<string | undefined>();
   const { collectionNode } = useDialogContext<CookieDialogContext>();
-
-  const handleSelectCookie = (domain: string, id?: number) => {
-    setSelectedId(id);
-    setActiveDomain(domain);
-  };
 
   return (
     <div className="bg-base w-full max-w-[70rem] rounded-lg my-16 border border-white/15 ">
@@ -30,17 +22,8 @@ export default function CookiesDialog() {
         </p>
       </div>
       <div className="grid grid-cols-2">
-        <CookieViewer
-          collectionId={collectionNode.id}
-          onSelect={handleSelectCookie}
-          selectedId={selectedId}
-          activeDomain={activeDomain}
-        />
-        <CookiesForm
-          collectionId={collectionNode.id}
-          activeDomain={activeDomain}
-          selectedId={selectedId}
-        />
+        <CookieViewer collectionId={collectionNode.id} />
+        <CookiesForm collectionId={collectionNode.id} />
       </div>
     </div>
   );
