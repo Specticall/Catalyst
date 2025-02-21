@@ -1,7 +1,10 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import HeaderWorkspacePopover from "./HeaderWorkspacePopover";
+import Button from "../ui/Button";
+import useAuthMutation from "@/hooks/mutation/useAuthMutation";
+import TopBarWorkspacePopover from "./TopBarWorkspacePopover";
 
-export default function Header() {
+export default function TopBar() {
+  const { logoutMutation } = useAuthMutation();
   return (
     <header className="py-2.5 items-center flex justify-between bg-foreground px-4 border-b border-border text-white">
       <div className="flex items-center gap-1.5">
@@ -10,8 +13,16 @@ export default function Header() {
         </div>
         <p className="text-md">Catalyst</p>
       </div>
-      <HeaderWorkspacePopover />
-      <div>
+      <TopBarWorkspacePopover />
+      <div className="flex gap-4">
+        <Button
+          onClick={() => logoutMutation.mutate()}
+          isLoading={logoutMutation.isPending}
+          variant={"hollow"}
+          className="py-2"
+        >
+          Logout
+        </Button>
         <div className="h-8 aspect-square bg-highlight border-border border rounded-full"></div>
       </div>
     </header>

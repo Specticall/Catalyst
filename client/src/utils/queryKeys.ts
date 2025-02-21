@@ -4,4 +4,6 @@ export const QUERY_KEYS = {
   USER_REQUEST: "user-request",
   COOKIES: "cookies",
   COOKIES_DETAIL: "cookies-detail",
+  LOGGED_IN_USER: "logged-in-user",
+  USER_WORKSPACES: "user-workspaces",
 };

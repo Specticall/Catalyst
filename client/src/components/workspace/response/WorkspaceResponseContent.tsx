@@ -52,6 +52,23 @@ export default function WorkspaceResponseContent({ opts }: Props) {
     );
   }
 
+  if (!responseData.data && responseData.errorMessage) {
+    return (
+      <div className="text-white flex items-center justify-center gap-2 flex-col flex-1 h-full">
+        <div className="bg-highlight rounded-full p-8 mb-4">
+          <Icon
+            icon="hugeicons:wifi-error-02"
+            className="text-primary text-[5rem]"
+          />
+        </div>
+        <h3 className="text-xl mb-1">Could not send request</h3>
+        <p className="bg-red-800/50 px-4 py-1 rounded-full">
+          Error : {responseData.errorMessage}
+        </p>
+      </div>
+    );
+  }
+
   if (opts === "JSON") {
     return <WorkspaceResponseBody data={responseData.data} />;
   }

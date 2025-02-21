@@ -5,13 +5,18 @@ import { Explorer } from "@/utils/Explorer";
 import { QUERY_KEYS } from "@/utils/queryKeys";
 import { Workspace } from "@/utils/types";
 import { useQueryClient } from "@tanstack/react-query";
+import useWorkspaceStore from "@/stores/workspaceStore";
 
 export default function useHistoryManager() {
   const { setSelectedNode, selectedNode, setCwd } = useExplorerStore();
   const { history, setHistory } = useHistoryStore();
+  const { workspaceId } = useWorkspaceStore();
   const queryClient = useQueryClient();
 
-  const data = queryClient.getQueryData<Workspace>([QUERY_KEYS.WORKSPACE]);
+  const data = queryClient.getQueryData<Workspace>([
+    QUERY_KEYS.WORKSPACE,
+    workspaceId,
+  ]);
 
   const popHistory = (node: HistoryNode) => {
     if (!data) return;

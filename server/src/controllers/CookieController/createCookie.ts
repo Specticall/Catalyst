@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import { z } from "zod";
-import { validateBody } from "../../utils/validateBody";
 import { prisma } from "../../config/config";
+import { validateSchema } from "../../utils/validateSchema";
 
 export const bodyCookieSchema = z.object({
   domain: z.string(),
@@ -16,7 +16,7 @@ export const bodyCookieSchema = z.object({
 });
 export const createCookie: RequestHandler = async (request, response, next) => {
   try {
-    const body = validateBody(bodyCookieSchema, request);
+    const body = validateSchema(bodyCookieSchema, request.body);
 
     const newCookie = await prisma.collectionCookie.create({
       data: body,

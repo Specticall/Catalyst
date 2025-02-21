@@ -26,7 +26,7 @@ export default function WorkspaceResponseStats() {
   // const data = getResponseDetails(responseData || responseError);
   const isSuccess = responseData?.statusCode?.toString().startsWith("2");
 
-  if (!responseData) {
+  if (!responseData || (!responseData.data && responseData.errorMessage)) {
     return <div className="px-4 py-3 text-primary text-md">Response</div>;
   }
   return (

@@ -1,11 +1,11 @@
 import { RequestHandler } from "express";
 import { prisma } from "../../config/config";
-import { validateBody } from "../../utils/validateBody";
 import { cookieSchema } from "../../utils/schemas";
+import { validateSchema } from "../../utils/validateSchema";
 
 export const updateCookie: RequestHandler = async (request, response, next) => {
   try {
-    const body = validateBody(cookieSchema, request);
+    const body = validateSchema(cookieSchema, request.body);
 
     const cookie = await prisma.collectionCookie.update({
       where: {

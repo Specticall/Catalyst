@@ -2,15 +2,30 @@ import { RecursiveExplorerTree } from "./RecursiveExplorerTree";
 import ExplorerLoader from "./ExplorerLoader";
 import useExplorerManager from "@/hooks/managers/useExplorerManager";
 import useWorkspaceQuery from "@/hooks/queries/useWorkspaceQuery";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 export const INDENT_PX = 12;
 
 export default function Explorer() {
   const explorerManager = useExplorerManager();
-  const { data, isPending } = useWorkspaceQuery();
+  const { data, isLoading } = useWorkspaceQuery();
+  const explorerIsEmpty = data && data.explorer.length === 0;
 
-  if (!data || isPending) {
+  if (isLoading) {
     return <ExplorerLoader />;
+  }
+  if (!data || explorerIsEmpty) {
+    return (
+      <div className="mt-4 flex-1 flex items-center justify-center py-4 min-h-16 flex-col">
+        <div className="bg-border/75 rounded-full p-8">
+          <Icon
+            icon={"system-uicons:box-open"}
+            className="text-[5rem] text-base"
+          />
+        </div>
+        <p className="text-secondary/80 text-lg mt-4">Explorer is Empty</p>
+      </div>
+    );
   }
 
   return (

@@ -55,23 +55,11 @@ function getResponseDetails(data?: AxiosError | AxiosResponse) {
     responseData = data.response?.data || data.response;
     cookies = data.response?.headers["set-cookie"];
   }
-
-  let failedToConnect;
-  if ("errors" in data && Array.isArray(data.errors)) {
-    const errors = data.errors.at(-1);
-    failedToConnect = {
-      message: "Couldn't send request",
-      port: "port" in errors ? errors.port : "",
-      address: "address" in errors ? errors.address : "",
-      code: "code" in errors ? errors.code : "",
-    };
-  }
-
   return {
     size: sizeKB,
     statusCode: data.status,
     statusMessage: httpStatus[data?.status as keyof typeof httpStatus],
-    data: responseData || failedToConnect,
+    data: responseData || undefined,
     cookies,
   };
 }
@@ -100,6 +88,7 @@ export const useProxy: RequestHandler = async (request, response, next) => {
     });
 
     let result;
+    let errorMessage = "";
     try {
       result = await axios({
         url: url,
@@ -115,9 +104,11 @@ export const useProxy: RequestHandler = async (request, response, next) => {
         );
       }
       result = err;
+      errorMessage = err.message;
     }
 
-    const responseDetails = getResponseDetails(result);
+    // Append error message
+    const responseDetails = { ...getResponseDetails(result), errorMessage };
 
     // Store cookie to database
     const existingCookies = new Map(

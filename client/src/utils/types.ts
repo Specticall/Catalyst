@@ -34,6 +34,7 @@ export type ProxyServerResponse =
       statusCode: number | undefined;
       statusMessage: string;
       data: unknown;
+      errorMessage?: string;
     }
   | undefined;
 
@@ -51,4 +52,10 @@ export type Cookie = {
   httpOnly: boolean;
   sameSite?: SameSite;
   collectionId: string;
+};
+
+export type WorkspacePreview = {
+  name: string;
+  id: number;
+  role: "owner" | "viewer" | "editor";
 };

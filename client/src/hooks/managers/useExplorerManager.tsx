@@ -14,17 +14,24 @@ import useExplorerCreateMutation from "../mutation/useExplorerCreateMutation";
 import useExplorerUpdateMutation from "../mutation/useExplorerUpdateMutation";
 import useRequestMutation from "../mutation/useRequestMutation";
 import useExplorerDeleteMutation from "../mutation/useExplorerDeleteMutation";
+import useWorkspaceStore from "@/stores/workspaceStore";
 
 export default function useExplorerManager() {
   const queryClient = useQueryClient();
   const { pushHistory, history, setHistory } = useHistoryManager();
   const store = useExplorerStore();
+  const { workspaceId } = useWorkspaceStore();
   const { updateWorkspaceOptimistically } = useExplorerUpdateMutation();
   const { deleteExplorerNodeOptimistically } = useExplorerDeleteMutation();
   const { updateRequestOptimistically } = useRequestMutation();
   const { createExplorerNodeOptimistically } = useExplorerCreateMutation();
 
-  const data = queryClient.getQueryData<Workspace>([QUERY_KEYS.WORKSPACE]);
+  const getData = () => {
+    return queryClient.getQueryData<Workspace>([
+      QUERY_KEYS.WORKSPACE,
+      workspaceId,
+    ]);
+  };
 
   // Internal usage only : changes node focus
   const _changeFocus = (
@@ -101,6 +108,7 @@ export default function useExplorerManager() {
   };
 
   const deleteNode = (targetId: string) => {
+    const data = getData();
     if (!data) return;
     const newExplorer = Explorer.popNode(data.explorer, targetId);
     const nodeDeleteCandidate = Explorer.findNode(data.explorer, targetId);
@@ -144,6 +152,7 @@ export default function useExplorerManager() {
   };
 
   const selectNode = (node: HistoryNode) => {
+    const data = getData();
     if (!data) return;
     _changeFocus(data.explorer, node);
   };
@@ -165,7 +174,8 @@ export default function useExplorerManager() {
 
       const newExplorer = Explorer.changeNodeName(cur.explorer, node.id, name);
       if (store.selectedNode) {
-        _changeFocus(newExplorer, store.selectedNode);
+        store.setSelectedNode({ ...store.selectedNode, title: name });
+        store.setCwd(Explorer.getNodePath(newExplorer, store.selectedNode.id));
       }
       setHistory(newHistory);
       return {
@@ -176,6 +186,7 @@ export default function useExplorerManager() {
   };
 
   const updateMethod = (method: HTTPMethods) => {
+    const data = getData();
     if (!data || !store.selectedNode?.id) return;
     const updatedExplorer: ExplorerTreeNode[] = Explorer.changeNodeMethod(
       data.explorer,
@@ -212,6 +223,12 @@ export default function useExplorerManager() {
     );
   };
 
+  const clearExplorerSelection = () => {
+    store.setSelectedNode(undefined);
+    store.setCwd([]);
+    setHistory([]);
+  };
+
   return {
     ...store,
     insertRequest,
@@ -222,5 +239,6 @@ export default function useExplorerManager() {
     updateNodeName,
     updateMethod,
     deleteNode,
+    clearExplorerSelection,
   };
 }

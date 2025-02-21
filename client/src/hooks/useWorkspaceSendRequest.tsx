@@ -9,6 +9,7 @@ import { QUERY_KEYS } from "@/utils/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/Toast";
 import { isAxiosError } from "axios";
+import useWorkspaceStore from "@/stores/workspaceStore";
 
 export default function useWorkspaceSendRequest() {
   const { selectedNode } = useExplorerManager();
@@ -23,11 +24,13 @@ export default function useWorkspaceSendRequest() {
   } = useRequestStore();
   const queryClient = useQueryClient();
   const toast = useToast();
+  const { workspaceId } = useWorkspaceStore();
 
   const sendRequest = async () => {
     try {
       const workspace = queryClient.getQueryData<Workspace>([
         QUERY_KEYS.WORKSPACE,
+        workspaceId,
       ]);
       if (!workspace || !requestQuery.data?.url) return;
       setIsLoadingResponse(true);
@@ -55,6 +58,7 @@ export default function useWorkspaceSendRequest() {
         "/proxy",
         {
           requestData: data,
+          // Collection Id is needed for cookie storage purposes
           collectionId: Explorer.findCollectionParent(
             workspace.explorer,
             data.id

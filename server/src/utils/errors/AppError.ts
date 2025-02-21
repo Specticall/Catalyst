@@ -6,6 +6,7 @@ export class AppError extends Error {
   statusCode: number;
   status: "fail" | "success";
   operational: boolean;
+  errors: unknown;
 
   constructor(message: string, statusCode: number) {
     super(message);

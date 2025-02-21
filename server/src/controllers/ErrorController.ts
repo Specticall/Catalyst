@@ -17,6 +17,7 @@ const errorHandler: ErrorRequestHandler = async (
       status: error.status,
       statusCode: error.statusCode,
       message: error.message,
+      errors: error?.errors,
       ...(IS_PRODUCTION ? {} : { stack: error.stack }),
     });
 

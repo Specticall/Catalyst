@@ -4,6 +4,7 @@ import router from "./routes";
 import { AppError } from "./utils/errors/AppError";
 import { STATUS } from "./utils/http/statusCodes";
 import { ErrorController } from "./controllers";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
@@ -11,7 +12,14 @@ const app = express();
  * Enable Cross-Origin Resource Sharing (CORS) for all routes
  * This allows your API to be accessed from different domains
  */
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
+
+app.use(cookieParser());
 
 /**
  * Middleware to parse incoming JSON requests

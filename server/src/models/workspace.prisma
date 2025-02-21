@@ -6,10 +6,17 @@ model Workspace {
 }
 
 model UserWorkspace {
-  id          Int @id @default(autoincrement())
+  id          Int           @id @default(autoincrement())
   workspaceId Int
   userId      Int
+  role        WorkspaceRole
 
   workspace Workspace @relation(fields: [workspaceId], references: [id])
   user      User      @relation(fields: [userId], references: [id])
+}
+
+enum WorkspaceRole {
+  owner
+  editor
+  viewer
 }
