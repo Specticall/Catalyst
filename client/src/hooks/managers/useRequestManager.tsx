@@ -11,6 +11,7 @@ import useExplorerManager from "./useExplorerManager";
 import { Workspace } from "@/utils/types";
 import { QUERY_KEYS } from "@/utils/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
+import useWorkspaceStore from "@/stores/workspaceStore";
 
 export const requestOptionsData = [
   "Body",
@@ -29,6 +30,7 @@ export default function useRequestManager() {
   const store = useRequestStore();
   const { selectedNode } = useExplorerManager();
   const sendRequest = useWorkspaceSendRequest();
+  const { workspaceId } = useWorkspaceStore();
   const { updateRequestOptimistically } = useRequestMutation();
   const dialog = useDialog<typeof dialogs>();
   const requestQuery = useRequestQuery({
@@ -57,6 +59,7 @@ export default function useRequestManager() {
   const openCookieConfiguration = () => {
     const workspace = queryClient.getQueryData<Workspace>([
       QUERY_KEYS.WORKSPACE,
+      workspaceId,
     ]);
     if (!workspace || !selectedNode) return;
 

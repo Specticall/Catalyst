@@ -1,8 +1,3 @@
-PRIO:
-[] create
-[] gabungin endpoint edit explorer / request
-
-BUG:
 [V] Load more harusnya ilang kalo udah kelar
 [V] code editor highlight kurang terang
 [V] Configure cookie gada cookie masih kasih liat localhost
@@ -18,16 +13,19 @@ BUG:
 [V] Tampilin ui kalo ada folder / collection kosong
 [V] Cancel request -> cara test : send `http://api.ticketing.dev/users/login` pake GET
 [V] Response harus berubah tiap kali ganti request
+[] loading workspace
+[] create workspace
+[] invite user
+[] Search collection
+[] Redirect user on bad route
+[] 404 page
+[] landing page
+[] User settings
+[] viewer / editor permissions
+[] Themes
+[] gabungin endpoint edit explorer / request
 [] Request url kadang suka ga berubah?? <INI GBS DI REPRODUCE>
 [] Request name column not geeting updated
-
-
-
-
-
-
-
-
 
 
 LOW PRIO BUG:

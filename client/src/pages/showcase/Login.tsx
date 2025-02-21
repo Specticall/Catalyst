@@ -27,8 +27,12 @@ export default function Login() {
             <Button
               onClick={handleLogin}
               variant={"hollow"}
-              className="py-3 text-lg px-12"
+              className="py-3 text-lg px-12 flex gap-3"
             >
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png"
+                className="w-6 aspect-square "
+              />
               Google
             </Button>
           </div>

@@ -59,3 +59,10 @@ export type WorkspacePreview = {
   id: number;
   role: "owner" | "viewer" | "editor";
 };
+
+export type User = {
+  username: string;
+  email: string;
+  profilePicture: string;
+  id: number;
+};
