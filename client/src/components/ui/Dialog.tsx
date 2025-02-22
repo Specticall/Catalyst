@@ -177,6 +177,7 @@ type AssertDialogNames<
     : DialogContext[ContextKey];
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useDialogContext<ContextTypes = unknown>() {
   const context = useContext(DialogContext);
   if (!context)

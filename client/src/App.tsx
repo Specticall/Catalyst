@@ -7,11 +7,16 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import router from "./pages/router";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { GOOGLE_CLIENT } from "./config/config";
+import WorkspaceEditorDialog from "./components/collaboration/WorkspaceEditorDialog";
 
 export const dialogs = [
   {
     name: "cookie",
     component: <CookiesDialog />,
+  },
+  {
+    name: "workspace-editor",
+    component: <WorkspaceEditorDialog />,
   },
 ] as const satisfies DialogComponents;
 

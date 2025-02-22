@@ -54,10 +54,12 @@ export type Cookie = {
   collectionId: string;
 };
 
+export type WorkspaceRole = "owner" | "viewer" | "editor";
+
 export type WorkspacePreview = {
   name: string;
   id: number;
-  role: "owner" | "viewer" | "editor";
+  role: WorkspaceRole;
 };
 
 export type User = {
@@ -65,4 +67,8 @@ export type User = {
   email: string;
   profilePicture: string;
   id: number;
+};
+
+export type WorkspaceMembers = User & {
+  role: WorkspaceRole;
 };

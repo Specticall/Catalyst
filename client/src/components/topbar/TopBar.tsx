@@ -27,6 +27,7 @@ export default function TopBar() {
         </Button>
         <img
           className="h-8 aspect-square bg-highlight border-border border rounded-full"
+          referrerPolicy="no-referrer"
           src={data?.profilePicture}
         />
       </div>

@@ -6,4 +6,5 @@ export const QUERY_KEYS = {
   COOKIES_DETAIL: "cookies-detail",
   LOGGED_IN_USER: "logged-in-user",
   USER_WORKSPACES: "user-workspaces",
+  WORKSPACE_MEMBERS: "workspace-members",
 };
