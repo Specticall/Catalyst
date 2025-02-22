@@ -35,6 +35,7 @@ export const createWorkspace: RequestHandler = async (
           userId: user?.id,
           role: "owner",
           workspaceId: newWorkspace.id,
+          isPendingInvite: false,
         },
       });
       response.cookie("workspaceId", newWorkspace.id, {

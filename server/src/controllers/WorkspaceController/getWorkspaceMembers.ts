@@ -12,6 +12,7 @@ const workspaceMembersSchema = z.array(
     profilePicture: z.string(),
     id: z.number(),
     role: z.enum(["owner", "editor", "viewer"]),
+    isPendingInvite: z.boolean(),
   })
 );
 export const getWorkspaceMembers: RequestHandler = async (
@@ -32,19 +33,23 @@ export const getWorkspaceMembers: RequestHandler = async (
       );
     }
 
-    // const userworksp
     const workspaceMembers = await prisma.$queryRaw`
-      SELECT u."id", u."username", u."email", uw."role", u."profilePicture" FROM "UserWorkspace" AS uw
+      SELECT u."id", u."username", u."email", uw."role", u."profilePicture", uw."isPendingInvite" 
+      FROM "UserWorkspace" AS uw
       JOIN "User" AS u ON u."id" = uw."userId"
-      WHERE uw."workspaceId" = ${Number(workspaceId)} AND uw."userId" = ${
-      user.id
-    }
+      WHERE uw."workspaceId" = ${Number(workspaceId)} 
     `;
     const validated = validateSchema(workspaceMembersSchema, workspaceMembers);
 
+    // Sort the validated array to move elements with isPendingInvite true to the back
+    const sortedMembers = validated.sort((a, b) => {
+      if (a.isPendingInvite === b.isPendingInvite) return 0;
+      return a.isPendingInvite ? 1 : -1;
+    });
+
     response.send({
       message: "Succefully retrieved workspace members",
-      data: validated,
+      data: sortedMembers,
     });
   } catch (error) {
     next(error);

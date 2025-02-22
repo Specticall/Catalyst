@@ -3,8 +3,13 @@ import Button from "../ui/Button";
 import useAuthMutation from "@/hooks/mutation/useAuthMutation";
 import TopBarWorkspacePopover from "./TopBarWorkspacePopover";
 import useLoggedInUserQuery from "@/hooks/queries/useLoggedInUserQuery";
+import { useDialog } from "../ui/Dialog";
+import { dialogs } from "@/App";
+import useWorkspaceManager from "@/hooks/managers/useWorkspaceManager";
 
 export default function TopBar() {
+  const { workspaceId } = useWorkspaceManager();
+  const dialog = useDialog<typeof dialogs>();
   const { logoutMutation } = useAuthMutation();
   const { data } = useLoggedInUserQuery();
   return (
@@ -17,6 +22,11 @@ export default function TopBar() {
       </div>
       <TopBarWorkspacePopover />
       <div className="flex gap-4">
+        {workspaceId !== undefined && (
+          <Button onClick={() => dialog.open("member-editor")} className="py-2">
+            + Invite
+          </Button>
+        )}
         <Button
           onClick={() => logoutMutation.mutate()}
           isLoading={logoutMutation.isPending}

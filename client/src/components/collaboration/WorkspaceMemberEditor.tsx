@@ -1,8 +1,7 @@
-import { Icon } from "@iconify/react/dist/iconify.js";
-import Input from "../ui/Input";
 import useWorkspaceMembersQuery from "@/hooks/queries/useWorkspaceMembersQuery";
 import useLoggedInUserQuery from "@/hooks/queries/useLoggedInUserQuery";
 import WorkspaceMemberRolePopover from "./WorkspaceMemberRolePopover";
+import UserSearch from "./UserSearch";
 
 export default function WorkspaceMemberEditor() {
   const { data } = useWorkspaceMembersQuery();
@@ -11,46 +10,49 @@ export default function WorkspaceMemberEditor() {
   const loggedInUserId = loggedInUser?.id;
 
   return (
-    <>
-      <div className="relative">
-        <Input
-          label="Members"
-          placeholder="Add members by name or by email"
-          inputClassName="pl-13"
-        />
-        <Icon
-          icon="mingcute:search-line"
-          className="absolute left-4 top-1/2 translate-y-[15%] text-2xl text-secondary"
-        />
+    <div className="bg-base border border-border rounded-md w-full max-w-[40rem]">
+      <div className="py-6 border-b border-border px-8">
+        <h2 className="text-primary text-xl">People with access</h2>
+        <p className="text-secondary">
+          Invite your team to collaborate on this workspace
+        </p>
       </div>
-      <ul className="mt-8 min-h-[15rem]">
-        {data?.map((member, id) => {
-          return (
-            <li className="flex items-center justify-between" key={id}>
-              <div className="flex items-center gap-x-5">
-                <img
-                  src={member.profilePicture}
-                  alt="pfp"
-                  referrerPolicy="no-referrer"
-                  className="w-12 aspect-square rounded-full"
-                />
-                <div>
-                  <p className="text-lg text-primary leading-[150%] flex items-center">
-                    {member.username}{" "}
-                    {loggedInUserId === member.id && (
-                      <span className="bg-accent text-white leading-[125%] py-0.5 px-2 ml-2 h-fit rounded-sm text-[0.75rem]">
-                        You
-                      </span>
-                    )}
-                  </p>
-                  <p className="text-secondary">{member.email}</p>
+      <div className="px-8 py-6">
+        <UserSearch />
+        <ul className="mt-8 min-h-[15rem] flex flex-col gap-6">
+          {data?.map((member, id) => {
+            return (
+              <li className="flex items-center justify-between" key={id}>
+                <div className="flex items-center gap-x-5">
+                  <img
+                    src={member.profilePicture}
+                    alt="pfp"
+                    referrerPolicy="no-referrer"
+                    className="w-12 aspect-square rounded-full"
+                  />
+                  <div>
+                    <p className="text-lg text-primary leading-[150%] flex items-center">
+                      {member.username}{" "}
+                      {loggedInUserId === member.id && (
+                        <span className="bg-accent text-white leading-[125%] py-0.5 px-2 ml-2 h-fit rounded-sm text-[0.75rem]">
+                          You
+                        </span>
+                      )}
+                      {member.isPendingInvite && (
+                        <span className="bg-highlight text-white leading-[125%] py-0.5 px-2 ml-2 h-fit rounded-sm text-[0.75rem]">
+                          Pending Invite
+                        </span>
+                      )}
+                    </p>
+                    <p className="text-secondary">{member.email}</p>
+                  </div>
                 </div>
-              </div>
-              <WorkspaceMemberRolePopover roleValue={member.role} />
-            </li>
-          );
-        })}
-      </ul>
-    </>
+                <WorkspaceMemberRolePopover roleValue={member.role} />
+              </li>
+            );
+          })}
+        </ul>{" "}
+      </div>
+    </div>
   );
 }

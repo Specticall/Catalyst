@@ -13,9 +13,12 @@
 [V] Tampilin ui kalo ada folder / collection kosong
 [V] Cancel request -> cara test : send `http://api.ticketing.dev/users/login` pake GET
 [V] Response harus berubah tiap kali ganti request
-[] loading workspace
-[] create workspace
+[V] loading workspace
+[V] create workspace
 [] invite user
+[] validate pending invites in BE / FE
+[] Edit workspace
+[] Set person / team badge in the workspace viewer
 [] Search collection
 [] Redirect user on bad route
 [] 404 page
@@ -23,6 +26,7 @@
 [] User settings
 [] viewer / editor permissions
 [] Themes
+[] error toast masih icon check list
 [] gabungin endpoint edit explorer / request
 [] Request url kadang suka ga berubah?? <INI GBS DI REPRODUCE>
 [] Request name column not geeting updated

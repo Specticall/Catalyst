@@ -10,10 +10,10 @@ export default function useWorkspaceManager() {
     const newWorkspaceId = workspaceId === id ? undefined : id;
     if (newWorkspaceId === undefined) {
       Cookies.remove("workspaceId");
-      clearExplorerSelection();
     } else {
       Cookies.set("workspaceId", String(newWorkspaceId));
     }
+    clearExplorerSelection();
     setWorkspaceId(newWorkspaceId);
   };
 

@@ -52,6 +52,7 @@ export const login: RequestHandler = async (request, response, next) => {
             userId: newUser.id,
             role: "owner",
             workspaceId: newWorkspace.id,
+            isPendingInvite: false,
           },
         });
         response.cookie("workspaceId", newWorkspace.id, {

@@ -8,6 +8,7 @@ import router from "./pages/router";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { GOOGLE_CLIENT } from "./config/config";
 import WorkspaceEditorDialog from "./components/collaboration/WorkspaceEditorDialog";
+import WorkspaceMemberEditor from "./components/collaboration/WorkspaceMemberEditor";
 
 export const dialogs = [
   {
@@ -17,6 +18,10 @@ export const dialogs = [
   {
     name: "workspace-editor",
     component: <WorkspaceEditorDialog />,
+  },
+  {
+    name: "member-editor",
+    component: <WorkspaceMemberEditor />,
   },
 ] as const satisfies DialogComponents;
 

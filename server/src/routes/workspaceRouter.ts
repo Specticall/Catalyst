@@ -4,6 +4,7 @@ import { getAllWorkspaces } from "../controllers/WorkspaceController/getAllWorks
 import { protect } from "../middleware/protect";
 import { getWorkspaceMembers } from "../controllers/WorkspaceController/getWorkspaceMembers";
 import { createWorkspace } from "../controllers/WorkspaceController/createWorkspace";
+import { invite } from "../controllers/WorkspaceController/invite";
 
 const workspaceRouter = Router();
 
@@ -14,7 +15,7 @@ const workspaceRouter = Router();
 workspaceRouter.get("/", getWorkspace);
 workspaceRouter.get("/all", protect, getAllWorkspaces);
 workspaceRouter.get("/members", protect, getWorkspaceMembers);
-
 workspaceRouter.post("/", protect, createWorkspace);
+workspaceRouter.post("/invite", protect, invite);
 
 export default workspaceRouter;

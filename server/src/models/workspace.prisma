@@ -6,10 +6,11 @@ model Workspace {
 }
 
 model UserWorkspace {
-  id          Int           @id @default(autoincrement())
-  workspaceId Int
-  userId      Int
-  role        WorkspaceRole
+  id              Int           @id @default(autoincrement())
+  workspaceId     Int
+  userId          Int
+  role            WorkspaceRole
+  isPendingInvite Boolean
 
   workspace Workspace @relation(fields: [workspaceId], references: [id])
   user      User      @relation(fields: [userId], references: [id])

@@ -1,3 +1,4 @@
+import userRouter from "./userRouter";
 import authRouter from "./authRouter";
 import cookieRouter from "./cookieRouter";
 import proxyRouter from "./proxyRouter";
@@ -33,5 +34,6 @@ router.use("/requests", requestRouter);
 router.use("/explorers", explorerRouter);
 router.use("/proxy", proxyRouter);
 router.use("/cookies", cookieRouter);
+router.use("/users", userRouter);
 
 export default router;

@@ -7,4 +7,5 @@ export const QUERY_KEYS = {
   LOGGED_IN_USER: "logged-in-user",
   USER_WORKSPACES: "user-workspaces",
   WORKSPACE_MEMBERS: "workspace-members",
+  USER_SEARCH: "user-search",
 };

@@ -71,4 +71,5 @@ export type User = {
 
 export type WorkspaceMembers = User & {
   role: WorkspaceRole;
+  isPendingInvite: boolean;
 };
