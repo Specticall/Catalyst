@@ -92,7 +92,10 @@ export default function UserSearch() {
                 variant={"hollow"}
                 onClick={(e) => {
                   e.preventDefault();
-                  userInviteMutation.mutate({ recepientId: user.id });
+                  userInviteMutation.mutate({
+                    recepientId: user.id,
+                    query: debouncedQuery,
+                  });
                 }}
               >
                 + Add

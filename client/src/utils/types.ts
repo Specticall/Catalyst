@@ -60,6 +60,8 @@ export type WorkspacePreview = {
   name: string;
   id: number;
   role: WorkspaceRole;
+  userWorkspaceId: number;
+  profilePictures: string[];
 };
 
 export type User = {

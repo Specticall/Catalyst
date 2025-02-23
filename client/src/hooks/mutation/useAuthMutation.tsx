@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import useWorkspaceManager from "../managers/useWorkspaceManager";
 import useExplorerManager from "../managers/useExplorerManager";
+import { QUERY_KEYS } from "@/utils/queryKeys";
 
 export type AuthProviders = "google";
 type LoginPayload = {
@@ -33,6 +34,7 @@ export default function useAuthMutation() {
       clearWorkspaceId();
       clearExplorerSelection();
       queryClient.clear();
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.LOGGED_IN_USER] });
     },
     onError: () => {
       toast.error("Oops! couldn't log you out");

@@ -1,4 +1,5 @@
 import { useToast } from "@/components/ui/Toast";
+import useWorkspaceStore from "@/stores/workspaceStore";
 import { API } from "@/utils/API";
 import { QUERY_KEYS } from "@/utils/queryKeys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -9,6 +10,7 @@ type UserInvitePayload = {
 };
 export default function useUserInviteMutation() {
   const toast = useToast();
+  const { workspaceId } = useWorkspaceStore();
   const queryClient = useQueryClient();
   const userInviteMutation = useMutation({
     mutationFn: (data: UserInvitePayload) =>
@@ -16,6 +18,9 @@ export default function useUserInviteMutation() {
     onSuccess: (_, { query }) => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.USER_SEARCH, query],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.WORKSPACE_MEMBERS, workspaceId],
       });
       toast.success("Succesfully sent invite");
     },

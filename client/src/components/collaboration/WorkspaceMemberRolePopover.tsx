@@ -25,13 +25,18 @@ export default function WorkspaceMemberRolePopover({
         if (roleValue !== "owner") setOpen(value);
       }}
     >
-      <PopoverTrigger className="text-white flex items-center gap-2 py-2 px-4">
+      <PopoverTrigger
+        className={cn(
+          "text-white transition duration-50 flex items-center gap-2 py-2 px-4",
+          roleValue !== "owner" && "cursor-pointer hover:opacity-50"
+        )}
+      >
         {capitalize(roleValue)}
         {roleValue !== "owner" && (
           <Icon
             icon={"mdi:chevron-down"}
             className={cn(
-              "text-secondary text-2xl -rotate-90 transition-all duration-100",
+              "text-secondary text-2xl  -rotate-90 transition-all duration-100",
               open && "rotate-0"
             )}
           />
