@@ -1,30 +1,45 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Input from "../ui/Input";
 import Button from "../ui/Button";
-import useWorkspaceMutation from "@/hooks/mutation/useWorkspaceMutation";
+import useWorkspaceMutation from "@/hooks/mutation/workspace/useWorkspaceMutation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useDialog } from "../ui/Dialog";
+import { useDialog, useDialogContext } from "../ui/Dialog";
+import { WorkspaceEditorDialogContext } from "../topbar/TopBarWorkspaceList";
 
 const formSchema = z.object({
   name: z.string().nonempty("This field can't be empty"),
 });
 export default function WorkspaceEditorDialog() {
   const dialog = useDialog();
-  const { createWorkspaceMutation } = useWorkspaceMutation();
+  const { id, name } = useDialogContext<WorkspaceEditorDialogContext>();
+  const { createWorkspaceMutation, updateWorkspaceMutation } =
+    useWorkspaceMutation();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(formSchema),
+    values: {
+      name: name || "",
+    },
   });
 
   const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = (data) => {
-    createWorkspaceMutation.mutate(data.name, {
-      onSuccess: () => dialog.close(),
-    });
+    if (id) {
+      updateWorkspaceMutation.mutate(
+        { name: data.name, workspaceId: id },
+        {
+          onSuccess: () => dialog.close(),
+        }
+      );
+    } else {
+      createWorkspaceMutation.mutate(data.name, {
+        onSuccess: () => dialog.close(),
+      });
+    }
   };
 
   return (
@@ -37,8 +52,17 @@ export default function WorkspaceEditorDialog() {
           <Icon icon={"bi:grid-1x2-fill"} className="text-3xl" />
         </div>
         <div>
-          <h2 className="text-white text-2xl">Create a new workspace</h2>
-          <p className="text-secondary">Customize your new workspace</p>
+          {id ? (
+            <>
+              <h2 className="text-white text-2xl">Edit a new workspace</h2>
+              <p className="text-secondary">Edit your current workspace</p>
+            </>
+          ) : (
+            <>
+              <h2 className="text-white text-2xl">Create a new workspace</h2>
+              <p className="text-secondary">Customize your new workspace</p>
+            </>
+          )}
         </div>
       </div>
       <div className="p-8">
@@ -57,7 +81,10 @@ export default function WorkspaceEditorDialog() {
       <div className="border-t border-border px-8 py-4 flex items-center justify-end">
         <Button
           className="px-10 py-4"
-          isLoading={createWorkspaceMutation.isPending}
+          isLoading={
+            createWorkspaceMutation.isPending ||
+            updateWorkspaceMutation.isPending
+          }
         >
           Save
         </Button>

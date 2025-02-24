@@ -1,8 +1,8 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import useCookieDetailQuery from "../queries/useCookieDetailQuery";
+import useCookieDetailQuery from "../queries/workspace/useCookieDetailQuery";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import useCookieMutation from "../mutation/useCookieMutation";
+import useCookieMutation from "../mutation/workspace/useCookieMutation";
 
 const cookieSchema = z.object({
   name: z.string().nonempty("This field can't be empty"),

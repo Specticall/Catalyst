@@ -1,11 +1,14 @@
-import useUserWorkspacesQuery from "@/hooks/queries/useUserWorkspacesQuery";
+import useUserWorkspacesQuery from "@/hooks/queries/collaboration/useUserWorkspacesQuery";
 import Skeleton from "react-loading-skeleton";
 import TopBarWorkspacePending from "./TopBarWorkspacePending";
 import TopBarWorkspace from "./TopBarWorkspace";
+import { Workspace } from "@/utils/types";
 
 type Props = {
   onSelect: (id?: number) => void;
 };
+
+export type WorkspaceEditorDialogContext = Omit<Workspace, "explorer">;
 
 export default function TopBarWorkspaceList({ onSelect }: Props) {
   const { data, isLoading } = useUserWorkspacesQuery();

@@ -18,6 +18,8 @@ const buttonVariants = cva(
         secondary:
           "bg-base border border-border text-white hover:bg-secondary/10 disabled:bg-highlight/70",
         hollow: "bg-base text-white border border-border hover:border-white/30",
+        "hollow-accent":
+          "border-accent-highlight border rounded-md text-white bg-[#161647]/50 px-8 py-4",
       },
     },
     defaultVariants: {

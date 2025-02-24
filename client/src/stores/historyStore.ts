@@ -1,4 +1,4 @@
-import { HistoryNode } from "@/context/explorer/explorerTypes";
+import { HistoryNode } from "@/utils/types";
 import { create } from "zustand";
 
 type HistoryState = {

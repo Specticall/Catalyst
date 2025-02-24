@@ -1,5 +1,5 @@
 import useRequestStore from "@/stores/requestStore";
-import useRequestQuery from "./queries/useRequestQuery";
+import useRequestQuery from "./queries/workspace/useRequestQuery";
 import useExplorerManager from "./managers/useExplorerManager";
 import { isValidJSON } from "@/utils/lib";
 import { ProxyServerResponse, SuccessReponse, Workspace } from "@/utils/types";

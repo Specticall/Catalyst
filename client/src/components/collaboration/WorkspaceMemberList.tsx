@@ -1,6 +1,6 @@
 import useLoggedInUserQuery from "@/hooks/queries/useLoggedInUserQuery";
 import WorkspaceMemberRolePopover from "./WorkspaceMemberRolePopover";
-import useWorkspaceMembersQuery from "@/hooks/queries/useWorkspaceMembersQuery";
+import useWorkspaceMembersQuery from "@/hooks/queries/collaboration/useWorkspaceMembersQuery";
 import Skeleton from "react-loading-skeleton";
 
 export default function WorkspaceMemberList() {

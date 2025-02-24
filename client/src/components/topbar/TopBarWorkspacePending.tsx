@@ -3,7 +3,7 @@ import Button from "../ui/Button";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { WorkspacePreview } from "@/utils/types";
 import useWorkspaceManager from "@/hooks/managers/useWorkspaceManager";
-import useAcceptInviteMutation from "@/hooks/mutation/useAcceptInviteMutation";
+import useAcceptInviteMutation from "@/hooks/mutation/collaboration/useAcceptInviteMutation";
 
 type Props = {
   data?: WorkspacePreview[];

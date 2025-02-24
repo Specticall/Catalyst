@@ -14,6 +14,7 @@ import {
   useState,
 } from "react";
 import { cn } from "@/utils/lib";
+import useKeystroke from "@/hooks/useKeystroke";
 
 const ANIMATION_DURATION_MS = 200;
 
@@ -91,6 +92,10 @@ export function DialogProvider({
     },
     [components]
   );
+
+  useKeystroke(() => {
+    close();
+  }, "Escape");
 
   const close = () => {
     return new Promise<void>((resolve) => {

@@ -2,12 +2,23 @@
 @import "./css/tailwindcss-animate-v4.css";
 @import "./css/loader.css";
 @import "./css/loader-bar.css";
+@import "./css/utils.css";
 
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.text-stroke {
+  color: var(--color-base);
+  -webkit-text-stroke: 1px #ffffff; /* White stroke */
+  text-stroke: 1px #ffffff; /* White stroke */
+  text-shadow: 1px 1px 0 var(--color-base),
+    /* Black shadow for depth */ -1px -1px 0 var(--color-base),
+    1px -1px 0 var(--color-base), -1px 1px 0 var(--color-base);
+  paint-order: stroke fill;
 }
 
 /* Firefox */
@@ -39,7 +50,8 @@ body {
   --color-foreground: #171717;
   --color-dark: #0c0c0c;
   --color-highlight: #202024;
-  --color-highlight-green: #78ffa5;
+  --color-green-highlight: #78ffa5;
+  --color-green-foreground: #213123;
   --color-accent: #2d3abf;
   --color-accent-foreground: #25266b;
   --color-accent-highlight: #788aff;

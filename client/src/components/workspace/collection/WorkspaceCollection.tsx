@@ -2,7 +2,7 @@ import { dialogs } from "@/App";
 import Button from "@/components/ui/Button";
 import { useDialog } from "@/components/ui/Dialog";
 import EditableText from "@/components/ui/EditableText";
-import { HistoryNode } from "@/context/explorer/explorerTypes";
+import { HistoryNode } from "@/utils/types";
 import useExplorerManager from "@/hooks/managers/useExplorerManager";
 import { CookieDialogContext } from "@/hooks/managers/useRequestManager";
 import { Icon } from "@iconify/react/dist/iconify.js";

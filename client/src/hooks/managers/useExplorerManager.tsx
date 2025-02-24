@@ -9,11 +9,11 @@ import { Workspace } from "@/utils/types";
 import { useQueryClient } from "@tanstack/react-query";
 import { v4 } from "uuid";
 import useHistoryManager from "./useHistoryManager";
-import { HistoryNode } from "@/context/explorer/explorerTypes";
-import useExplorerCreateMutation from "../mutation/useExplorerCreateMutation";
-import useExplorerUpdateMutation from "../mutation/useExplorerUpdateMutation";
-import useRequestMutation from "../mutation/useRequestMutation";
-import useExplorerDeleteMutation from "../mutation/useExplorerDeleteMutation";
+import { HistoryNode } from "@/utils/types";
+import useExplorerCreateMutation from "../mutation/explorer/useExplorerCreateMutation";
+import useExplorerUpdateMutation from "../mutation/explorer/useExplorerUpdateMutation";
+import useRequestMutation from "../mutation/workspace/useRequestMutation";
+import useExplorerDeleteMutation from "../mutation/explorer/useExplorerDeleteMutation";
 import useWorkspaceStore from "@/stores/workspaceStore";
 
 export default function useExplorerManager() {
@@ -41,6 +41,18 @@ export default function useExplorerManager() {
     store.setSelectedNode(targetNode);
     store.setCwd(Explorer.getNodePath(newExplorer, targetNode.id));
     pushHistory(targetNode);
+  };
+
+  const search = (query: string) => {
+    if (query === "") {
+      store.setWorkspaceSearchResults(undefined);
+      return;
+    }
+
+    const workspace = getData();
+    if (!workspace) return;
+    const res = Explorer.findMany(workspace.explorer, query);
+    store.setWorkspaceSearchResults(res);
   };
 
   const insertRequest = (targetId: string) => {
@@ -240,5 +252,6 @@ export default function useExplorerManager() {
     updateMethod,
     deleteNode,
     clearExplorerSelection,
+    search,
   };
 }

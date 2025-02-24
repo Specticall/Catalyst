@@ -1,5 +1,5 @@
 import EditableText from "@/components/ui/EditableText";
-import { HistoryNode } from "@/context/explorer/explorerTypes";
+import { HistoryNode } from "@/utils/types";
 import useExplorerManager from "@/hooks/managers/useExplorerManager";
 
 type Props = {

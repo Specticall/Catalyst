@@ -2,7 +2,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import HTTPMethodBadge from "../../ui/HTTPMethodBadge";
 import { HTMLAttributes, ReactNode } from "react";
 import { cn } from "@/utils/lib";
-import { HistoryNode } from "@/context/explorer/explorerTypes";
+import { HistoryNode } from "@/utils/types";
 
 const getBadge = (item: HistoryNode) => {
   switch (item.type) {

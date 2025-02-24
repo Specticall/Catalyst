@@ -3,7 +3,7 @@ import { Popover, PopoverTrigger, PopoverContent } from "../ui/Popover";
 import { cn } from "@/utils/lib";
 import { useState } from "react";
 import TopBarWorkspaceList from "./TopBarWorkspaceList";
-import useWorkspaceQuery from "@/hooks/queries/useWorkspaceQuery";
+import useWorkspaceQuery from "@/hooks/queries/workspace/useWorkspaceQuery";
 import { useDialog } from "../ui/Dialog";
 import { dialogs } from "@/App";
 

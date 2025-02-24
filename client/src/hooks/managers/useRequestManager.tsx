@@ -1,11 +1,11 @@
-import useRequestQuery from "../queries/useRequestQuery";
-import useRequestMutation from "../mutation/useRequestMutation";
+import useRequestQuery from "../queries/workspace/useRequestQuery";
+import useRequestMutation from "../mutation/workspace/useRequestMutation";
 import useWorkspaceSendRequest from "../useWorkspaceSendRequest";
 import useRequestStore from "@/stores/requestStore";
 import { isValidJSON } from "@/utils/lib";
 import { useDialog } from "@/components/ui/Dialog";
 import { dialogs } from "@/App";
-import { HistoryNode } from "@/context/explorer/explorerTypes";
+import { HistoryNode } from "@/utils/types";
 import { Explorer } from "@/utils/Explorer";
 import useExplorerManager from "./useExplorerManager";
 import { Workspace } from "@/utils/types";

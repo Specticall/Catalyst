@@ -1,6 +1,6 @@
 import useCookiesQuery, {
   CompactCookie,
-} from "@/hooks/queries/useCookiesQuery";
+} from "@/hooks/queries/workspace/useCookiesQuery";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import EditableText from "../ui/EditableText";
 import { useQueryClient } from "@tanstack/react-query";

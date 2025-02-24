@@ -1,4 +1,4 @@
-import { HistoryNode } from "@/context/explorer/explorerTypes";
+import { HistoryNode } from "@/utils/types";
 import useExplorerStore from "@/stores/explorerStore";
 import useHistoryStore from "@/stores/historyStore";
 import { Explorer } from "@/utils/Explorer";

@@ -2,7 +2,7 @@ import {
   ExplorerTreeNode,
   HTTPMethods,
 } from "@/components/sidebar/explorer/explorerTree";
-import { HistoryNode } from "@/context/explorer/explorerTypes";
+import { HistoryNode } from "./types";
 
 export class Explorer {
   /**
@@ -239,5 +239,22 @@ export class Explorer {
     traverse(nodes);
 
     return candidate;
+  }
+
+  static findMany(nodes: ExplorerTreeNode[], query: string) {
+    const results: ExplorerTreeNode[] = [];
+    function traverse(nodes: ExplorerTreeNode[]) {
+      for (const node of nodes) {
+        if (node.title.toLowerCase().includes(query.toLowerCase())) {
+          results.push(node);
+        }
+        if (node.type !== "request" && node.children) {
+          traverse(node.children);
+        }
+      }
+    }
+    traverse(nodes);
+
+    return results;
   }
 }

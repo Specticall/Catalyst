@@ -33,7 +33,7 @@ export default function WorkspaceResponseStats() {
     <ul
       className={cn(
         "px-4 flex gap-4 py-3",
-        isSuccess ? "[&_span]:text-highlight-green" : "[&_span]:text-red-400"
+        isSuccess ? "[&_span]:text-green-highlight" : "[&_span]:text-red-400"
       )}
     >
       <li className="text-primary">

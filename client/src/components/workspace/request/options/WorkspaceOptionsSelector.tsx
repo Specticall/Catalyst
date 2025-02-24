@@ -1,5 +1,4 @@
 import Button from "@/components/ui/Button";
-import { requestOptionsData } from "@/context/workspace/WorkspaceProvider";
 import useRequestManager, {
   RequestOptions,
 } from "@/hooks/managers/useRequestManager";
@@ -48,3 +47,12 @@ export default function WorkspaceOptionsSelector({ setActive, active }: Props) {
     </ul>
   );
 }
+/* eslint-disable react-refresh/only-export-components */
+
+export const requestOptionsData = [
+  "Body",
+  "Headers",
+  // "Params",
+  // "Cookies",
+] as const;
+export type RequestOptionsData = (typeof requestOptionsData)[number];

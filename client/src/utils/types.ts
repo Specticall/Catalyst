@@ -1,5 +1,8 @@
 import {
   ExplorerTreeNode,
+  ExplorerTreeNodeCollection,
+  ExplorerTreeNodeGroup,
+  ExplorerTreeNodeRequest,
   HTTPMethods,
 } from "@/components/sidebar/explorer/explorerTree";
 
@@ -75,3 +78,7 @@ export type WorkspaceMembers = User & {
   role: WorkspaceRole;
   isPendingInvite: boolean;
 };
+export type HistoryNode =
+  | Omit<ExplorerTreeNodeCollection, "children">
+  | Omit<ExplorerTreeNodeGroup, "children">
+  | ExplorerTreeNodeRequest;

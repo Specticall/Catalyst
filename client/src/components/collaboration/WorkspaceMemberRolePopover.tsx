@@ -16,7 +16,6 @@ export default function WorkspaceMemberRolePopover({
   onSelect,
 }: Props) {
   const [open, setOpen] = useState(false);
-  console.log(roleValue);
 
   return (
     <Popover

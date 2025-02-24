@@ -1,4 +1,4 @@
-import useCookieMutation from "@/hooks/mutation/useCookieMutation";
+import useCookieMutation from "@/hooks/mutation/workspace/useCookieMutation";
 import { cn } from "@/utils/lib";
 import { LoadingSpinner } from "../ui/LoadingSpinner";
 import { Icon } from "@iconify/react/dist/iconify.js";

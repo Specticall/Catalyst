@@ -3,6 +3,8 @@ import Main from "./app/Main";
 import Login from "./showcase/Login";
 import AppLayout from "./showcase/AppLayout";
 import Protect from "@/components/general/Protect";
+import ErrorPage from "./ErrorPage";
+import Landing from "./showcase/Landing";
 
 const router = createBrowserRouter([
   {
@@ -15,10 +17,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
+    errorElement: <ErrorPage />,
     element: <AppLayout />,
     children: [
       {
-        path: "/login",
+        index: true,
+        element: <Landing />,
+      },
+      {
+        path: "login",
         element: <Login />,
       },
     ],

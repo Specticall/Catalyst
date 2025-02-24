@@ -9,7 +9,7 @@ import { SuccessReponse, User } from "@/utils/types";
 import Button from "../ui/Button";
 import Skeleton from "react-loading-skeleton";
 import { cn } from "@/utils/lib";
-import useUserInviteMutation from "@/hooks/mutation/useUserInviteMutation";
+import useUserInviteMutation from "@/hooks/mutation/collaboration/useUserInviteMutation";
 import useClickOutside from "@/hooks/useClickOutside";
 
 export default function UserSearch() {

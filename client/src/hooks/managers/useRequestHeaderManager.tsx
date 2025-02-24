@@ -1,6 +1,6 @@
 import useExplorerStore from "@/stores/explorerStore";
-import useRequestMutation from "../mutation/useRequestMutation";
-import useRequestQuery from "../queries/useRequestQuery";
+import useRequestMutation from "../mutation/workspace/useRequestMutation";
+import useRequestQuery from "../queries/workspace/useRequestQuery";
 import { v4 } from "uuid";
 
 export default function useRequestHeaderManager() {

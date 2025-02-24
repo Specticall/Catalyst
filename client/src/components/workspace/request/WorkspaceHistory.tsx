@@ -20,7 +20,7 @@ export default function WorkspaceHistory() {
               className={cn(
                 "relative group flex text-white gap-3 pl-6 pr-12 cursor-pointer opacity-70 pb-2 mt-2 hover:opacity-100 pt-2 rounded-t-md transition-all duration-100 items-center whitespace-nowrap border-b border-base",
                 selectedNode?.id === item.id &&
-                  "opacity-100 bg-highlight border-b border-highlight-green"
+                  "opacity-100 bg-highlight border-b border-green-highlight"
               )}
               key={i}
               onClick={(e) => {
