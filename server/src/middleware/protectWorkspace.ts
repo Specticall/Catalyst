@@ -29,11 +29,13 @@ export const protectWorkspace: RequestHandler = async (
     const userHasPermission = await prisma.userWorkspace.findFirst({
       where: {
         userId,
-        workspaceId,
+        workspaceId: Number(workspaceId),
       },
     });
-    console.log(userHasPermission);
-    if (!userHasPermission) {
+    if (
+      !userHasPermission ||
+      (userHasPermission && userHasPermission.isPendingInvite)
+    ) {
       throw new AppError(
         "User doesn't have permission to do action on this workspace",
         STATUS.UNAUTHORIZED

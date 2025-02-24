@@ -29,7 +29,7 @@ router.use(protect);
 router.use("/workspaces", workspaceRouter);
 
 // Ensures user editing the workspace has the approriate permission
-// router.use(protectWorkspace);
+router.use(protectWorkspace);
 router.use("/requests", requestRouter);
 router.use("/explorers", explorerRouter);
 router.use("/proxy", proxyRouter);
