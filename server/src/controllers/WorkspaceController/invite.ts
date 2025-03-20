@@ -11,7 +11,7 @@ const inviteSchema = z.object({
 export const invite: RequestHandler = async (request, response, next) => {
   try {
     const { recepientId } = validateSchema(inviteSchema, request.body);
-    const workspaceId = request.cookies.workspaceId;
+    const workspaceId = request.headers.workspaceid;
 
     if (!workspaceId) {
       throw new AppError("Workspace id does not exist", STATUS.BAD_REQUEST);

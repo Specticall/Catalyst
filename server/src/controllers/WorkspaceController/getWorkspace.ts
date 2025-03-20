@@ -5,7 +5,7 @@ import { prisma } from "../../config/config";
 
 export const getWorkspace: RequestHandler = async (request, response, next) => {
   try {
-    const { workspaceId } = request.cookies;
+    const workspaceId = request.headers.workspaceid;
     if (!workspaceId) {
       throw new AppError(
         "workspaceId was not found in the request parameter",

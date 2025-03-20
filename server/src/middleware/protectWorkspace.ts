@@ -12,7 +12,7 @@ export const protectWorkspace: RequestHandler = async (
   next
 ) => {
   try {
-    const workspaceId = request.cookies?.workspaceId;
+    const workspaceId = request.headers.workspaceid;
     const userId = request.currentUser?.id;
 
     if (!userId) {

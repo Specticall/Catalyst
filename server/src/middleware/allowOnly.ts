@@ -21,11 +21,11 @@ export const allowOnly: AuthorizationMiddleware = function (...roles) {
       let workspaceId = undefined;
 
       // Attempt to get it from body
-      workspaceId = request.body.workspaceId;
+      workspaceId = request.headers.workspaceid;
 
       // If it does not exist try to get it from the cookie
       if (workspaceId === undefined) {
-        workspaceId = request.cookies.workspaceId;
+        workspaceId = request.headers.workspaceidd;
       }
 
       // If cookie also does not contain it then the user has no cookie
@@ -34,7 +34,7 @@ export const allowOnly: AuthorizationMiddleware = function (...roles) {
       }
 
       // Ensures the cookie proccesed in the middlware the one retrived either from the body or from the cookie.
-      request.cookies.workspaceId = Number(workspaceId);
+      request.headers.workspaceid = workspaceId;
 
       const userWorkspace = await prisma.userWorkspace.findFirst({
         select: {

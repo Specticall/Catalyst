@@ -5,6 +5,7 @@ import { AppError } from "./utils/errors/AppError";
 import { STATUS } from "./utils/http/statusCodes";
 import { ErrorController } from "./controllers";
 import cookieParser from "cookie-parser";
+import { FRONTEND_URL } from "./config/env";
 
 const app = express();
 
@@ -14,7 +15,7 @@ const app = express();
  */
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: FRONTEND_URL,
     credentials: true,
   })
 );

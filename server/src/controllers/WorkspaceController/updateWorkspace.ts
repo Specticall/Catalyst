@@ -14,7 +14,7 @@ export const updateWorkspace: RequestHandler = async (
   next
 ) => {
   try {
-    const workspaceId = request.cookies.workspaceId;
+    const workspaceId = request.headers.workspaceid;
     const { name } = validateSchema(schema, request.body);
 
     if (!workspaceId) {

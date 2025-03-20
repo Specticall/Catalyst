@@ -15,18 +15,23 @@
 [V] Response harus berubah tiap kali ganti request
 [V] loading workspace
 [V] create workspace
-[] invite user
-[] validate pending invites in BE / FE
-[] Edit workspace
-[] Set person / team badge in the workspace viewer
-[] Search collection
-[] Redirect user on bad route
-[] 404 page
+[V] invite user
+[V] validate pending invites in BE / FE
+[V] View pending invites
+[V] Set person / team badge in the workspace viewer
+[V] Edit workspace
+[V] Search collection
+[V] Redirect user on bad route
+[V] 404 page
+
 [] landing page
 [] User settings
 [] viewer / editor permissions
 [] Themes
+
 [] error toast masih icon check list
+[] Change edit / viewer permission
+[] Invite notification
 [] gabungin endpoint edit explorer / request
 [] Request url kadang suka ga berubah?? <INI GBS DI REPRODUCE>
 [] Request name column not geeting updated

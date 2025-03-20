@@ -21,7 +21,7 @@ export const getWorkspaceMembers: RequestHandler = async (
   next
 ) => {
   try {
-    const workspaceId = request.cookies.workspaceId;
+    const workspaceId = request.headers.workspaceid;
     const user = request.currentUser;
     if (!workspaceId) {
       throw new AppError("Workspace id was not found", STATUS.BAD_REQUEST);

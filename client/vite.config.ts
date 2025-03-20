@@ -19,4 +19,8 @@ export default defineConfig({
     css: true,
     setupFiles: ["./src/test/setup.ts"],
   },
+  server: {
+    host: true,
+    port: 8000,
+  },
 });

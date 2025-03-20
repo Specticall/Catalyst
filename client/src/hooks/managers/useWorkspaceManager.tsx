@@ -9,16 +9,19 @@ export default function useWorkspaceManager() {
   const selectWorkspaceId = (id?: number) => {
     const newWorkspaceId = workspaceId === id ? undefined : id;
     if (newWorkspaceId === undefined) {
-      Cookies.remove("workspaceId");
+      localStorage.removeItem("workspaceId");
+      // Cookies.remove("workspaceId");
     } else {
-      Cookies.set("workspaceId", String(newWorkspaceId));
+      localStorage.setItem("workspaceId", String(newWorkspaceId));
+      // Cookies.set("workspaceId", String(newWorkspaceId));
     }
     clearExplorerSelection();
     setWorkspaceId(newWorkspaceId);
   };
 
   const clearWorkspaceId = () => {
-    Cookies.remove("workspaceId");
+    localStorage.removeItem("workspaceId");
+    // Cookies.remove("workspaceId");
     setWorkspaceId(undefined);
   };
 

@@ -7,7 +7,7 @@ import { Prisma } from "@prisma/client";
 export const search: RequestHandler = async (request, response, next) => {
   try {
     const user = request.currentUser;
-    const workspaceId = request.cookies.workspaceId;
+    const workspaceId = request.headers.workspaceid;
     if (!workspaceId) {
       throw new AppError("Workspace id not found", STATUS.BAD_REQUEST);
     }
