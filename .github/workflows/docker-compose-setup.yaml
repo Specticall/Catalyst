@@ -31,6 +31,10 @@ jobs:
         run: |
           ssh joseph@${{ secrets.VM_IP }} "mkdir -p /home/joseph/websites/catalyst/server && echo 'MY_SECRET=${{ secrets.SERVER_ENV }}' > /home/joseph/websites/catalyst/server/.env.production"
 
+      - name: Stop Previous Docker Compose
+        run: |
+          ssh joseph@${{ secrets.VM_IP }} "cd /home/joseph/websites/catalyst && docker-compose down"
+
       - name: Restart Docker Compose
         run: |
           ssh joseph@${{ secrets.VM_IP }} "cd /home/joseph/websites/catalyst && docker-compose up -d"
