@@ -1,5 +1,6 @@
 name: SSH and Re-Run Image
 
+# Manual Testing
 on: workflow_dispatch
 
 jobs:

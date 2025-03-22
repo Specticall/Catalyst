@@ -3,8 +3,7 @@ services:
     image: josephyusmita/catalyst-server
     ports:
       - 8000:8000
-    env_file:
-      - path: ./server/.env.production
+    env_file: ./server/.env.production
     depends_on:
       database:
         condition: service_healthy
