@@ -1,31 +1,31 @@
-name: SSH and Re-Run Image
+# name: SSH and Re-Run Image
 
-on:
-  workflow_run:
-    workflows: ["Docker Build Server", "Docker Build Client"]
-    types:
-      - completed
+# on:
+#   workflow_run:
+#     workflows: ["Docker Build Server", "Docker Build Client"]
+#     types:
+#       - completed
 
-jobs:
-  test-ssh:
-    runs-on: ubuntu-latest
+# jobs:
+#   test-ssh:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
 
-      - name: Set up SSH
-        run: |
-          mkdir -p ~/.ssh
-          printf "%s\n" "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          eval "$(ssh-agent -s)"
-          ssh-add ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.VM_IP }} >> ~/.ssh/known_hosts
-      - name: Pull Image
-        run: |
-          ssh -o StrictHostKeyChecking=no joseph@${{ secrets.VM_IP }} "docker pull josephyusmita/catalyst-client"
+#       - name: Set up SSH
+#         run: |
+#           mkdir -p ~/.ssh
+#           printf "%s\n" "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+#           chmod 600 ~/.ssh/id_rsa
+#           eval "$(ssh-agent -s)"
+#           ssh-add ~/.ssh/id_rsa
+#           ssh-keyscan -H ${{ secrets.VM_IP }} >> ~/.ssh/known_hosts
+#       - name: Pull Image
+#         run: |
+#           ssh -o StrictHostKeyChecking=no joseph@${{ secrets.VM_IP }} "docker pull josephyusmita/catalyst-client"
 
-      - name: Test SSH Connection
-        run: |
-          ssh -o StrictHostKeyChecking=no joseph@${{ secrets.VM_IP }} "docker stop josephyusmita/catalyst-client && docker rm josephyusmita/catalyst-client && docker run -d -p"
+#       - name: Test SSH Connection
+#         run: |
+#           ssh -o StrictHostKeyChecking=no joseph@${{ secrets.VM_IP }} "docker stop josephyusmita/catalyst-client && docker rm josephyusmita/catalyst-client && docker run -d -p"
