@@ -1,4 +1,4 @@
-name: Docker Build
+name: Docker Build Server
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  docker-build:
+  docker-build-server:
     runs-on: ubuntu-latest
 
     steps:
@@ -15,11 +15,6 @@ jobs:
 
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME}}" --password-stdin
-
-      - name: Build and push client image
-        run: |
-          docker build -f client/dockerfile -t josephyusmita/catalyst-client ./client
-          docker push josephyusmita/catalyst-client
 
       - name: Build and push server image
         run: |

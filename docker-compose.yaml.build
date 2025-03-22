@@ -1,0 +1,50 @@
+services:
+  server:
+    build: ./server
+    ports:
+      - 8000:8000
+    env_file:
+      - path: ./server/.env.production
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - mynetwork
+
+  client:
+    build: ./client
+    ports:
+      - 8080:80
+    depends_on:
+      - server
+    networks:
+      - mynetwork
+
+  database:
+    image: postgres:latest
+    container_name: catalyst_db
+    restart: always
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydatabase
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - mynetwork
+    command: postgres -c listen_addresses='*'
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U myuser -d mypassword"]
+      interval: 5s
+      timeout: 2s
+      retries: 20
+
+networks:
+  mynetwork:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local

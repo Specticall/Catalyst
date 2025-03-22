@@ -1,0 +1,36 @@
+name: Docker Compose Setup
+
+on:
+  workflow_run:
+    workflows: ["Docker Build Server", "Docker Build Client"]
+    types:
+      - completed
+
+jobs:
+  test-ssh:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          printf "%s\n" "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          eval "$(ssh-agent -s)"
+          ssh-add ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.VM_IP }} >> ~/.ssh/known_hosts
+
+      - name: Upload Docker Compose File
+        run: |
+          scp docker-compose.yaml joseph@${{ secrets.VM_IP }}:/home/joseph/websites/catalyst
+
+      - name: Create .env File on VM
+        run: |
+          ssh joseph@${{ secrets.VM_IP }} "echo 'MY_SECRET=${{ secrets.SERVER_ENV }}' > /home/joseph/websites/catalyst/server/.env.production"
+
+      - name: Restart Docker Compose
+        run: |
+          ssh joseph@${{ secrets.VM_IP }} "cd /home/joseph/websites/catalyst && docker compose up -d"
