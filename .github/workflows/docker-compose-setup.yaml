@@ -29,7 +29,7 @@ jobs:
 
       - name: Create .env File on VM
         run: |
-          ssh joseph@${{ secrets.VM_IP }} "echo 'MY_SECRET=${{ secrets.SERVER_ENV }}' > /home/joseph/websites/catalyst/server/.env.production"
+          ssh joseph@${{ secrets.VM_IP }} "mkdir -p /home/joseph/websites/catalyst/server && echo 'MY_SECRET=${{ secrets.SERVER_ENV }}' > /home/joseph/websites/catalyst/server/.env.production"
 
       - name: Restart Docker Compose
         run: |
