@@ -35,6 +35,10 @@ jobs:
         run: |
           ssh joseph@${{ secrets.VM_IP }} "cd /home/joseph/websites/catalyst && docker-compose down"
 
+      - name: Pull Docker New Images
+        run: |
+          ssh joseph@${{ secrets.VM_IP }} "cd /home/joseph/websites/catalyst && docker-compose pull"
+
       - name: Restart Docker Compose
         run: |
           ssh joseph@${{ secrets.VM_IP }} "cd /home/joseph/websites/catalyst && docker-compose up -d"
