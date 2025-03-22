@@ -20,3 +20,17 @@ jobs:
         run: |
           docker build -f server/dockerfile -t josephyusmita/catalyst-server ./server
           docker push josephyusmita/catalyst-server
+  docker-build-client:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME}}" --password-stdin
+
+      - name: Build and push client image
+        run: |
+          docker build -f client/dockerfile -t josephyusmita/catalyst-client ./client
+          docker push josephyusmita/catalyst-client
