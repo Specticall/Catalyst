@@ -1,20 +1,9 @@
 services:
-  traefik:
-    image: traefik:v3.1
-    container_name: traefik-reverse-proxy
-    restart: always
-    ports:
-      - "80:80"
-      - "443:443"
-      - "8080:8080"
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "letsencrypt:/letsencrypt"
-      - "./traefik.yaml:/etc/traefik/traefik.yaml:ro"
-
   server:
     image: josephyusmita/catalyst-server
     env_file: ./server/.env.production
+    ports:
+      - "8000:8000"
     depends_on:
       database:
         condition: service_healthy
@@ -23,6 +12,8 @@ services:
 
   client:
     image: josephyusmita/catalyst-client
+    ports:
+      - "5000:5000"
     depends_on:
       - server
     networks:
