@@ -1,23 +1,47 @@
 services:
+  traefik:
+    image: traefik:v2.10
+    restart: always
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.le.acme.email=josephyusmita@example.com"
+      - "--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesresolvers.le.acme.tlschallenge=true"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "letsencrypt:/letsencrypt"
+
   server:
     image: josephyusmita/catalyst-server
-    ports:
-      - 8000:8000
     env_file: ./server/.env.production
     depends_on:
       database:
         condition: service_healthy
     networks:
       - mynetwork
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app.rule=Host(`server.catalyst-dev.site`)"
+      - "traefik.http.routers.app.entrypoints=websecure"
+      - "traefik.http.routers.app.tls.certresolver=le"
 
   client:
     image: josephyusmita/catalyst-client
-    ports:
-      - 80:80
     depends_on:
       - server
     networks:
       - mynetwork
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app.rule=Host(`catalyst-dev.site`)"
+      - "traefik.http.routers.app.entrypoints=websecure"
+      - "traefik.http.routers.app.tls.certresolver=le"
 
   database:
     image: postgres:latest
@@ -29,13 +53,11 @@ services:
       POSTGRES_DB: mydatabase
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
     networks:
       - mynetwork
     command: postgres -c listen_addresses='*'
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U myuser -d mypassword"]
+      test: ["CMD-SHELL", "pg_isready -U myuser -d mydatabase"]
       interval: 5s
       timeout: 2s
       retries: 20
@@ -47,3 +69,4 @@ networks:
 volumes:
   postgres_data:
     driver: local
+  letsencrypt:
