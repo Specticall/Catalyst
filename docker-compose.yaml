@@ -1,21 +1,16 @@
 services:
   traefik:
-    image: traefik:v2.10
+    image: traefik:v3.1
+    container_name: traefik-reverse-proxy
     restart: always
-    command:
-      - "--api.insecure=true"
-      - "--providers.docker=true"
-      - "--entrypoints.web.address=:80"
-      - "--entrypoints.websecure.address=:443"
-      - "--certificatesresolvers.le.acme.email=josephyusmita@gmail.com"
-      - "--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json"
-      - "--certificatesresolvers.le.acme.tlschallenge=true"
     ports:
       - "80:80"
       - "443:443"
+      - "8080:8080"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "letsencrypt:/letsencrypt"
+      - "./traefik.yaml:/etc/traefik/traefik.yaml:ro"
 
   server:
     image: josephyusmita/catalyst-server
@@ -25,11 +20,6 @@ services:
         condition: service_healthy
     networks:
       - mynetwork
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.app.rule=Host(`backend.catalyst-dev.site`)"
-      - "traefik.http.routers.app.entrypoints=websecure"
-      - "traefik.http.routers.app.tls.certresolver=le"
 
   client:
     image: josephyusmita/catalyst-client
@@ -37,11 +27,6 @@ services:
       - server
     networks:
       - mynetwork
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.client.rule=Host(`catalyst-dev.site`)"
-      - "traefik.http.routers.app.entrypoints=websecure"
-      - "traefik.http.routers.app.tls.certresolver=le"
 
   database:
     image: postgres:latest
