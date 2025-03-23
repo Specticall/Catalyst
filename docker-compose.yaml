@@ -27,7 +27,7 @@ services:
       - mynetwork
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.app.rule=Host(`server.catalyst-dev.site`)"
+      - "traefik.http.routers.app.rule=Host(`backend.catalyst-dev.site`)"
       - "traefik.http.routers.app.entrypoints=websecure"
       - "traefik.http.routers.app.tls.certresolver=le"
 
@@ -39,7 +39,7 @@ services:
       - mynetwork
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.app.rule=Host(`catalyst-dev.site`)"
+      - "traefik.http.routers.client.rule=Host(`catalyst-dev.site`)"
       - "traefik.http.routers.app.entrypoints=websecure"
       - "traefik.http.routers.app.tls.certresolver=le"
 
