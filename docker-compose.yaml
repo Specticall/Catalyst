@@ -7,7 +7,7 @@ services:
       - "--providers.docker=true"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
-      - "--certificatesresolvers.le.acme.email=josephyusmita@example.com"
+      - "--certificatesresolvers.le.acme.email=josephyusmita@gmail.com"
       - "--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json"
       - "--certificatesresolvers.le.acme.tlschallenge=true"
     ports:
