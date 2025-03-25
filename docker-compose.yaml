@@ -12,6 +12,9 @@ services:
     volumes:
       # Used so traefik can listen to docker events
       - /var/run/docker.sock:/var/run.docker.sock
+    networks:
+      - mynetwork
+
   server:
     image: josephyusmita/catalyst-server
     env_file: ./server/.env.production
