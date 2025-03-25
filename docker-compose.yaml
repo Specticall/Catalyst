@@ -15,6 +15,7 @@ services:
   server:
     image: josephyusmita/catalyst-server
     env_file: ./server/.env.production
+    labels:
       - "traefik.http.routers.client.rule=Host(`backend.catalyst-dev.site`)"
       - "traefik.http.services.client.loadbalancer.server.port=8000"
     depends_on:
