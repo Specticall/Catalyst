@@ -1,9 +1,22 @@
 services:
+  reverse-proxy:
+    image: traefik:v3.1
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker"
+    ports:
+      # HTTP Port
+      - "80:80"
+      # Dashboard Port
+      - "8080:8080"
+    volumes:
+      # Used so traefik can listen to docker events
+      - /var/run/docker.sock:/var/run.docker.sock
   server:
     image: josephyusmita/catalyst-server
     env_file: ./server/.env.production
-    ports:
-      - "8000:8000"
+      - "traefik.http.routers.client.rule=Host(`backend.catalyst-dev.site`)"
+      - "traefik.http.services.client.loadbalancer.server.port=8000"
     depends_on:
       database:
         condition: service_healthy
@@ -12,8 +25,9 @@ services:
 
   client:
     image: josephyusmita/catalyst-client
-    ports:
-      - "5000:5000"
+    labels:
+      - "traefik.http.routers.client.rule=Host(`catalyst-dev.site`)"
+      - "traefik.http.services.client.loadbalancer.server.port=5000"
     depends_on:
       - server
     networks:
