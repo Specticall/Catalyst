@@ -23,13 +23,13 @@ jobs:
           ssh-add ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.VM_IP }} >> ~/.ssh/known_hosts
 
-      - name: Upload Docker Compose File
-        run: |
-          scp docker-compose.yaml joseph@${{ secrets.VM_IP }}:/home/joseph/websites/catalyst
-
       - name: Create .env File on VM
         run: |
           ssh joseph@${{ secrets.VM_IP }} "mkdir -p /home/joseph/websites/catalyst/server && echo 'MY_SECRET=${{ secrets.SERVER_ENV }}' > /home/joseph/websites/catalyst/server/.env.production"
+
+      - name: Upload Docker Compose File
+        run: |
+          scp docker-compose.yaml joseph@${{ secrets.VM_IP }}:/home/joseph/websites/catalyst
 
       - name: Stop Previous Docker Compose
         run: |
