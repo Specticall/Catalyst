@@ -4,14 +4,33 @@ services:
     command:
       - "--api.insecure=true"
       - "--providers.docker"
+      - "--providers.docker.exposedbydefault=false"
+      # Entry point https
+      - "--entryPoints.websecure.address=:443"
+      # Neccessary arguments to create a certificate resolver
+      # Challenge type -> TLS
+      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      # Email address to be associated
+      - "--certificatesresolvers.myresolver.acme.email=josephyusmita@gmail.com"
+      # Location to store the certificate data
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+
+      # Redirect all http requests to https
+      - "--entrypoints.web.address=80"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
     ports:
-      # HTTP Port
+      # HTTPS Port
+      - "443:443"
+      # HTTP Port -> We're still allowing this so it can get redirected to https
       - "80:80"
       # Dashboard Port
       - "8080:8080"
     volumes:
       # Used so traefik can listen to docker events
-      - /var/run/docker.sock:/var/run.docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock
+      # Save the certificate on a volume
+      - letsencrypt:/letsencrypt
     networks:
       - mynetwork
 
@@ -19,8 +38,14 @@ services:
     image: josephyusmita/catalyst-server
     env_file: ./server/.env.production
     labels:
-      - "traefik.http.routers.client.rule=Host(`backend.catalyst-dev.site`)"
-      - "traefik.http.services.client.loadbalancer.server.port=8000"
+      # Since we disabled auto exposure we need to explicitly tell traefik to expose this service
+      - "traefik.enable=true"
+      # Request will need to come in on the websecure port (443) in order the be routed to this service
+      - "traefik.http.routers.server.entrypoints=websecure"
+      # Use the certificate resolver defined
+      - "traefik.http.routers.server.tls.certresolver=myresolver"
+      - "traefik.http.routers.server.rule=Host(`backend.catalyst-dev.site`)"
+      - "traefik.http.services.server.loadbalancer.server.port=8000"
     depends_on:
       database:
         condition: service_healthy
@@ -30,6 +55,9 @@ services:
   client:
     image: josephyusmita/catalyst-client
     labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.client.entrypoints=websecure"
+      - "traefik.http.routers.client.tls.certresolver=myresolver"
       - "traefik.http.routers.client.rule=Host(`catalyst-dev.site`)"
       - "traefik.http.services.client.loadbalancer.server.port=5000"
     depends_on:
