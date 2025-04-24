@@ -5,6 +5,7 @@ import AppLayout from "./showcase/AppLayout";
 import Protect from "@/components/general/Protect";
 import ErrorPage from "./ErrorPage";
 import Landing from "./showcase/Landing";
+import Test from "@/components/test/Test";
 
 const router = createBrowserRouter([
   {
